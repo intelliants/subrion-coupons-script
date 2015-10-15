@@ -1,0 +1,1 @@
+<div class="shop-info">{ia_url type='link' item='shops' data=$shop text=$shop.title}</div>

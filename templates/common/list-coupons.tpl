@@ -1,0 +1,1 @@
+{include file="extra:coupons/coupon-list-{$coupon.coupon_type}"}
