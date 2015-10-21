@@ -1,8 +1,10 @@
 $(function()
 {
-	$('#action-delete').on('click', function()
+	$('#action-delete').on('click', function(e)
 	{
-		return confirm(intelli.lang.delete_coupon_confirmation);
+		e.preventDefault
+
+		intelli.confirm(_t('delete_coupon_confirmation'), { url: $(this).attr('href') });
 	});
 
 	// thumbs actions
