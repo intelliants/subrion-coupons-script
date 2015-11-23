@@ -48,7 +48,7 @@
 		</div>
 	{/if}
 	<div class="ia-items">
-		{foreach $coupons as $coupon}
+		{foreach $coupons as $listing}
 			{include file='extra:coupons/list-coupons'}
 		{/foreach}
 
