@@ -46,7 +46,7 @@ $(function()
 <h3>{lang key='coupons'}: {$coupons|count}</h3>
 
 {if $coupons}
-	{foreach $coupons as $coupon}
+	{foreach $coupons as $listing}
 		{include file='extra:coupons/list-coupons'}
 	{/foreach}
 {else}
@@ -55,7 +55,7 @@ $(function()
 
 {if $coupons_expired}
 	<h3>{lang key='expired_coupons'}: {$coupons_expired|count}</h3>
-	{foreach $coupons_expired as $coupon}
+	{foreach $coupons_expired as $listing}
 		{include file='extra:coupons/list-coupons'}
 	{/foreach}
 {/if}
