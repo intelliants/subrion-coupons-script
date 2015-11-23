@@ -1,13 +1,12 @@
 <div class="couponItem">
-
 	<div class="meta">
 		<p>
-			<span><i class="icon-calendar"></i> {$item.date_added|date_format:$core.config.date_format}</span>
+			<span><span class="fa fa-calendar"></span> {$item.date_added|date_format:$core.config.date_format}</span>
 			{if $item.expire_date != 0}
-			<span class="text-error"><i class="icon-time"></i> {lang key='coupon_expire'} {$item.expire_date|date_format:$core.config.date_format}</span>
+			<span class="text-danger"><span class="fa fa-clock-o"></span> {lang key='coupon_expire'} {$item.expire_date|date_format:$core.config.date_format}</span>
 			{/if}
 		</p>
-		<p><span class="text-success"><i class="icon-eye-open"></i> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format:$core.config.date_format}</span></p>
+		<p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format:$core.config.date_format}</span></p>
 	</div>
 
 	{if 'simple' == $item.coupon_type && $item.coupon_code}
@@ -29,7 +28,7 @@
 	{else}
 		<div class="text-center">
 			<a href="{printImage imgfile=$item.coupon_image url=true fullimage=true}" rel="ia_lightbox[{$item.title}]">
-				{printImage imgfile=$item.coupon_image class='img-rounded' title=$item.title|escape:'html'}
+				{printImage imgfile=$item.coupon_image class='img-responsive' title=$item.title|escape:'html'}
 			</a>
 		</div>
 	{/if}
@@ -77,9 +76,9 @@
 
 	<div class="clearfix">
 		<div class="coupon-rate text-center pull-left">
-			<a href="#" class="thumbs-up" data-id="{$item.id}" data-trigger="up"><i class="icon-thumbs-up icon-white"></i></a>
+			<a href="#" class="thumbs-up" data-id="{$item.id}" data-trigger="up"><i class="fa fa-thumbs-up"></i></a>
 			<span class="rate good" id="thumb_result_{$item.id}">{$item.thumbs_num|default:0}</span>
-			<a href="#" class="thumbs-down"  data-id="{$item.id}" data-trigger="down"><i class="icon-thumbs-down icon-white"></i></a>
+			<a href="#" class="thumbs-down"  data-id="{$item.id}" data-trigger="down"><i class="fa fa-thumbs-down"></i></a>
 		</div>
 
 		{if $item.affiliate_link && 'http://' != $item.affiliate_link}
@@ -90,8 +89,8 @@
 	</div>
 
 	{if $item.coupon_tags}
-		<p>
-			<i class="icon-tags"></i> {lang key='tags'}:
+		<p class="text-fade-50">
+			<span class="fa fa-tags"></span> {lang key='tags'}:
 			{if $item.coupon_tags}
 				{foreach explode(',', $item.coupon_tags) as $tag}
 					<a href="{$tag}" class="tag">{$tag}</a>{if !$tag@last}, {/if}
@@ -103,12 +102,12 @@
 	{/if}
 
 	<div class="meta clearfix">
-		<span><i class="icon-shopping-cart"></i> {ia_url type='link' item='shops' data=$shop text=$shop.title}</span>
+		<span><span class="fa fa-shopping-cart"></span> {ia_url type='link' item='shops' data=$shop text=$shop.title}</span>
 		{if $item.category_id}
-			<span><i class="icon-folder-open"></i> {ia_url type='link' item='ccats' data=$coupon_category text=$coupon_category.title rel='tag'}</span>
+			<span><span class="fa fa-folder-o"></span> {ia_url type='link' item='ccats' data=$coupon_category text=$coupon_category.title rel='tag'}</span>
 		{/if}
 		{if $item.member_id}
-			<span><i class="icon-user"></i> <a href="{$smarty.const.IA_URL}member/{$item.account_username}.html">{$item.account}</a></span>
+			<span><span class="fa fa-user"></span> <a href="{$smarty.const.IA_URL}member/{$item.account_username}.html">{$item.account}</a></span>
 		{/if}
 	</div>
 </div>

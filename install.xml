@@ -288,8 +288,8 @@ if ('recount_coupons' == $_GET['type'])
 		<block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons"><![CDATA[]]></block>
 		<block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons"><![CDATA[]]></block>
 		<block type="smarty" name="coupon_of_the_day" title="Coupon of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.coupon-of-the-day"><![CDATA[]]></block>
-		<block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons"><![CDATA[]]></block>
-		<block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons"><![CDATA[]]></block>
+		<block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons" classname=""><![CDATA[]]></block>
+		<block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons" classname=""><![CDATA[]]></block>
 		<block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.categories"><![CDATA[]]></block>
 		<block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="coupons_home" collapsible="1" filename="block.top-categories"><![CDATA[]]></block>
 		<block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops"><![CDATA[]]></block>

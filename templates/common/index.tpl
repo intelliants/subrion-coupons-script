@@ -10,17 +10,41 @@
 
 {if !empty($coupons)}
 	{if isset($sorting)}
-		<div class="btn-toolbar items-sorting c">
-			<p class="btn-group">
-				<span class="btn btn-small disabled">{lang key='sort_by'}:</span>
-				{if $sorting[0] == 'date_added'}<span class="btn btn-small disabled">{lang key='date'}</span>{else}<a class="btn btn-small" href="{$smarty.const.IA_SELF}?sort=date" rel="nofollow">{lang key='date'}</a>{/if}
-				{if $sorting[0] == 'thumbs_num'}<span class="btn btn-small disabled">{lang key='likes'}</span>{else}<a class="btn btn-small" href="{$smarty.const.IA_SELF}?sort=likes" rel="nofollow">{lang key='likes'}</a>{/if}
-				{if $sorting[0] == 'views_num'}<span class="btn btn-small disabled">{lang key='popularity'}</span>{else}<a class="btn btn-small" href="{$smarty.const.IA_SELF}?sort=popularity" rel="nofollow">{lang key='popularity'}</a>{/if}
-			</p>
-			<p class="btn-group">
-				{if $sorting[1] == 'ASC'}<span class="btn btn-small disabled">up</span>{else}<a class="btn btn-small" href="{$smarty.const.IA_SELF}?order=up" rel="nofollow">up</a>{/if}
-				{if $sorting[1] == 'DESC'}<span class="btn btn-small disabled">down</span>{else}<a class="btn btn-small" href="{$smarty.const.IA_SELF}?order=down" rel="nofollow">down</a>{/if}
-			</p>
+		<div class="ia-sorting">
+			{lang key='sort_by'}:
+
+			<div class="btn-group">
+				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+					{if 'date_added' == $sorting[0]}
+						{lang key='date'}
+					{elseif 'thumbs_num' == $sorting[0]}
+						{lang key='likes'}
+					{elseif 'views_num' == $sorting[0]}
+						{lang key='popularity'}
+					{/if}
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="{$smarty.const.IA_SELF}?sort=date" rel="nofollow"><span class="fa fa-clock-o"></span> {lang key='date'}</a></li>
+					<li><a href="{$smarty.const.IA_SELF}?sort=likes" rel="nofollow"><span class="fa fa-dollar"></span> {lang key='likes'}</a></li>
+					<li><a href="{$smarty.const.IA_SELF}?sort=popularity" rel="nofollow"><span class="fa fa-eye"></span> {lang key='popularity'}</a></li>
+				</ul>
+			</div>
+
+			<div class="btn-group">
+				<a class="btn btn-default dropdown-toggle" data-toggle="dropdown" href="#">
+					{if 'ASC' == $sorting[1]}
+						{lang key='asc'}
+					{else}
+						{lang key='desc'}
+					{/if}
+					<span class="caret"></span>
+				</a>
+				<ul class="dropdown-menu">
+					<li><a href="{$smarty.const.IA_SELF}?order=up" rel="nofollow"><span class="fa fa-long-arrow-down"></span> {lang key='asc'}</a></li>
+					<li><a href="{$smarty.const.IA_SELF}?order=down" rel="nofollow"><span class="fa fa-long-arrow-up"></span> {lang key='desc'}</a></li>
+				</ul>
+			</div>
 		</div>
 	{/if}
 	<div class="ia-items">
