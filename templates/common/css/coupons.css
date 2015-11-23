@@ -18,9 +18,9 @@
 }
 .coupon-code .code-copy {
 	position: absolute;
-	right: 0;
-	top: 0;
-	left: 0;
+	right: -2px;
+	top: -2px;
+	left: -2px;
 	height: 30px;
 	background: url('../images/icon-cut.png') 10px center no-repeat;
 	cursor: pointer;
@@ -54,6 +54,7 @@
 	text-decoration: line-through;
 	font-size: 12px;
 	display: block;
+	text-align: left;
 }
 
 .coupon-price .label-saving {
@@ -100,7 +101,7 @@
 .couponItem .meta p:last-child {
 	margin-bottom: 0;
 }
-.couponItem .meta span {
+.couponItem .meta > span {
 	display: inline-block;
 	margin-right: 15px;
 }
@@ -233,6 +234,7 @@
 
 .coupon-rate .thumbs-up {
 	background: #7cc576;
+	color: #fff !important;
 	-webkit-border-radius: 4px 0 0 4px;
 	-moz-border-radius: 4px 0 0 4px;
 	border-radius: 4px 0 0 4px;
@@ -240,10 +242,12 @@
 
 .coupon-rate .thumbs-up:hover {
 	background: #62a95c;
+	color: #fff !important;
 }
 
 .coupon-rate .thumbs-down {
 	background: #f2395b;
+	color: #fff !important;
 	-webkit-border-radius: 0 4px 4px 0;
 	-moz-border-radius: 0 4px 4px 0;
 	border-radius: 0 4px 4px 0;
@@ -251,6 +255,7 @@
 
 .coupon-rate .thumbs-down:hover {
 	background: #d33451;
+	color: #fff !important;
 }
 
 .coupon-rate .rate {
