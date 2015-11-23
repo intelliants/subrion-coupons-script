@@ -6,8 +6,13 @@ class iaCoupon extends abstractCouponsPackageFront
 	const SORTING_SESSION_KEY = 'coupons_sorting';
 
 	protected static $_table = 'coupons_coupons';
-
 	protected $_itemName = 'coupons';
+
+	public $coreSearchEnabled = true;
+	public $coreSearchOptions = array(
+		'tableAlias' => 't1',
+		'regularSearchStatements' => array("t1.`title` LIKE '%:query%' OR t1.`title_alias` LIKE '%:query%'")
+	);
 
 	private $_foundRows = 0;
 
@@ -65,6 +70,13 @@ class iaCoupon extends abstractCouponsPackageFront
 		}
 
 		return false;
+	}
+
+	public function coreSearch($stmt, $start, $limit, $order)
+	{
+		$rows = $this->_getQuery($stmt, $order, $limit, $start, true);
+
+		return array($this->foundRows(), $rows);
 	}
 
 	public function foundRows()

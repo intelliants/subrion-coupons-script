@@ -1,0 +1,1 @@
+<pre>{$listing|var_dump}</pre>

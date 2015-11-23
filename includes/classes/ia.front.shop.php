@@ -7,6 +7,12 @@ class iaShop extends abstractCouponsPackageFront
 
 	protected $_itemName = 'shops';
 
+	public $coreSearchEnabled = true;
+	public $coreSearchOptions = array(
+		'tableAlias' => 't1',
+		'regularSearchStatements' => array("t1.`title` LIKE '%:query%' OR t1.`title_alias` LIKE '%:query%' OR t1.`domain` LIKE '%:query%'")
+	);
+
 	private $_foundRows = 0;
 
 	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL);
@@ -77,6 +83,13 @@ class iaShop extends abstractCouponsPackageFront
 		}
 
 		return false;
+	}
+
+	public function coreSearch($stmt, $start, $limit, $order)
+	{
+		$rows = $this->_getQuery($stmt, $order, $limit, $start, true);
+
+		return array($this->foundRows(), $rows);
 	}
 
 	public function foundRows()
