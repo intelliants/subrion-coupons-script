@@ -76,7 +76,7 @@ $(function()
 	{
 		var affiliateLink = $(this).data('affiliate-link');
 		var couponLink    = $(this).data('coupon-link');
-		
+
 		if ('undefined' != typeof affiliateLink && '' != affiliateLink)
 		{
 			window.location.href = couponLink;
