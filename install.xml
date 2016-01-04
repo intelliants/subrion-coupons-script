@@ -256,7 +256,7 @@ $statistics['coupons'] = array(
 );
 			]]>
 		</hook>
-		<hook name="adminQuickSearch" type="php" page_type="admin">
+		<hook name="adminQuickSearch" page_type="admin">
 			<![CDATA[
 $items['shops'] = array('title' => iaLanguage::get('shops'), 'url' => 'coupons/shops/');
 $items['coupons'] = array('title' => iaLanguage::get('coupons'), 'url' => 'coupons/coupons/');
@@ -272,7 +272,7 @@ $items['coupons'] = array('title' => iaLanguage::get('coupons'), 'url' => 'coupo
 </div>
 			]]>
 		</hook>
-		<hook name="phpAdminDatabaseConsistencyType" type="php" page_type="admin">
+		<hook name="phpAdminDatabaseConsistencyType" page_type="admin">
 			<![CDATA[
 if ('recount_coupons' == $_GET['type'])
 {

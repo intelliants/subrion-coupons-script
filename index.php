@@ -191,7 +191,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$title = iaDb::printf('Coupon ":title" - #:id', $coupon);
 			$coupon['member_id'] = iaUsers::getIdentity()->id;
 
-			$iaCore->factory('transaction')->createInvoice($title, $coupon['cost'], $iaCoupon->getItemName(), $coupon);
+			$iaCore->factory('transaction')->create($title, $coupon['cost'], $iaCoupon->getItemName(), $coupon);
 
 			break;
 
