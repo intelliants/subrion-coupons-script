@@ -18,13 +18,27 @@ class iaCoupon extends abstractCouponsPackageFront
 
 	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL);
 
-	private $_patterns = array(
-		'default' => ':action/:id/',
-		'view' => 'coupon/:shop_alias:title_alias/:id.html',
-		'add' => 'add/',
-		'buy' => 'coupons/buy/:id/'
-	);
+	public function url($action, array $listingData)
+	{
+		$patterns = array(
+			'default' => 'coupons/:action/:id/',
+			'view' => 'coupon/:shop_alias/:title_alias/:id.html',
+			'add' => 'coupons/add/',
+			'my' => 'profile/coupons/',
+			'buy' => 'coupons/buy/:id/'
+		);
+		$url = iaDb::printf(
+			isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
+			array(
+				'action' => $action,
+				'shop_alias' => isset($listingData['shop_alias']) ? $listingData['shop_alias'] : '',
+				'title_alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
+				'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
+			)
+		);
 
+		return $this->getInfo('url') . $url;
+	}
 
 	/**
 	 * Return title
@@ -39,22 +53,6 @@ class iaCoupon extends abstractCouponsPackageFront
 			$title = $data['title'];
 		}
 		return $title;
-	}
-
-	public function url($action, $data = array())
-	{
-		$data['action'] = $action;
-		$data['shop_alias'] = (!isset($data['shop_alias']) ? '' : $data['shop_alias'] . IA_URL_DELIMITER);
-		unset($data['title']);
-
-		if (!isset($this->_patterns[$action]))
-		{
-			$action = 'default';
-		}
-
-		$url = iaDb::printf($this->_patterns[$action], $data);
-
-		return $this->getInfo('url') . $url;
 	}
 
 	/**

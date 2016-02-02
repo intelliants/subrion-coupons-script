@@ -128,7 +128,7 @@ $(function()
 	clip_{$item.id}.on('complete', function(client, args)
 	{
 		var affiliateLink = $(this).data('affiliate-link');
-		
+
 		if('undefined' != typeof affiliateLink && '' != affiliateLink) {
 			window.open(affiliateLink);
 		}
@@ -141,6 +141,14 @@ $(function()
 
 		var tag = $.trim($(this).attr('href'));
 		$('input[name="q"]').val(tag).closest('form').submit();
+	});
+});
+
+$(function() {
+	$('.js-delete-coupon').on('click', function(e) {
+		e.preventDefault();
+
+		intelli.confirm(_t('delete_coupon_confirmation'), { url: $(this).attr('href') });
 	});
 });
 {/ia_add_js}

@@ -140,7 +140,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$data['status'] = $iaCore->get('coupons_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_APPROVAL;
 
 				// assign expire date
-
 				$data['expire_date'] = ($data['expire_date'] ? date(iaDb::DATE_FORMAT, strtotime($_POST['expire_date'])): '');
 
 				// assign shop value
@@ -254,13 +253,14 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			break;
 
 		case iaCore::ACTION_DELETE:
-			if (!isset($_GET['id']) || empty($_GET['id']))
+			$id = (int)(isset($_GET['id']) ? $_GET['id'] : end($iaCore->requestPath));
+			if (!isset($id) || empty($id))
 			{
 				return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 			}
 
 			// get coupon info
-			$coupon = $iaCoupon->getById((int)$_GET['id']);
+			$coupon = $iaCoupon->getById((int)$id);
 
 			if (empty($coupon))
 			{
@@ -272,10 +272,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				return iaView::errorPage(iaView::ERROR_UNAUTHORIZED);
 			}
 
-			$iaCoupon->delete($coupon['id']);
+			$result = $iaCoupon->delete($coupon['id']);
 
-			$iaView->setMessages(iaLanguage::get('coupon_deleted'), iaView::SUCCESS);
-			iaUtil::go_to(IA_URL . 'profile/coupons/');
+			iaUtil::redirect(
+				iaLanguage::get($result ? 'thanks' : 'error'),
+				iaLanguage::get($result ? 'coupon_deleted' : 'db_error'),
+				$iaCoupon->url($result ? 'my' : 'view', $coupon)
+			);
 
 			break;
 

@@ -56,18 +56,25 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		{
 			if (iaUsers::hasIdentity() && $coupon['member_id'] == iaUsers::getIdentity()->id)
 			{
+				$actionUrls = array(
+					iaCore::ACTION_EDIT => $iaCoupon->url(iaCore::ACTION_EDIT, $coupon),
+					iaCore::ACTION_DELETE => $iaCoupon->url(iaCore::ACTION_DELETE, $coupon)
+				);
+				$iaView->assign('tools', $actionUrls);
+
 				$iaItem->setItemTools(array(
 					'id' => 'action-edit',
 					'title' => iaLanguage::get('edit_coupon'),
 					'attributes' => array(
-						'href' => IA_PACKAGE_URL . 'coupons/edit/' . $coupon['id'] . '/'
+						'href' => $actionUrls[iaCore::ACTION_EDIT]
 					)
 				));
 				$iaItem->setItemTools(array(
 					'id' => 'action-delete',
 					'title' => iaLanguage::get('delete_coupon'),
 					'attributes' => array(
-						'href' => IA_PACKAGE_URL . 'coupons/delete/?id=' . $coupon['id']
+						'href' => $actionUrls[iaCore::ACTION_DELETE],
+						'class' => 'js-delete-coupon'
 					)
 				));
 			}

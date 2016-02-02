@@ -69,6 +69,7 @@
 		<object id="shop_view" action="edit" access="1">Edit Shop</object>
 		<object id="coupon_view" action="add" access="1">Add Coupon</object>
 		<object id="coupon_view" action="edit" access="1">Edit Coupon</object>
+		<object id="coupon_view" action="delete" access="1">Delete Coupon</object>
 		<object id="my_coupons" access="0">View Own Listings</object>
 
 		<permission type="group" type_id="4" access="0">my_coupons</permission>
