@@ -161,7 +161,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$sortingStmt = 't1.`' . $sorting[0] . '` ' . $sorting[1];
 
 			// get coupons
-			$children = (!empty($category['child'])) ? explode(',', $category['child']) : $category['child'];
+			$children = (!empty($category['child']) && $iaCore->get('coupons_show_children')) ? explode(',', $category['child']) : $category['id'];
+
 			$coupons = $iaCoupon->getByCategory($stmt, $children, $pagination['start'], $pagination['limit'], $sortingStmt);
 			$iaView->assign('coupons', $coupons);
 

@@ -81,6 +81,7 @@
 	<config group="coupons" name="coupon_add_guest" type="radio" values="1,0" description="Allow to add coupon for guest">1</config>
 	<config group="coupons" name="shop_submission" type="radio" values="1,0" description="Allow shop submission">1</config>
 	<config group="coupons" name="show_expired_coupons" type="radio" values="1,0" description="Show expired coupons">1</config>
+	<config group="coupons" type="radio" name="coupons_show_children" values="1,0" description="Show subcategories coupons in the parents">1</config>
 	<config group="coupons" name="badge_type" type="select" values="featured,hot" description="Featured badge type">featured</config>
 	<config group="coupons" name="coupons_per_page" type="text" description="Number of coupons per page">10</config>
 
