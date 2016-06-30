@@ -199,6 +199,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		default:
 			return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 	}
+	$iaPage = $iaCore->factory('page', iaCore::FRONT);
+	if ($iaAcl->isAccessible('coupon_add', iaCore::ACTION_ADD))
+	{
+		$pageActions[] = array(
+			'icon' => 'plus-square',
+			'title' => iaLanguage::get('page_title_coupon_add'),
+			'url' => $iaPage->getUrlByName('coupon_add'),
+			'classes' => 'btn-success'
+		);
+		$iaView->set('actions', $pageActions);
+	}
 	$iaView->assign('pagination', $pagination);
 
 	$iaView->display($template);
