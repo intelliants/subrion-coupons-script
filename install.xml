@@ -72,6 +72,21 @@
 		<object id="coupon_view" action="delete" access="1">Delete Coupon</object>
 		<object id="my_coupons" access="0">View Own Listings</object>
 
+		<object meta_object="admin_page" id="coupons" access="1">View Coupons</object>
+		<object meta_object="admin_page" id="coupons" action="add">Add Coupon</object>
+		<object meta_object="admin_page" id="coupons" action="edit">Edit Coupon</object>
+		<object meta_object="admin_page" id="coupons" action="delete">Delete Coupon</object>
+
+		<object meta_object="admin_page" id="shops" access="1">View Shops</object>
+		<object meta_object="admin_page" id="shops" action="add">Add Shop</object>
+		<object meta_object="admin_page" id="shops" action="edit">Edit Shop</object>
+		<object meta_object="admin_page" id="shops" action="delete">Delete Shop</object>
+
+		<object meta_object="admin_page" id="ccats" access="1">View Categories</object>
+		<object meta_object="admin_page" id="ccats" action="add">Add Category</object>
+		<object meta_object="admin_page" id="ccats" action="edit">Edit Category</object>
+		<object meta_object="admin_page" id="ccats" action="delete">Delete Category</object>
+
 		<permission type="group" type_id="4" access="0">my_coupons</permission>
 	</permissions>
 
