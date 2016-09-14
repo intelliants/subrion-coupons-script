@@ -15,6 +15,7 @@ Ext.onReady(function()
 				'update',
 				'delete'
 			],
+			sorters: [{property: 'date_added', direction: 'DESC'}],
 			statuses: ['active','approval','suspended','expired'],
 			texts: {
 				delete_single: _t('are_you_sure_to_delete_selected_coupon'),

@@ -14,6 +14,7 @@ Ext.onReady(function()
 				'update',
 				'delete'
 			],
+			sorters: [{property: 'date_added', direction: 'DESC'}],
 			statuses: ['active','inactive','suspended'],
 			texts: {
 				delete_single: _t('are_you_sure_to_delete_selected_shop'),
