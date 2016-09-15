@@ -1,10 +1,71 @@
 <?php
 //##copyright##
 
+/*-- START MOD // sasha_gar --*/
+$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
+$iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
+
+if (iaView::REQUEST_JSON == $iaView->getRequestType())
+{
+	if ('report' == $_POST['action'])
+	{
+		$id = (int)$_POST['id'];
+		$comment = '';
+		if ((isset($_POST['comments']) && $_POST['comments']))
+		{
+			$time = date('Y-m-d H:i:s');
+			$iaCore->factory('util');
+			$ip = iaUtil::getIp(false);
+			$comment = <<<COMMENT
+Date: {$time}
+IP: {$ip}
+Comment: {$_POST['comments']}
+
+
+COMMENT;
+		}
+
+		$listing = $iaCoupon ->getById($id);
+
+		$iaMailer = $iaCore->factory('mailer');
+		$iaMailer->loadTemplate('reported_as_broken');
+		$iaMailer->setReplacements(array(
+			'title' => $listing['title'],
+			'comments' => $comment,
+		));
+		$iaMailer->sendToAdministrators();
+
+		$email = (isset($listing['email']) && $listing['email']) ? $listing['email'] : $iaDb->one('email', iaDb::convertIds($listing['member_id']), iaUsers::getTable());
+
+		if ($email)
+		{
+			$iaMailer->loadTemplate('reported_as_broken');
+			$iaMailer->setReplacements(array(
+				'title' => $listing['title'],
+				'comments' => $comment,
+			));
+			$iaMailer->addAddress($email);
+
+			$iaMailer->send();
+		}
+		$fields = array('reported_as_broken' => 1);
+		if ($comment)
+		{
+			if (isset($listing['reported_as_broken_comments']) && $listing['reported_as_broken_comments'])
+			{
+				$comment = $listing['reported_as_broken_comments'] . $comment;
+			}
+			$fields['reported_as_broken_comments'] = $comment;
+		}
+		$iaDb->update($fields, iaDb::convertIds($id), null, iaCoupon::getTable());
+	}
+}
+/*-- END MOD // sasha_gar --*/
+
+
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
-	$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
-	$iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
+
 
 	if (!isset($iaCore->requestPath[2]) || empty($iaCore->requestPath[2]))
 	{
@@ -80,6 +141,18 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			}
 		}
 	}
+
+	/*-- START MOD // sasha_gar --*/
+	$iaItem->setItemTools(array(
+		'id' => 'action-report',
+		'title' => iaLanguage::get('report_coupon'),
+		'attributes' => array(
+			'href' => '#',
+			'id' => 'js-cmd-report-coupon',
+			'data-id' => $coupon['id']
+		)
+	));
+	/*-- END MOD // sasha_gar --*/
 
 	$iaCore->startHook('phpViewListingBeforeStart', array(
 		'listing' => $coupon['id'],
