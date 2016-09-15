@@ -7,7 +7,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected $_helperName = 'coupon';
 
-	protected $_gridColumns = '`id`, `title`, `title_alias`, `date_added`, (:sql_category) `category`, (:sql_member) `member`, `status`';
+	protected $_gridColumns = '`id`, `title`, `title_alias`, `date_added`, (:sql_category) `category`, (:sql_member) `member`, `short_description`, `status`';
 	protected $_gridFilters = array('status' => self::EQUAL, 'title' => self::LIKE);
 
 	protected $_phraseAddSuccess = 'coupon_added';
@@ -96,7 +96,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 			'sponsored' => false,
 			'featured' => false,
 			'status' => iaCore::STATUS_ACTIVE,
-			'expire_date' => date(iaDb::DATE_FORMAT, strtotime('+1 week'))
+			'expire_date' => date(iaDb::DATETIME_SHORT_FORMAT, strtotime('+1 week'))
 		);
 	}
 

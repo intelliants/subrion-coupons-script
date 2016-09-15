@@ -189,7 +189,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 			}
 
-			$title = iaDb::printf('Coupon ":title" - #:id', $coupon);
+			$title = iaDb::printf('Coupon ":title"', $coupon);
 			$coupon['member_id'] = iaUsers::getIdentity()->id;
 
 			$iaCore->factory('transaction')->create($title, $coupon['cost'], $iaCoupon->getItemName(), $coupon);
@@ -199,6 +199,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		default:
 			return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 	}
+	$iaView->assign('pagination', $pagination);
+
 	$iaPage = $iaCore->factory('page', iaCore::FRONT);
 	if ($iaAcl->isAccessible('coupon_add', iaCore::ACTION_ADD))
 	{
@@ -210,7 +212,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		);
 		$iaView->set('actions', $pageActions);
 	}
-	$iaView->assign('pagination', $pagination);
 
 	$iaView->display($template);
 }

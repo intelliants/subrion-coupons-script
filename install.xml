@@ -4,9 +4,9 @@
 	<summary>This package allows to build a powerful coupons sharing and deals website</summary>
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
-	<version>4.0.0</version>
-	<date>2015-11-23</date>
-	<compatibility>4.0</compatibility>
+	<version>4.1.0</version>
+	<date>2016-09-14</date>
+	<compatibility>4.1</compatibility>
 	<url>coupons</url>
 
 	<screenshots>
@@ -18,8 +18,8 @@
 	</screenshots>
 
 	<packageitems>
-		<item pages="advsearch,view_member,favorites" table_name="coupons_coupons">coupons</item>
-		<item pages="advsearch" table_name="coupons_shops">shops</item>
+		<item table_name="coupons_coupons">coupons</item>
+		<item table_name="coupons_shops">shops</item>
 		<item table_name="coupons_categories" payable="0">ccats</item>
 	</packageitems>
 
@@ -47,16 +47,16 @@
 	</adminpages>
 
 	<pages>
-		<page group="coupons" name="coupons_home" url="|PACKAGE|" fields_item="coupons">Coupons</page>
-		<page group="coupons" name="shops" url="|PACKAGE|shops/" filename="shops" menus="main" fields_item="shops">Shops</page>
+		<page group="coupons" name="coupons_home" url="|PACKAGE|">Coupons</page>
+		<page group="coupons" name="shops" url="|PACKAGE|shops/" filename="shops" menus="main">Shops</page>
 		<page group="coupons" name="shop_view" url="|PACKAGE|shop/" filename="shops" fields_item="shops">View Shop</page>
 
-		<page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main" fields_item="coupons">New Coupons</page>
-		<page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main" fields_item="coupons">Popular Coupons</page>
-		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main" fields_item="coupons">Printable coupons</page>
-		<page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main" fields_item="coupons">Deals</page>
-		<page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main" fields_item="coupons">Coupon Codes</page>
-		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account" nofollow="1" parent="profile" fields_item="coupons">My Coupons</page>
+		<page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main">New Coupons</page>
+		<page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main">Popular Coupons</page>
+		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main">Printable coupons</page>
+		<page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main">Deals</page>
+		<page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main">Coupon Codes</page>
+		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account" nofollow="1" parent="profile">My Coupons</page>
 		<page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
 		<page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
 		<page group="coupons" name="coupon_delete" url="|PACKAGE|coupons/delete/" action="delete" parent="coupon_view" filename="manage" service="1">Delete Coupon</page>
@@ -110,7 +110,7 @@
 	<config group="coupons" name="top_coupons_block_num" type="text" description="Number of coupons in Top Coupons block">5</config>
 	<config group="coupons" name="new_coupons_block_num" type="text" description="Number of coupons in New Coupons block">5</config>
 	<config group="coupons" name="featured_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">5</config>
-	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">3</config>
+	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Sponsored Coupons block">3</config>
 	<config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
 
 	<config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
@@ -134,40 +134,37 @@
 	</fields_groups>
 
 	<fields>
-		<field name="title" group="categories" item="ccats" type="text" length="70" required="1" searchable="1" page="advsearch,coupons_home">Title</field>
-		<field name="description" group="categories" item="ccats" type="textarea" editor="1" searchable="1" page="advsearch,coupons_home">Description</field>
-		<field name="meta_description" group="categories" item="ccats" type="textarea" length="160" adminonly="1" page="advsearch">Meta-Description</field>
-		<field name="meta_keywords" group="categories" item="ccats" type="text" length="80" adminonly="1" page="advsearch">Meta-Keywords</field>
+		<field name="title" group="categories" item="ccats" type="text" length="70" required="1" searchable="1" page="coupons_home">Title</field>
+		<field name="description" group="categories" item="ccats" type="textarea" editor="1" searchable="1" page="coupons_home">Description</field>
 		<field name="icon" group="categories" item="ccats" type="image" width="14" height="14" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
+		<field name="meta_description" group="categories" item="ccats" type="textarea" length="160" adminonly="1">Meta-Description</field>
+		<field name="meta_keywords" group="categories" item="ccats" type="text" length="80" adminonly="1">Meta-Keywords</field>
 
-		<field name="title" group="coupons" item="coupons" type="text" length="70" required="1" searchable="1" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites">Title</field>
+		<field name="title" group="coupons" item="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
 		<field name="coupon_type" group="coupons" item="coupons" type="combo" required="1"
-			page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
+			page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
 		<field name="coupon_code" group="coupons" item="coupons" type="text" length="70" required="1"
-			page="advsearch,coupons_home,coupon_add,coupon_edit,favorites"
-			relation="dependent" parent="coupon_type:simple">Coupon Code</field>
+			page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
 		<field name="coupon_image" group="coupons" item="coupons" type="image"
-			page="advsearch,coupons_home,coupon_add,coupon_edit"
-			width="1000" height="600" thumb_width="300" thumb_height="300">Coupon Image</field>
-		<field name="coupon_tags" group="coupons" item="coupons" type="text" length="70" page="advsearch,coupons_home,coupon_add,coupon_edit">Coupon Tags</field>
-		<field name="short_description" group="coupons" item="coupons" type="textarea" length="250" required="1" page="advsearch,coupons_home,coupon_add,coupon_edit">Short Description</field>
-		<field name="description" group="coupons" item="coupons" type="textarea" editor="1" page="advsearch,coupons_home,coupon_add,coupon_edit">Description</field>
-		<field name="expire_date" group="coupons" item="coupons" type="date" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites" allow_null="1">Expires on</field>
+			page="coupons_home,coupon_add,coupon_edit" width="1000" height="600" thumb_width="300" thumb_height="300">Coupon Image</field>
+		<field name="coupon_tags" group="coupons" item="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit">Coupon Tags</field>
+		<field name="short_description" group="coupons" item="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit">Short Description</field>
+		<field name="description" group="coupons" item="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit">Description</field>
+		<field name="expire_date" group="coupons" item="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
 		<field name="affiliate_link" group="coupons" item="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit">Affiliate Link</field>
 		<field name="meta_description" group="coupons" item="coupons" type="textarea" length="255" adminonly="1">Meta-Description</field>
 		<field name="meta_keywords" group="coupons" item="coupons" type="text" length="150" adminonly="1">Meta-Keywords</field>
 		<field name="activations" group="coupons_pricing" item="coupons" type="text" length="7" default="0" pages="coupon_add,coupon_edit">Activations</field>
-		<field name="cost" group="coupons_pricing" item="coupons" type="text" length="12" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites">Coupon cost</field>
-		<field name="item_price" group="coupons_pricing" item="coupons" type="text" length="12" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites">Item price</field>
-		<field name="item_discount" group="coupons_pricing" item="coupons" type="text" length="12" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites">Item discount</field>
-		<field name="item_discount_type" group="coupons_pricing" item="coupons" type="combo" page="advsearch,coupons_home,view_member,coupon_add,coupon_edit,favorites" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
+		<field name="cost" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
+		<field name="item_price" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
+		<field name="item_discount" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
+		<field name="item_discount_type" group="coupons_pricing" item="coupons" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
-		<field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="advsearch,coupons_home,shop_add,shop_edit" editable="0">Title</field>
-		<field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="advsearch,coupons_home,shop_add,shop_edit" editable="0">Website</field>
-		<field name="description" group="shops" item="shops" type="textarea" editor="1" searchable="1" page="advsearch,coupons_home,shop_add,shop_edit">Description</field>
+		<field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Title</field>
+		<field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Website</field>
+		<field name="description" group="shops" item="shops" type="textarea" editor="1" searchable="1" page="coupons_home,shop_add,shop_edit">Description</field>
 		<field name="shop_image" group="shops" item="shops" type="image"
-			page="advsearch,coupons_home,shop_add,shop_edit"
-			width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
+			page="coupons_home,shop_add,shop_edit" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
 		<field name="affiliate_link" group="shops" item="shops" type="text" length="255" default="http://" page="shop_add,shop_edit" editable="0">Affiliate Link</field>
 		<field name="meta_description" group="shops" item="shops" type="textarea" length="255" page="shop_add,shop_edit,shop_view">Meta-Description</field>
 		<field name="meta_keywords" group="shops" item="shops" type="text" length="150" page="shop_add,shop_edit,shop_view">Meta-Keywords</field>
@@ -470,6 +467,10 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_shops`(
 	</install>
 
 	<uninstall>
-		<sql>DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`;</sql>
+		<sql>
+			<![CDATA[
+DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`;
+			]]>
+		</sql>
 	</uninstall>
 </package>
