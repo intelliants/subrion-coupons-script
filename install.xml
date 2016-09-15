@@ -110,7 +110,7 @@
 	<config group="coupons" name="top_coupons_block_num" type="text" description="Number of coupons in Top Coupons block">5</config>
 	<config group="coupons" name="new_coupons_block_num" type="text" description="Number of coupons in New Coupons block">5</config>
 	<config group="coupons" name="featured_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">5</config>
-	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">3</config>
+	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Sponsored Coupons block">3</config>
 	<config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
 
 	<fields_groups>
