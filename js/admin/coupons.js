@@ -6,6 +6,7 @@ Ext.onReady(function()
 		{
 			columns: [
 				'selection',
+				'expander',
 				{name: 'title', title: _t('title'), width: 2, editor: 'text'},
 				{name: 'title_alias', title: _t('title_alias'), width: 220},
 				{name: 'category', title: _t('category'), width: 120},
@@ -15,6 +16,8 @@ Ext.onReady(function()
 				'update',
 				'delete'
 			],
+			expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
+			fields: ['short_description'],
 			sorters: [{property: 'date_added', direction: 'DESC'}],
 			statuses: ['active','approval','suspended','expired'],
 			texts: {
