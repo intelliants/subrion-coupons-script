@@ -114,13 +114,13 @@
 	<config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
 
 	<config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
-	<!-- E-mail template for reported as broken listing notification -->
-	<config group="email_templates" type="radio" name="reported_as_broken" values="1,0" description="Link marked as broken">1</config>
-	<config group="email_templates" type="text" name="reported_as_broken_subject">Coupon is marked as broken</config>
-	<config group="email_templates" type="textarea" name="reported_as_broken_body">
+	<!-- E-mail template for reported as problem coupone notification -->
+	<config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Link marked as problem">1</config>
+	<config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
+	<config group="email_templates" type="textarea" name="reported_as_problem_body">
 		<![CDATA[
 <p>Greetings,</p>
-<p>Coupon "{%TITLE%}" marked as broken.</p>
+<p>Coupon "{%TITLE%}" marked as problem.</p>
 <p>Comments:</p>
 <p>{%COMMENTS%}</p>
 		]]>
@@ -190,8 +190,8 @@
 		<phrase category="admin" key="expired">expired</phrase>
 		<phrase category="admin" key="recount_coupons">Recount coupons</phrase>
 		<phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>
-		<phrase category="admin" key="reported_as_broken">Reported as Broken</phrase>
-		<phrase category="admin" key="reported_as_broken_comments">Broken report comments</phrase>
+		<phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
+		<phrase category="admin" key="reported_as_problem_comments">Problem report comments</phrase>
 
 		<phrase category="common" key="ccats">Categories</phrase>
 		<phrase category="common" key="coupon_category">Category</phrase>
@@ -218,7 +218,7 @@
 		<phrase category="common" key="coupon_url">Coupon URL</phrase>
 		<phrase category="common" key="coupon_description">Description</phrase>
 		<phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
-		<phrase category="frontend" key="do_you_want_report_broken">Do you want to report this listing as broken?</phrase>
+		<phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupone as problem?</phrase>
 
 		<phrase category="frontend" key="add_coupon">Add Coupon</phrase>
 		<phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
@@ -425,8 +425,8 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_coupons`(
 	`activations` mediumint(7) unsigned NOT NULL,
 	`cost` decimal(10,2) unsigned,
 	`item_price` decimal(10,2) unsigned,
-	`reported_as_broken` tinyint(1) unsigned NOT NULL,
-	`reported_as_broken_comments` TEXT NOT NULL,
+	`reported_as_problem` tinyint(1) unsigned NOT NULL,
+	`reported_as_problem_comments` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
 	KEY `ALIAS` (`title_alias`)
 ) {mysql_version};

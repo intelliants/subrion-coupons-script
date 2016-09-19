@@ -1,7 +1,6 @@
 <?php
 //##copyright##
 
-/*-- START MOD // sasha_gar --*/
 $iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
 $iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
 
@@ -28,7 +27,7 @@ COMMENT;
 		$listing = $iaCoupon ->getById($id);
 
 		$iaMailer = $iaCore->factory('mailer');
-		$iaMailer->loadTemplate('reported_as_broken');
+		$iaMailer->loadTemplate('reported_as_problem');
 		$iaMailer->setReplacements(array(
 			'title' => $listing['title'],
 			'comments' => $comment,
@@ -39,7 +38,7 @@ COMMENT;
 
 		if ($email)
 		{
-			$iaMailer->loadTemplate('reported_as_broken');
+			$iaMailer->loadTemplate('reported_as_problem');
 			$iaMailer->setReplacements(array(
 				'title' => $listing['title'],
 				'comments' => $comment,
@@ -48,20 +47,18 @@ COMMENT;
 
 			$iaMailer->send();
 		}
-		$fields = array('reported_as_broken' => 1);
+		$fields = array('reported_as_problem' => 1);
 		if ($comment)
 		{
-			if (isset($listing['reported_as_broken_comments']) && $listing['reported_as_broken_comments'])
+			if (isset($listing['reported_as_problem_comments']) && $listing['reported_as_problem_comments'])
 			{
-				$comment = $listing['reported_as_broken_comments'] . $comment;
+				$comment = $listing['reported_as_problem_comments'] . $comment;
 			}
-			$fields['reported_as_broken_comments'] = $comment;
+			$fields['reported_as_problem_comments'] = $comment;
 		}
 		$iaDb->update($fields, iaDb::convertIds($id), null, iaCoupon::getTable());
 	}
 }
-/*-- END MOD // sasha_gar --*/
-
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
@@ -142,7 +139,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		}
 	}
 
-	/*-- START MOD // sasha_gar --*/
 	$iaItem->setItemTools(array(
 		'id' => 'action-report',
 		'title' => iaLanguage::get('report_coupon'),
@@ -152,7 +148,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			'data-id' => $coupon['id']
 		)
 	));
-	/*-- END MOD // sasha_gar --*/
 
 	$iaCore->startHook('phpViewListingBeforeStart', array(
 		'listing' => $coupon['id'],

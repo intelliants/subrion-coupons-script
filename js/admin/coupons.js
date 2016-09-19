@@ -13,6 +13,12 @@ Ext.onReady(function()
 				{name: 'member', title: _t('member'), width: 120},
 				{name: 'date_added', title: _t('date_added'), width: 120, editor: 'date'},
 				'status',
+				{name: 'reported_as_broken', title: _t('broken'), icon: 'info', click: function(node){
+					Ext.MessageBox.alert(
+						_t('reported_as_broken_comments'),
+						node.data.reported_as_broken_comments.replace(/(?:\r\n|\r|\n)/g, '<br />')
+					)
+				}},
 				'update',
 				'delete'
 			],
@@ -50,6 +56,10 @@ Ext.onReady(function()
 			store: grid.stores.statuses,
 			displayField: 'title',
 			valueField: 'value'
+		},{
+			boxLabel: _t('reported_as_problem'),
+			name: 'reported_as_problem',
+			xtype: 'checkbox'
 		},{
 			text: '<i class="i-search"></i> ' + _t('search'),
 			id: 'fltBtn',

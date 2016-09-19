@@ -5,7 +5,7 @@
 				<form id="report-coupon-form" class="ia-form">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="myModalLabel">{lang key='do_you_want_report_broken'}</h4>
+						<h4 class="modal-title" id="myModalLabel">{lang key='do_you_want_report_problem'}</h4>
 					</div>
 					<div class="modal-body">
 						<div class="form-group">
