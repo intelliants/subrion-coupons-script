@@ -135,6 +135,15 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 						'class' => 'js-delete-coupon'
 					)
 				));
+				$iaItem->setItemTools(array(
+					'id' => 'bar-chart',
+					'title' => iaLanguage::get('coupon_statistics'),
+					'attributes' => array(
+						'href' => '#',
+						'id' => 'js-cmd-statistics-coupon',
+						'data-id' => $coupon['id']
+					)
+				));
 			}
 		}
 	}

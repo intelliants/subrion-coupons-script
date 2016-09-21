@@ -21,4 +21,28 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="modal fade" id="statistic-coupon-modal" tabindex="-1" role="dialog" aria-labelledby="statistics-coupon">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4>{$item.title}</h4>
+				</div>
+				<div class="modal-body">
+					<div class="number-views">
+						<legend>Number views</legend>
+						{$item.views_num}
+					</div>
+					{if $item.reported_as_problem}
+						<legend>{lang key="reported_problem"}</legend>
+						<div class="reported-problem">
+							{$item.reported_as_problem_comments|nl2br}
+						</div>
+
+					{/if}
+				</div>
+			</div>
+		</div>
+	</div>
 {/if}

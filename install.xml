@@ -263,6 +263,8 @@
 		<phrase category="frontend" key="report_coupon">Report Coupon</phrase>
 		<phrase category="frontend" key="you_sent_report">Thanks. A report has been sent to the site administrator.</phrase>
 		<phrase category="frontend" key="comment">Comment</phrase>
+		<phrase category="frontend" key="reported_problem">Problems reported</phrase>
+		<phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
 
 	</phrases>
 

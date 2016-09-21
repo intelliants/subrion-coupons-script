@@ -19,4 +19,12 @@ $(function () {
 			intelli.notifFloatBox({msg: _t('you_sent_report'), type: 'success', autohide: true});
 		});
 	});
+
+	var modalStatistics = $('#statistic-coupon-modal');
+	$('#js-cmd-statistics-coupon').on('click', function (e) {
+		e.preventDefault();
+		couponId = $(this).data('id');
+		modalStatistics.modal();
+	});
+
 });
