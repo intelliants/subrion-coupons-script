@@ -56,12 +56,12 @@
 		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
 		<page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main,coupons">Deals</page>
 		<page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main,coupons">Coupon Codes</page>
-		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account" nofollow="1" parent="profile,coupons">My Coupons</page>
+		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
 		<page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
 		<page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
 		<page group="coupons" name="coupon_delete" url="|PACKAGE|coupons/delete/" action="delete" parent="coupon_view" filename="manage" service="1">Delete Coupon</page>
 		<page group="coupons" name="coupon_view" url="|PACKAGE|coupon/" filename="view" nofollow="1" fields_item="coupons">View Coupon</page>
-		<page group="coupons" name="coupon_buy" url="|PACKAGE|coupons/buy/" menus="coupons">Buy Coupon</page>
+		<page group="coupons" name="coupon_buy" url="|PACKAGE|coupons/buy/">Buy Coupon</page>
 	</pages>
 
 	<permissions>
