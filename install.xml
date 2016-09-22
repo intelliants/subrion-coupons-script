@@ -266,6 +266,7 @@
 		<phrase category="frontend" key="comment">Comment</phrase>
 		<phrase category="frontend" key="reported_problem">Problems reported</phrase>
 		<phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
+		<phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
 
 	</phrases>
 
