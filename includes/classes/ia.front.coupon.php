@@ -369,4 +369,17 @@ class iaCoupon extends abstractCouponsPackageFront
 
 		return array($field, $direction);
 	}
+
+	public function isSubmissionAllowed($memberId)
+	{
+		$result = true;
+		if (iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id)
+		{
+			$couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member', array('member' => $memberId), self::getTable());
+
+			$result = ($couponCount < $this->iaCore->get('coupons_listing_limit'));
+		}
+
+		return $result;
+	}
 }

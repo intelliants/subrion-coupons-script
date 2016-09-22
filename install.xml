@@ -112,6 +112,7 @@
 	<config group="coupons" name="featured_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">5</config>
 	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Sponsored Coupons block">3</config>
 	<config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
+	<config group="coupons" name="coupons_listing_limit" type="text" description="Coupons limit for each member" show="0">10</config>
 
 	<config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
 	<!-- E-mail template for reported as problem coupone notification -->
