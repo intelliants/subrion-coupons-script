@@ -13,17 +13,17 @@ Ext.onReady(function()
 				{name: 'member', title: _t('member'), width: 120},
 				{name: 'date_added', title: _t('date_added'), width: 120, editor: 'date'},
 				'status',
-				{name: 'reported_as_broken', title: _t('broken'), icon: 'info', click: function(node){
+				{name: 'reported_as_problem', title: _t('problem'), icon: 'info', click: function(node){
 					Ext.MessageBox.alert(
-						_t('reported_as_broken_comments'),
-						node.data.reported_as_broken_comments.replace(/(?:\r\n|\r|\n)/g, '<br />')
+						_t('reported_as_problem_comments'),
+						node.data.reported_as_problem_comments.replace(/(?:\r\n|\r|\n)/g, '<br />')
 					)
 				}},
 				'update',
 				'delete'
 			],
 			expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
-			fields: ['short_description'],
+			fields: ['short_description', 'reported_as_problem_comments'],
 			sorters: [{property: 'date_added', direction: 'DESC'}],
 			statuses: ['active','approval','suspended','expired'],
 			texts: {

@@ -7,7 +7,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected $_helperName = 'coupon';
 
-	protected $_gridColumns = '`id`, `title`, `title_alias`, `date_added`, (:sql_category) `category`, (:sql_member) `member`, `short_description`, `status`';
+	protected $_gridColumns = '`id`, `title`, `title_alias`, `date_added`, (:sql_category) `category`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
 	protected $_gridFilters = array('status' => self::EQUAL, 'title' => self::LIKE);
 
 	protected $_phraseAddSuccess = 'coupon_added';
