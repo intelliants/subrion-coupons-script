@@ -137,7 +137,7 @@ class iaCoupon extends abstractCouponsPackageFront
 
 	public function getById($id)
 	{
-		$coupons = $this->_getQuery("t1.`id` = '{$id}'");
+		$coupons = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
 
 		return $coupons ? $coupons[0] : array();
 	}

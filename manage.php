@@ -62,12 +62,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 					{
 						return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 					}
-					else
+					if (!iaUsers::hasIdentity() || $couponEntry['member_id'] != iaUsers::getIdentity()->id)
 					{
-						if (!iaUsers::hasIdentity() || $couponEntry['member_id'] != iaUsers::getIdentity()->id)
-						{
-							return iaView::accessDenied();
-						}
+						return iaView::accessDenied();
 					}
 				}
 			}
