@@ -100,8 +100,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			$iaUtil = $iaCore->factory('util');
 
-			$fields = $iaField->filter($couponEntry, $iaCoupon->getItemName());
-			list($data, $error, $messages) = $iaField->parsePost($fields, $couponEntry);
+			list($data, $error, $messages) = $iaField->parsePost($iaCoupon->getItemName(), $couponEntry);
 
 			if (!iaUsers::hasIdentity() && !iaValidate::isCaptchaValid())
 			{
@@ -255,12 +254,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				{
 					iaUtil::go_to($iaCoupon->url('view', $data));
 				}
-
 			}
 			else
 			{
-				iaField::keepValues($data, $fields, $couponEntry);
-
 				$iaView->setMessages($messages, iaView::ERROR);
 			}
 

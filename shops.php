@@ -68,6 +68,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			break;
 
+		case 'shop_add':
+
+
+
 		case 'shops':
 			$letters['all'] = iaUtil::getLetters();
 			$letters['active'] = (isset($iaCore->requestPath[0]) && in_array($iaCore->requestPath[0], $letters['all'])) ? $iaCore->requestPath[0] : false;

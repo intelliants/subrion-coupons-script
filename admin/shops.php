@@ -19,7 +19,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 	{
 		parent::__construct();
 
-		$this->_fields = $this->_iaField->getByItemName($this->getItemName());
+		$this->_fields = $this->_iaField->get($this->getItemName());
 	}
 
 	protected function _gridRead($params)
@@ -104,7 +104,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _preSaveEntry(array &$entry, array $data, $action)
 	{
-		list($entry, , $this->_messages, ) = $this->_iaField->parsePost($this->_fields, $entry);
+		parent::_preSaveEntry($entry, $data, $action);
 
 		if (!empty($data['title_alias']))
 		{
