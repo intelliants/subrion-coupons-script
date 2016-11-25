@@ -184,7 +184,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			$coupon = $iaCoupon->getById((int)$iaCore->requestPath[0]);
 
-			if (empty($coupon))
+			if (empty($coupon) || iaCore::STATUS_ACTIVE != $coupon['status'])
 			{
 				return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 			}
