@@ -137,7 +137,8 @@
 	<fields>
 		<field name="title" group="categories" item="ccats" type="text" length="70" required="1" searchable="1" page="coupons_home">Title</field>
 		<field name="description" group="categories" item="ccats" type="textarea" editor="1" searchable="1" page="coupons_home">Description</field>
-		<field name="icon" group="categories" item="ccats" type="image" width="14" height="14" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
+		<field name="icon" group="categories" item="ccats" type="image" width="128" height="128" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
+		<field name="category_icon_class" group="categories" item="ccats" type="text" length="100" adminonly="1" page="coupons_home">Category icon class</field>
 		<field name="meta_description" group="categories" item="ccats" type="textarea" length="160" adminonly="1">Meta-Description</field>
 		<field name="meta_keywords" group="categories" item="ccats" type="text" length="80" adminonly="1">Meta-Keywords</field>
 
@@ -183,6 +184,7 @@
 		<phrase category="admin" key="coupon_category_added">Coupon category added.</phrase>
 		<phrase category="admin" key="coupon_category_deleted">Coupon category deleted.</phrase>
 		<phrase category="admin" key="coupon_category_already_exists">Coupon category with similar title alias exists in this category.</phrase>
+		<phrase category="admin" key="field_ccats_category_icon_class_annotation"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes. Input only icon title like this: <code>birthday-cake</code>]]></phrase>
 		<phrase category="admin" key="coupon_shop_already_exists">Shop with similar title alias exists.</phrase>
 		<phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
 		<phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
