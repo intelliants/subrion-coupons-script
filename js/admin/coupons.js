@@ -143,4 +143,10 @@ $(function()
 	});
 
 	$('#field_coupon_tags').tagsInput({width: '100%', height: 'auto'});
+
+	// hide pricing options for non deals
+	$('#field_coupons_coupon_type').on('change', function()
+	{
+		'deal' == $(this).val() ? $('#coupons_pricing').hide() : $('#coupons_pricing').show();
+	});
 });
