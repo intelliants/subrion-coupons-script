@@ -142,7 +142,7 @@ $(function()
 		}
 	});
 
-	$('#field_coupon_tags').tagsInput({width: '100%', height: 'auto'});
+	$('#field_coupons_coupon_tags').tagsInput({width: '100%', height: 'auto'});
 
 	// hide pricing options for non deals
 	$('#field_coupons_coupon_type').on('change', function()
