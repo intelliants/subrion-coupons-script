@@ -468,12 +468,25 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_shops`(
 ) {mysql_version};
 			]]>
 		</sql>
+		<sql>
+			<![CDATA[
+CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `coupon_id` int(9) NOT NULL,
+  `transaction_id` int(9) unsigned NOT NULL,
+  `code` varchar(32) NOT NULL,
+  `status` enum('active','inactive','used') NOT NULL DEFAULT 'active',
+  PRIMARY KEY (`id`),
+  KEY `COUPON` (`coupon_id`)
+) {mysql_version};
+			]]>
+		</sql>
 	</install>
 
 	<uninstall>
 		<sql>
 			<![CDATA[
-DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`;
+DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`, `{prefix}coupons_codes`;
 			]]>
 		</sql>
 	</uninstall>

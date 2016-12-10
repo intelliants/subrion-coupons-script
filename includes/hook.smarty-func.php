@@ -15,14 +15,16 @@ function smarty_function_coupon_code($params)
 
 	if (iaUsers::hasIdentity())
 	{
-		$html = sprintf('<div class="coupon-code">%s</div>', $coupon['coupon_code']);
 		if ($coupon['member_id'] == iaUsers::getIdentity()->id)
 		{
-			return $html;
+			return '<span>You own this coupon.</span>';
 		}
+
+		$iaCoupon = $iaCore->factoryPackage('coupon', 'coupons');
 
 		$iaCore->factory('transaction');
 
+		$html = sprintf('<div class="coupon-code">%s</div>', $coupon['coupon_code']);
 		$transaction = $iaCore->iaDb->row_bind(iaDb::ALL_COLUMNS_SELECTION, 'member_id = :member && `item` = :item && `item_id` = :id AND `amount` >= :price', array('member' => iaUsers::getIdentity()->id, 'item' => 'coupons', 'id' => $coupon['id'], 'price' => $coupon['cost']), iaTransaction::getTable());
 		if (isset($transaction['status']) && iaTransaction::PASSED == $transaction['status'])
 		{

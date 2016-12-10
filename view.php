@@ -62,8 +62,6 @@ COMMENT;
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
-
-
 	if (!isset($iaCore->requestPath[2]) || empty($iaCore->requestPath[2]))
 	{
 		return iaView::errorPage(iaView::ERROR_NOT_FOUND);
@@ -168,6 +166,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	// breadcrumb formation
 	iaBreadcrumb::add(iaLanguage::get('shops'), IA_PACKAGE_URL . 'shops/');
 	iaBreadcrumb::add($shop['title'], $iaShop->url('view', $shop));
+
+	// get purchased codes
+
 
 	// set coupon meta values
 	$iaView->set('title', $coupon['title']);

@@ -39,18 +39,14 @@
 
 		{if $listing.item_price && '0.00' != $listing.item_price}
 			<div class="coupon-price clearfix">
-				{if $listing.item_discount}
-					{if 'fixed' == $listing.item_discount_type}
-						{assign var=discount_total value=($listing.item_price - $listing.item_discount)}
-						{assign discount $listing.item_discount}
-					{else}
-						{assign var=discount_total value=($listing.item_price - $listing.item_price * $listing.item_discount / 100)}
-						{assign var=discount value=($listing.item_price * $listing.item_discount / 100)}
-					{/if}
+				{if $listing.activations_left < 10}
+					<p>Hurry up. Only {$listing.activations_left} activations left. {$listing.activations_sold} sold.</p>
+				{/if}
 
+				{if $listing.item_discount}
 					<span class="label label-disabled">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-					<span class="label label-success">{$core.config.coupon_item_price_currency}{$discount_total|string_format:"%.2f"}</span>
-					<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$discount|string_format:"%.2f"}</span>
+					<span class="label label-success">{$core.config.coupon_item_price_currency}{$listing.discounted_price|string_format:"%.2f"}</span>
+					<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$listing.discount_saving|string_format:"%.2f"}</span>
 				{else}
 					<span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
 				{/if}

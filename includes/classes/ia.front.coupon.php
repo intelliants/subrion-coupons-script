@@ -87,6 +87,8 @@ class iaCoupon extends abstractCouponsPackageFront
 		$iaDb = &$this->iaDb;
 
 		$sql = 'SELECT :found_rows :fields '
+			// count codes for each coupon
+			. ', (SELECT COUNT(*) FROM `:codes` `cc` LEFT JOIN `:prefixpayment_transactions` `pt` ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
 			. 'FROM `:coupons` t1 '
 			. ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
 				. 'LEFT JOIN `:categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
@@ -104,12 +106,15 @@ class iaCoupon extends abstractCouponsPackageFront
 		$ignoreStatus || $where[] = "(t1.`status` = 'active') ";
 
 		$data = array(
-			'found_rows' => ($foundRows === true ? 'SQL_CALC_FOUND_ROWS' : ''),
+			'found_rows' => ($foundRows === true ? iaDb::STMT_CALC_FOUND_ROWS : ''),
 			'fields' => 't1.*'
-					. ', t2.`title_alias` `category_alias`, t2.`title` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
-					. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
-					. ', t4.`title_alias` `shop_alias`, t4.`title` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` ',
+				. ', t2.`title_alias` `category_alias`, t2.`title` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+				. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
+				. ', t4.`title_alias` `shop_alias`, t4.`title` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` ',
 			'coupons' => self::getTable(true),
+			'prefix' => $iaDb->prefix,
+			'passed' => 'passed',
+			'codes' => $iaDb->prefix . 'coupons_codes',
 			'categs' => $iaDb->prefix . 'coupons_categories',
 			'shops' => $iaDb->prefix . 'coupons_shops',
 			'members' => iaUsers::getTable(true),
@@ -166,6 +171,21 @@ class iaCoupon extends abstractCouponsPackageFront
 				{
 					break;
 				}
+
+				$row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
+
+				// discount calculations
+				if ('fixed' == $row['item_discount_type'])
+				{
+					$row['discounted_price'] = $row['item_price'] - $row['item_discount'];
+					$row['discount_saving'] = $row['item_discount'];
+				}
+				else
+				{
+					$row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
+					$row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
+				}
+
 				if (empty($row['shop_image']))
 				{
 					continue;
@@ -385,5 +405,23 @@ class iaCoupon extends abstractCouponsPackageFront
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns list of purchased coupons codes
+	 *
+	 * @param int $id coupon id
+	 *
+	 * return array
+	 */
+	public function getCouponCodes($id)
+	{
+		$sql = <<<SQL
+SELECT SQL_CALC_FOUND_ROWS `code` FROM `{$this->iaDb->prefix}coupons_codes` `cc`
+LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt`
+ON `pt`.`id` = `cc`.`transaction_id`
+WHERE `coupon_id` = {$id}
+SQL;
+		return $this->iaDb->getAll($sql);
 	}
 }
