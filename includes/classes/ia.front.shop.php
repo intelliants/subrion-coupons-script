@@ -143,7 +143,9 @@ class iaShop extends abstractCouponsPackageFront
 
 	/**
 	 * Add some modification in listings
+	 *
 	 * @param array $rows
+	 *
 	 * @return array
 	 */
 	public function _processValues(array $rows)
@@ -154,7 +156,7 @@ class iaShop extends abstractCouponsPackageFront
 
 		// Filter fields
 		$iaField = $this->iaCore->factory('field');
-		$iaField->filter($rows, self::getTable());
+		$iaField->filter($this->getItemName(), $rows);
 
 		if ($rows)
 		{
