@@ -179,20 +179,22 @@ class iaCoupon extends abstractCouponsPackageFront
 
 	/**
 	 * Get listings by custom condition
+	 *
 	 * @param string $where
 	 * @param string $order
 	 * @param int $limit
 	 * @param int $start
 	 * @param bool $foundRows
+	 *
 	 * @return array
 	 */
-	/*---*/public function getCoupons($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
+	public function getCoupons($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
 	{
 		return $this->_getQuery($where, $order, $limit, $start, $foundRows, $ignoreStatus);
-	}/*---*/
+	}
 
 	/**
-	 * Get user`s listings
+	 * Get user's listings
 	 *
 	 * @param int $memberId
 	 * @param int $limit
@@ -222,12 +224,14 @@ class iaCoupon extends abstractCouponsPackageFront
 
 	/**
 	 * Get listings by Category ID
+	 *
 	 * @param string $aWhere
 	 * @param int $catId
 	 * @param int $aStart
 	 * @param int $aLimit
 	 * @param bool $aOrder
-     * @return array
+	 *
+	 * @return array
 	 */
 	public function getByCategory($aWhere, $catId, $aStart = 0, $aLimit = 10, $aOrder = false)
 	{
