@@ -7,9 +7,10 @@ Ext.onReady(function()
 			columns: [
 				'selection',
 				'expander',
-				{name: 'title', title: _t('title'), width: 2, editor: 'text'},
-				{name: 'title_alias', title: _t('title_alias'), width: 220},
+				{name: 'title', title: _t('title'), width: 1, editor: 'text'},
+				{name: 'title_alias', title: _t('title_alias'), width: 200},
 				{name: 'category', title: _t('category'), width: 120},
+				{name: 'coupon_type', title: _t('coupon_type'), width: 120, renderer: function(value) { return _t('field_coupons_coupon_type+' + value, value);}},
 				{name: 'member', title: _t('member'), width: 120},
 				{name: 'date_added', title: _t('date_added'), width: 120, editor: 'date'},
 				'status',
@@ -25,7 +26,7 @@ Ext.onReady(function()
 			expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
 			fields: ['short_description', 'reported_as_problem_comments'],
 			sorters: [{property: 'date_added', direction: 'DESC'}],
-			statuses: ['active','approval','suspended','expired'],
+			statuses: ['active', 'approval', 'suspended', 'expired'],
 			texts: {
 				delete_single: _t('are_you_sure_to_delete_selected_coupon'),
 				delete_multiple: _t('are_you_sure_to_delete_selected_coupons')
@@ -39,14 +40,28 @@ Ext.onReady(function()
 			id: 'fltTitle',
 			name: 'title',
 			listeners: intelli.gridHelper.listener.specialKey
-		},new Ext.form.ComboBox({
+		}, new Ext.form.ComboBox({
 			displayField: 'title',
 			emptyText: _t('member'),
 			name: 'member',
 			store: intelli.gridHelper.store.ajax(intelli.config.admin_url + '/transactions/members.json'),
 			listeners: intelli.gridHelper.listener.specialKey,
 			valueField: 'value'
-		}),{
+		}), {
+			emptyText: _t('coupon_type'),
+			xtype: 'combo',
+			typeAhead: true,
+			editable: false,
+			id: 'fltType',
+			name: 'coupon_type',
+			store: new Ext.data.SimpleStore(
+			{
+				fields: ['value', 'title'],
+				data : [['simple', _t('field_coupons_coupon_type+simple')],['printable', _t('field_coupons_coupon_type+printable')],['deal', _t('field_coupons_coupon_type+deal')]]
+			}),
+			displayField: 'title',
+			valueField: 'value'
+		}, {
 			emptyText: _t('status'),
 			xtype: 'combo',
 			typeAhead: true,
@@ -56,15 +71,15 @@ Ext.onReady(function()
 			store: grid.stores.statuses,
 			displayField: 'title',
 			valueField: 'value'
-		},{
+		}, {
 			boxLabel: _t('reported_as_problem'),
 			name: 'reported_as_problem',
 			xtype: 'checkbox'
-		},{
+		}, {
 			text: '<i class="i-search"></i> ' + _t('search'),
 			id: 'fltBtn',
 			handler: function(){intelli.gridHelper.search(grid);}
-		},{
+		}, {
 			text: '<i class="i-close"></i> ' + _t('reset'),
 			handler: function(){intelli.gridHelper.search(grid, true);}
 		}]});
