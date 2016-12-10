@@ -52,9 +52,7 @@
 			</div>
 		{/if}
 
-		{if $core.config.purchase_coupon_codes}
-			{coupon_code coupon=$listing}
-		{elseif $core.config.hide_coupon_code}
+		{if $core.config.hide_coupon_code}
 			<div class="coupon-code coupon-code--hidden">
 				<a href="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{else}#{/if}" target="_blank">{lang key='show_coupon_code'}</a>
 				<span>{$listing.coupon_code}</span>
@@ -124,7 +122,7 @@ $(function()
 	{
 		var affiliateLink = $(this).data('affiliate-link');
 		var couponLink    = $(this).data('coupon-link');
-		
+
 		if ('undefined' != typeof affiliateLink && '' != affiliateLink)
 		{
 			window.location.href = couponLink;
@@ -147,7 +145,7 @@ $(function () {
 		{
 			e.preventDefault();
 		}
-		
+
 		$(this).hide().next().show();
 	});
 });

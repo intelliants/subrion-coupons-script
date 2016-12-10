@@ -156,7 +156,7 @@ class iaCoupon extends abstractCouponsPackageFront
 
 		// Filter fields
 		$iaField = $this->iaCore->factory('field');
-		$iaField->filter($rows, self::getTable());
+		$iaField->filter($this->getItemName(), $rows);
 
 		if ($rows)
 		{
