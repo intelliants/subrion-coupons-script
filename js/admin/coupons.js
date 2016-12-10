@@ -162,6 +162,6 @@ $(function()
 	// hide pricing options for non deals
 	$('#field_coupons_coupon_type').on('change', function()
 	{
-		'deal' == $(this).val() ? $('#coupons_pricing').hide() : $('#coupons_pricing').show();
+		'deal' == $(this).val() ? $('#coupons_pricing').show() : $('#coupons_pricing').hide();
 	});
 });
