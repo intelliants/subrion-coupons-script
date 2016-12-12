@@ -16,6 +16,18 @@ $(function()
 		intelli.confirm(_t('delete_coupon_confirmation'), { url: $(this).attr('href') });
 	});
 
+	// show coupon code on click
+	$('.js-show-coupon-code').on('click', function(e) {
+		var $this = $(this);
+
+		if ('#' === $this.attr('href'))
+		{
+			e.preventDefault();
+		}
+
+		$this.hide().next().show();
+	})
+
 	// thumbs actions
 	$('a[class^="thumbs-"]').on('click', function(e)
 	{

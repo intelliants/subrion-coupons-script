@@ -54,7 +54,7 @@
 
 		{if $core.config.hide_coupon_code}
 			<div class="coupon-code coupon-code--hidden">
-				<a href="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{else}#{/if}" target="_blank">{lang key='show_coupon_code'}</a>
+				<a class="js-show-coupon-code" href="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{else}#{/if}" target="_blank">{lang key='show_coupon_code'}</a>
 				<span>{$listing.coupon_code}</span>
 			</div>
 		{else}
@@ -128,19 +128,3 @@ $(function()
 	});
 });
 {/ia_add_js}
-
-{if $core.config.hide_coupon_code}
-	{ia_add_js}
-$(function () {
-	$('#coupon-list-{$listing.id} .coupon-code--hidden > a').on('click', function(e)
-	{
-		if ('#' === $(this).attr('href'))
-		{
-			e.preventDefault();
-		}
-
-		$(this).hide().next().show();
-	});
-});
-	{/ia_add_js}
-{/if}
