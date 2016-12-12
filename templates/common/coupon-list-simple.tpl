@@ -64,11 +64,10 @@
 			</div>
 		{/if}
 
-		{assign randId 1|rand:20000}
 		{if $listing.expire_date != 0}
 			<div class="coupon-expire text-danger">
 				<span class="fa fa-clock-o"></span> 
-				<span id="timer-{$randId}-{$listing.id}" title="{lang key='coupon_expire'} {$listing.expire_date|date_format:$core.config.date_format}"></span>
+				<span class="js-countdown" data-countdown="{$listing.expire_date}" title="{lang key='coupon_expire'}"></span>
 			</div>
 		{/if}
 
@@ -105,12 +104,6 @@
 {ia_add_js}
 $(function()
 {
-	$('#timer-{$randId}-{$listing.id}').countdown(
-	{
-		date: '{$listing.expire_date|date_format:$core.config.date_format}',
-		htmlTemplate: "%dd %hh %im %ss left"
-	});
-
 	var clip_{$listing.id} = new ZeroClipboard($('.clip_{$listing.id}'),
 	{
 		moviePath: '{$smarty.const.IA_CLEAR_URL}js/utils/zeroclipboard/ZeroClipboard.swf',
