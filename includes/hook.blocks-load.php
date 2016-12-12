@@ -1,8 +1,7 @@
 <?php
 //##copyright##
 
-if (iaView::REQUEST_HTML == $iaView->getRequestType()
-	&& iaCore::ACCESS_FRONT == $iaCore->getAccessType())
+if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT == $iaCore->getAccessType())
 {
 	$limit = 5;
 	$couponBlocks = array();

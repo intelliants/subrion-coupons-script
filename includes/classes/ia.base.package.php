@@ -9,6 +9,7 @@ interface iaCouponsPackage
 
 	const STATUS_AVAILABLE = 'available';
 	const STATUS_SUSPENDED = 'suspended';
+	const STATUS_USED = 'used';
 }
 
 abstract class abstractCouponsPackageAdmin extends abstractPackageAdmin implements iaCouponsPackage

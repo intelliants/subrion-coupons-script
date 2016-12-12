@@ -24,14 +24,14 @@
 	</packageitems>
 
 	<actions>
-		<action name="coupon_category_view" url="coupons/categories/" icon="list" pages="ccats:add,ccats:edit">View Categories</action>
-		<action name="coupon_category_add" url="coupons/categories/add/" icon="folder-plus" pages="ccats,ccats:edit">Add Category</action>
+		<action name="coupon_category_view" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit">View Categories</action>
+		<action name="coupon_category_add" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit">Add Category</action>
 
-		<action name="shop_view" url="coupons/shops/" icon="list" pages="shops:add,shops:edit">View Shops</action>
-		<action name="shop_add" url="coupons/shops/add/" icon="plus-alt" pages="shops,shops:edit">Add Shop</action>
+		<action name="shop_view" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit">View Shops</action>
+		<action name="shop_add" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit">Add Shop</action>
 
-		<action name="coupon_view" url="coupons/coupons/" icon="list" pages="coupons:add,coupons:edit">View Coupons</action>
-		<action name="coupon_add" url="coupons/coupons/add/" icon="plus-alt" pages="coupons,coupons:edit">Add Coupon</action>
+		<action name="coupon_view" url="coupons/coupons/" icon="list" pages="coupons_coupons:add,coupons_coupons:edit">View Coupons</action>
+		<action name="coupon_add" url="coupons/coupons/add/" icon="plus-alt" pages="coupons_coupons,coupons_coupons:edit">Add Coupon</action>
 	</actions>
 
 	<groups>
@@ -39,11 +39,13 @@
 	</groups>
 
 	<adminpages>
-		<page group="coupons" filename="statistics" name="coupons_stats" url="coupons/" menus="menu">Statistics</page>
+		<page group="coupons" name="coupons_stats" filename="statistics" url="coupons/" menus="menu">Statistics</page>
 		<page group="coupons" menus="menu">Management</page>
-		<page group="coupons" filename="categories" name="ccats" url="coupons/categories/" menus="menu">Categories</page>
-		<page group="coupons" filename="shops" name="shops" url="coupons/shops/" menus="menu">Shops</page>
-		<page group="coupons" filename="coupons" name="coupons" url="coupons/coupons/" menus="menu">Coupons</page>
+		<page group="coupons" name="coupons_categories" filename="categories" url="coupons/categories/" menus="menu">Categories</page>
+		<page group="coupons" name="coupons_shops" filename="shops" url="coupons/shops/" menus="menu">Shops</page>
+		<page group="coupons" name="coupons_coupons" filename="coupons" url="coupons/coupons/" menus="menu">Coupons</page>
+		<page group="coupons" menus="menu">Deals</page>
+		<page group="coupons" name="coupons_codes" filename="codes" url="coupons/codes/" menus="menu">Codes</page>
 	</adminpages>
 
 	<pages>
@@ -53,9 +55,9 @@
 
 		<page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main,coupons">New Coupons</page>
 		<page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main,coupons">Popular Coupons</page>
-		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
 		<page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main,coupons">Deals</page>
 		<page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main,coupons">Coupon Codes</page>
+		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
 		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
 		<page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
 		<page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
@@ -148,7 +150,7 @@
 		<field name="coupon_code" group="coupons" item="coupons" type="text" length="70" required="1"
 			page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
 		<field name="coupon_image" group="coupons" item="coupons" type="image"
-			page="coupons_home,coupon_add,coupon_edit" width="1000" height="600" thumb_width="300" thumb_height="300">Coupon Image</field>
+			page="coupons_home,coupon_add,coupon_edit" width="1000" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:deal;coupon_type:printable">Coupon Image</field>
 		<field name="coupon_tags" group="coupons" item="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit">Coupon Tags</field>
 		<field name="short_description" group="coupons" item="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit">Short Description</field>
 		<field name="description" group="coupons" item="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal">Description</field>
@@ -156,7 +158,7 @@
 		<field name="affiliate_link" group="coupons" item="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit">Affiliate Link</field>
 		<field name="meta_description" group="coupons" item="coupons" type="textarea" length="255" adminonly="1">Meta-Description</field>
 		<field name="meta_keywords" group="coupons" item="coupons" type="text" length="150" adminonly="1">Meta-Keywords</field>
-		<field name="activations" group="coupons_pricing" item="coupons" type="text" length="7" default="0" pages="coupon_add,coupon_edit">Activations</field>
+		<field name="activations" group="coupons_pricing" item="coupons" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
 		<field name="cost" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
 		<field name="item_price" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
 		<field name="item_discount" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>

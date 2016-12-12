@@ -75,9 +75,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$couponEntry['item'] = $iaCoupon->getItemName();
 
 			// get coupon fields
-			$sections = array(
-				'common' => $iaField->filterByGroup($couponEntry),
-			);
+			$sections = $iaField->getTabs($iaCoupon->getItemName(), $couponEntry);
 			$iaView->assign('sections', $sections);
 
 			// get categories
@@ -151,7 +149,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$data['status'] = $iaCore->get('coupons_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_APPROVAL;
 
 			// assign expire date
-			$data['expire_date'] = ($data['expire_date'] ? date(iaDb::DATE_FORMAT, strtotime($_POST['expire_date'])): '');
+			$data['expire_date'] = $data['expire_date'] ? date(iaDb::DATETIME_FORMAT, strtotime($_POST['expire_date'])): '';
 
 			// assign shop value
 			if (!empty($_POST['shop']) && !$error)

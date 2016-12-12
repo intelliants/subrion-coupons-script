@@ -13,7 +13,7 @@ $(function()
 	});
 
 	// tags implementation
-	$('#field_coupon_tags').tagsInput({width: '100%', height: 'auto'});
+	$('#field_coupons_coupon_tags').tagsInput({width: '100%', height: 'auto'});
 
 	// validate shop
 	$('#shop')
