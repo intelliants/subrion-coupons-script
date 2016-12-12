@@ -252,7 +252,7 @@
 		<phrase category="frontend" key="purchase_coupon_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
 		<phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
 		<phrase category="frontend" key="shop_activity">Shop activity</phrase>
-		<phrase category="frontend" key="show_coupon_code">Show coupon code</phrase>
+		<phrase category="frontend" key="show_code">Show code</phrase>
 		<phrase category="frontend" key="tags">Tags</phrase>
 		<phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
 		<phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>
@@ -271,7 +271,6 @@
 		<phrase category="frontend" key="reported_problem">Problems reported</phrase>
 		<phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
 		<phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
-
 	</phrases>
 
 	<tooltips>
