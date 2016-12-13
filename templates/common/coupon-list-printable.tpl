@@ -37,26 +37,6 @@
 			{ia_url type='link' item='coupons' data=$listing text=$listing.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$listing.shop_alias}.html">{$listing.shop_title}</a></small>
 		</div>
 
-		{if $listing.item_price && '0.00' != $listing.item_price}
-			<div class="coupon-price clearfix">
-				{if $listing.item_discount}
-					{if 'fixed' == $listing.item_discount_type}
-						{assign var=discount_total value=($listing.item_price - $listing.item_discount)}
-						{assign discount $listing.item_discount}
-					{else}
-						{assign var=discount_total value=($listing.item_price - $listing.item_price * $listing.item_discount / 100)}
-						{assign var=discount value=($listing.item_price * $listing.item_discount / 100)}
-					{/if}
-
-					<span class="label label-disabled">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-					<span class="label label-success">{$core.config.coupon_item_price_currency}{$discount_total|string_format:"%.2f"}</span>
-					<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$discount|string_format:"%.2f"}</span>
-				{else}
-					<span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-				{/if}
-			</div>
-		{/if}
-
 		{if $listing.expire_date != 0}
 			<div class="coupon-expire text-danger">
 				<span class="fa fa-clock-o"></span> 

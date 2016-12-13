@@ -32,37 +32,19 @@
 			{ia_url type='link' item='coupons' data=$listing text=$listing.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$listing.shop_alias}.html">{$listing.shop_title}</a></small>
 		</div>
 
-		{if $listing.item_price && '0.00' != $listing.item_price}
-			<div class="coupon-price clearfix">
-				{if $listing.item_discount}
-					{if 'fixed' == $listing.item_discount_type}
-						{assign var=discount_total value=($listing.item_price - $listing.item_discount)}
-						{assign discount $listing.item_discount}
-					{else}
-						{assign var=discount_total value=($listing.item_price - $listing.item_price * $listing.item_discount / 100)}
-						{assign var=discount value=($listing.item_price * $listing.item_discount / 100)}
-					{/if}
-
-					<span class="label label-disabled">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-					<span class="label label-success">{$core.config.coupon_item_price_currency}{$discount_total|string_format:"%.2f"}</span>
-					<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$discount|string_format:"%.2f"}</span>
-				{else}
-					<span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-				{/if}
-			</div>
-		{/if}
-
-		{if $core.config.hide_coupon_code}
-			<div class="coupon-code coupon-code--hidden">
-				<a class="js-show-coupon-code" href="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{else}#{/if}" target="_blank">{lang key='show_coupon_code'}</a>
-				<span>{$listing.coupon_code}</span>
-			</div>
-		{else}
-			<div class="coupon-code">
+		<div class="btn-coupon js-btn-coupon" data-affiliate-link="
+			{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}
+				{$listing.affiliate_link}
+			{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}
+				{$listing.shop_affiliate_link}
+			{/if}
+		">
+			<span class="btn-coupon__cover">{lang key='show_code'}</span>
+			<span class="btn-coupon__code">
+				<span class="btn-coupon__code__copy js-copy" data-clipboard-text="{$listing.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}"><span class="fa fa-scissors"></span></span>
 				{$listing.coupon_code}
-				<div id="clip_{$listing.id}" class="code-copy clip_{$listing.id}" data-clipboard-text="{$listing.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{/if}" data-coupon-link="{ia_url type='url' item='coupons' data=$listing}"></div>
-			</div>
-		{/if}
+			</span>
+		</div>
 
 		{if $listing.expire_date != 0}
 			<div class="coupon-expire text-danger">
@@ -101,30 +83,3 @@
 		</span>
 	</div>
 </div>
-{ia_add_js}
-$(function()
-{
-	var clip_{$listing.id} = new ZeroClipboard($('.clip_{$listing.id}'),
-	{
-		moviePath: '{$smarty.const.IA_CLEAR_URL}js/utils/zeroclipboard/ZeroClipboard.swf',
-		hoverClass: 'hover',
-		activeClass: 'active'
-	});
-
-	clip_{$listing.id}.on('complete', function(client, args)
-	{
-		var affiliateLink = $(this).data('affiliate-link');
-		var couponLink    = $(this).data('coupon-link');
-
-		if ('undefined' != typeof affiliateLink && '' != affiliateLink)
-		{
-			window.location.href = couponLink;
-			window.open(affiliateLink, '_blank');
-		}
-		else
-		{
-			window.location.href = couponLink;
-		}
-	});
-});
-{/ia_add_js}

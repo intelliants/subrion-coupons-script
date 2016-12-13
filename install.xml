@@ -104,7 +104,6 @@
 
 	<config group="coupons" type="divider" name="coupons_div2">Coupon Codes</config>
 	<config group="coupons" name="purchase_coupon_codes" type="radio" values="1,0" description="Purchase coupon codes">0</config>
-	<config group="coupons" name="hide_coupon_code" type="radio" values="1,0" description="Hide coupon code" show="purchase_coupon_codes|0">0</config>
 	<config group="coupons" name="coupon_item_price_currency" type="text" description="Currency symbol">$</config>
 
 	<config group="coupons" type="divider" name="coupons_div3">Blocks</config>

@@ -11,17 +11,10 @@
 
 	{if 'simple' == $item.coupon_type && $item.coupon_code}
 		<div class="code clearfix">
-			{if $core.config.hide_coupon_code}
-				<div id="coupon-view-{$item.id}" class="coupon-code coupon-code--hidden">
-					<a href="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{else}#{/if}" target="_blank">{lang key='show_coupon_code'}</a>
-					<span>{$item.coupon_code}</span>
-				</div>
-			{else}
-				<div class="coupon-code">
-					{$item.coupon_code}
-					<div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
-				</div>
-			{/if}
+			<div class="coupon-code">
+				{$item.coupon_code}
+				<div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
+			</div>
 		</div>
 	{elseif 'deal' == $item.coupon_type && $core.config.purchase_coupon_codes}
 		<div class="code clearfix">
@@ -155,19 +148,3 @@ $(function() {
 	});
 });
 {/ia_add_js}
-
-{if $core.config.hide_coupon_code}
-	{ia_add_js}
-$(function()
-{
-	$('#coupon-view-{$item.id} > a').on('click', function(e)
-	{
-		if ('#' === $(this).attr('href'))
-		{
-			e.preventDefault();
-		}
-		$(this).hide().next().show();
-	});
-});
-	{/ia_add_js}
-{/if}

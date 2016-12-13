@@ -1,3 +1,9 @@
+ZeroClipboard.config({ 
+	swfPath: intelli.config.ia_url + "js/utils/zeroclipboard/ZeroClipboard.swf",
+	hoverClass: 'hover',
+	activeClass: 'active'
+});
+
 $(function()
 {
 	$('.js-countdown').each(function() {
@@ -17,16 +23,21 @@ $(function()
 	});
 
 	// show coupon code on click
-	$('.js-show-coupon-code').on('click', function(e) {
-		var $this = $(this);
+	$('.js-btn-coupon .btn-coupon__cover').on('click', function(e) {
+		var $this = $(this)
+			$parent = $this.parent();
 
-		if ('#' === $this.attr('href'))
-		{
-			e.preventDefault();
+		var affiliateLink = $parent.data('affiliate-link');
+
+		if ('undefined' != typeof affiliateLink && '' != affiliateLink) {
+			window.open(affiliateLink, '_blank');
 		}
 
-		$this.hide().next().show();
-	})
+		$this.hide();
+	});
+
+	// Copy codes
+	var client = new ZeroClipboard($(".js-copy"));
 
 	// thumbs actions
 	$('a[class^="thumbs-"]').on('click', function(e)
