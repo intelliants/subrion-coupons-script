@@ -254,6 +254,7 @@
 		<phrase category="frontend" key="shop_activity">Shop activity</phrase>
 		<phrase category="frontend" key="show_code">Show code</phrase>
 		<phrase category="frontend" key="print_coupon">Print coupon</phrase>
+		<phrase category="frontend" key="get_deal">Get deal</phrase>
 		<phrase category="frontend" key="tags">Tags</phrase>
 		<phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
 		<phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>
