@@ -17,6 +17,7 @@ class iaCoupon extends abstractCouponsPackageFront
 	private $_foundRows = 0;
 
 	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL);
+	protected $_codeStatuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_USED);
 
 	public function url($action, array $listingData)
 	{
@@ -191,6 +192,20 @@ class iaCoupon extends abstractCouponsPackageFront
 					continue;
 				}
 				$row['shop_image'] = (':' == $row['shop_image'][1]) ? unserialize($row['shop_image']) : $row['shop_image'];
+
+				// process gallery
+				if (empty($row['gallery']))
+				{
+					continue;
+				}
+				$row['gallery'] = (':' == $row['gallery'][1]) ? unserialize($row['gallery']) : $row['gallery'];
+
+				// process image
+				if (empty($row['coupon_image']))
+				{
+					continue;
+				}
+				$row['coupon_image'] = (':' == $row['coupon_image'][1]) ? unserialize($row['coupon_image']) : $row['coupon_image'];
 			}
 		}
 
@@ -414,14 +429,21 @@ class iaCoupon extends abstractCouponsPackageFront
 	 *
 	 * return array
 	 */
-	public function getCouponCodes($id)
+	public function getCodes($id, $limit = 5, $start = 0)
 	{
 		$sql = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS `code` FROM `{$this->iaDb->prefix}coupons_codes` `cc`
+SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status` FROM `{$this->iaDb->prefix}coupons_codes` `cc`
 LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt`
-ON `pt`.`id` = `cc`.`transaction_id`
+	ON `pt`.`id` = `cc`.`transaction_id`
 WHERE `coupon_id` = {$id}
+LIMIT {$start}, {$limit}
 SQL;
+
 		return $this->iaDb->getAll($sql);
+	}
+
+	public function getCodeStatuses()
+	{
+		return $this->_codeStatuses;
 	}
 }

@@ -104,7 +104,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$coupons = $iaCoupon->getCoupons("t1.`member_id` = '" . iaUsers::getIdentity()->id . "'", 't1.`date_added` DESC', 20, 0, false, true);
 
 			$iaView->assign('coupons', $coupons);
-
 			$pagination['total'] = $iaCoupon->foundRows();
 
 			break;

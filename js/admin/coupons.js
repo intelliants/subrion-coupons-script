@@ -12,6 +12,7 @@ Ext.onReady(function()
 				{name: 'category', title: _t('category'), width: 120},
 				{name: 'coupon_type', title: _t('coupon_type'), width: 120, renderer: function(value) { return _t('field_coupons_coupon_type+' + value, value);}},
 				{name: 'member', title: _t('member'), width: 120},
+				{name: 'expire_date', title: _t('coupon_expire'), width: 120, hidden: true},
 				{name: 'date_added', title: _t('date_added'), width: 120, editor: 'date'},
 				'status',
 				{name: 'reported_as_problem', title: _t('problem'), icon: 'info', click: function(node){
