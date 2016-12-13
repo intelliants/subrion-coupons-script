@@ -149,7 +149,8 @@
 		<field name="coupon_code" group="coupons" item="coupons" type="text" length="70" required="1"
 			page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
 		<field name="coupon_image" group="coupons" item="coupons" type="image"
-			page="coupons_home,coupon_add,coupon_edit" width="1000" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:deal;coupon_type:printable">Coupon Image</field>
+			page="coupons_home,coupon_add,coupon_edit" width="1000" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:printable">Coupon Image</field>
+		<field name="deal_gallery" group="coupons" item="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="600" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
 		<field name="coupon_tags" group="coupons" item="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit">Coupon Tags</field>
 		<field name="short_description" group="coupons" item="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit">Short Description</field>
 		<field name="description" group="coupons" item="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal">Description</field>
@@ -252,6 +253,7 @@
 		<phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
 		<phrase category="frontend" key="shop_activity">Shop activity</phrase>
 		<phrase category="frontend" key="show_code">Show code</phrase>
+		<phrase category="frontend" key="print_coupon">Print coupon</phrase>
 		<phrase category="frontend" key="tags">Tags</phrase>
 		<phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
 		<phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>

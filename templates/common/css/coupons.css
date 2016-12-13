@@ -4,39 +4,6 @@
 	font-style: italic;
 	color: #888;
 }
-.coupon-code {
-	height: 30px;
-	line-height: 30px;
-	font-size: 14px;
-	padding: 0 10px 0 30px;
-	display: inline-block;
-	position: relative;
-	border: 2px dashed #88cef0;
-	background: #e9f8ff;
-	font-weight: bold;
-	margin-bottom: 8px;
-}
-.coupon-code .code-copy {
-	position: absolute;
-	right: -2px;
-	top: -2px;
-	left: -2px;
-	height: 30px;
-	background: url('../images/icon-cut.png') 10px center no-repeat;
-	cursor: pointer;
-}
-.coupon-code .code-copy.hover {
-	border: 2px dashed #01b169;
-	left: -2px;
-	top: -2px;
-	right: -2px;
-}
-.coupon-code .code-copy.active {
-	border: 2px dashed #f26c63;
-	left: -2px;
-	top: -2px;
-	right: -2px;
-}
 
 .btn-coupon,
 .btn-coupon:focus {
@@ -108,6 +75,15 @@
 	color: #fff;
 }
 
+.btn-coupon-link {
+	border: 1px solid #00bff3;
+	background: #00bff3;
+	color: #fff;
+	line-height: 34px;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 .coupon-price {
 	padding: 0 0 10px;
 }
@@ -129,15 +105,6 @@
 
 .coupon-price .label-saving {
 	color: #01b169;
-}
-
-/* hidden coupon code */
-
-.coupon-code--hidden {
-	padding: 0 10px;
-}
-.coupon-code--hidden span {
-	display: none;
 }
 
 /* badge type */
