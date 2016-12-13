@@ -11,6 +11,25 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _gridRead($params)
 	{
-		return $this->_iaDb->all(iaDb::ALL_COLUMNS_SELECTION, '', 0, null, 'coupons_codes');
+		$sql = <<<SQL
+SELECT SQL_CALC_FOUND_ROWS `cc`.`id`, `c`.`title`, `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status`,
+	1 `update`, 1 `delete`
+  FROM `:cc` `cc`
+LEFT JOIN `:pt` `pt`
+  ON `pt`.`id` = `cc`.`transaction_id`
+LEFT JOIN `:coupons` `c`
+  ON `c`.`id` = `cc`.`coupon_id`
+LIMIT :start, :limit
+SQL;
+
+		$sql = iaDb::printf($sql, array(
+			'pt' => $this->_iaDb->prefix . 'payment_transactions',
+			'cc' => $this->_iaDb->prefix . 'coupons_codes',
+			'coupons' => $this->_iaDb->prefix . 'coupons_coupons',
+			'start' => $params['start'],
+			'limit' => $params['limit']
+		));
+
+		return $this->_iaDb->getAll($sql);
 	}
 }

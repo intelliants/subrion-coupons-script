@@ -286,40 +286,7 @@ class iaCoupon extends abstractCouponsPackageFront
 
 		return parent::insert($entryData);
 	}
-/*
-	public function update(array $aData, $aOldData = array())
-	{
-		// If status changed
-		if ('active' == $aData['status'] && $status != 'active' && $categ == $aData['category_id'])
-		{
-			$this->updateCategoryAmount($categ, -1);
-		}
-		elseif ('active' != $aData['status'] && 'active' == $status && $categ == $aData['category_id'])
-		{
-			$this->updateCategoryAmount($categ, 1);
-		}
 
-		// If category changed
-		if ($categ != $aData['category_id'])
-		{
-			if ('active' == $aData['status'] && 'active' == $status)
-			{
-				$this->updateCategoryAmount($aData['category_id'], -1);
-				$this->updateCategoryAmount($categ, 1);
-			}
-			elseif ('active' != $aData['status'] && 'active' == $status)
-			{
-				$this->updateCategoryAmount($categ, 1);
-			}
-			elseif ('active' == $aData['status'] && 'active' != $status)
-			{
-				$this->updateCategoryAmount($aData['category_id'], -1);
-			}
-		}
-
-		return (bool)$this->iaDb->update($aData, "`id` = {$aData['id']}", 0, self::getTable());
-	}
-*/
 	public function updateCounters()
 	{
 		$this->iaDb->update(array('num_coupons' => 0, 'num_all_coupons' => 0), '', null, 'coupons_categories');

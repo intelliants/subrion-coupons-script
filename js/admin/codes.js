@@ -6,17 +6,17 @@ Ext.onReady(function()
 		{
 			columns: [
 				'selection',
-				{name: 'coupon', title: _t('coupon'), width: 1, editor: 'text'},
+				{name: 'title', title: _t('coupon'), width: 1, editor: 'text'},
 				{name: 'member', title: _t('member'), width: 160},
-				{name: 'coupon_code', title: _t('coupon_code'), width: 120},
-				{name: 'reference_id', title: _t('transaction'), width: 120},
-				{name: 'date_added', title: _t('date_added'), width: 120, editor: 'date'},
+				{name: 'code', title: _t('coupon_code'), width: 120},
+				{name: 'reference_id', title: _t('transaction'), width: 150},
+				{name: 'date_paid', title: _t('date_paid'), width: 170, editor: 'date'},
 				'status',
 				'update',
 				'delete'
 			],
 			expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
-			sorters: [{property: 'date_added', direction: 'DESC'}],
+			sorters: [{property: 'date_paid', direction: 'DESC'}],
 			statuses: ['active', 'inactive', 'used']
 		}, false);
 
