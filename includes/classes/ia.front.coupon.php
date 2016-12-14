@@ -413,4 +413,12 @@ SQL;
 	{
 		return $this->_codeStatuses;
 	}
+
+	public function getDealOfDay()
+	{
+		$where = "`coupon_type` = 'deal' && `status` = 'active' ";
+		$deals = $this->getCoupons($where, '`views_num` DESC', 1);
+
+		return $deals ? $deals[0] : array();
+	}
 }

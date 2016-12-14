@@ -83,7 +83,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
 	if ($iaView->blockExists('coupon_of_the_day'))
 	{
-		$couponBlocks['oftheday'] = $iaCoupon->getCoupons($stmt, '`views_num` DESC', 1);
+		$couponBlocks['oftheday'] = $iaCoupon->getDealOfDay();
 	}
 
 	if ($iaView->blockExists('featured_shops'))
