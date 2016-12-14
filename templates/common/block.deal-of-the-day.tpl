@@ -1,13 +1,12 @@
 {if $coupon_blocks.oftheday}
 	<div class="ia-item">
 		<div class="m-b">
-			{if $coupon_blocks.oftheday.coupon_image}
-				{assign 'imgthumb' $coupon_blocks.oftheday.coupon_image|unserialize}
-				<a href="{printImage imgfile=$imgthumb.path url=true fullimage=true}" rel="ia_lightbox" class="center-block">
-					{printImage imgfile=$imgthumb.path title=$coupon_blocks.oftheday.title|escape:'html' class='img-responsive'}
+			{if $coupon_blocks.oftheday.gallery}
+				<a href="{ia_url type='url' item='coupons' data=$coupon_blocks.oftheday}" class="center-block">
+					{printImage imgfile=$coupon_blocks.oftheday.gallery[0].path title=$coupon_blocks.oftheday.title|escape:'html' class='img-responsive'}
 				</a>
 			{elseif $coupon_blocks.oftheday.shop_image}
-				<a href="{printImage imgfile=$coupon_blocks.oftheday.shop_image.path url=true fullimage=true}" rel="ia_lightbox" class="center-block">
+				<a href="{$smarty.const.IA_URL}shop/{$coupon_blocks.oftheday.shop_alias}.html" class="center-block">
 					{printImage imgfile=$coupon_blocks.oftheday.shop_image.path title=$coupon_blocks.oftheday.shop_title|escape:'html' class='img-responsive'}
 				</a>
 			{else}
