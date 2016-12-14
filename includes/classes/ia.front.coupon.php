@@ -414,9 +414,9 @@ SQL;
 		return $this->_codeStatuses;
 	}
 
-	public function getDealOfDay()
+	public function getDealOfTheDay()
 	{
-		$where = "`coupon_type` = 'deal' && `status` = 'active' ";
+		$where = "`coupon_type` = 'deal' && `t1`.`status` = 'active' ";
 		$deals = $this->getCoupons($where, '`views_num` DESC', 1);
 
 		return $deals ? $deals[0] : array();

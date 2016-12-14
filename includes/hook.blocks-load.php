@@ -81,9 +81,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		$couponBlocks['new'] = $iaCoupon->getCoupons($stmt, '`date_added` DESC', $iaCore->get('new_coupons_block_num'));
 	}
 
-	if ($iaView->blockExists('coupon_of_the_day'))
+	if ($iaView->blockExists('deal_of_the_day'))
 	{
-		$couponBlocks['oftheday'] = $iaCoupon->getDealOfDay();
+		$couponBlocks['oftheday'] = $iaCoupon->getDealOfTheDay();
 	}
 
 	if ($iaView->blockExists('featured_shops'))
