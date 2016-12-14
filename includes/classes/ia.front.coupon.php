@@ -187,25 +187,9 @@ class iaCoupon extends abstractCouponsPackageFront
 					$row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
 				}
 
-				if (empty($row['shop_image']))
-				{
-					continue;
-				}
-				$row['shop_image'] = (':' == $row['shop_image'][1]) ? unserialize($row['shop_image']) : $row['shop_image'];
-
-				// process gallery
-				if (empty($row['gallery']))
-				{
-					continue;
-				}
-				$row['gallery'] = (':' == $row['gallery'][1]) ? unserialize($row['gallery']) : $row['gallery'];
-
-				// process image
-				if (empty($row['coupon_image']))
-				{
-					continue;
-				}
-				$row['coupon_image'] = (':' == $row['coupon_image'][1]) ? unserialize($row['coupon_image']) : $row['coupon_image'];
+				$row['shop_image'] = ($row['shop_image'] && ':' == $row['shop_image'][1]) ? unserialize($row['shop_image']) : $row['shop_image'];
+				$row['gallery'] = ($row['gallery'] && ':' == $row['gallery'][1]) ? unserialize($row['gallery']) : $row['gallery'];
+				$row['coupon_image'] = ($row['coupon_image'] && ':' == $row['coupon_image'][1]) ? unserialize($row['coupon_image']) : $row['coupon_image'];
 			}
 		}
 
