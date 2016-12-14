@@ -22,9 +22,7 @@
 		</div>
 	{else}
 		<div class="text-center">
-			<a href="{printImage imgfile=$item.coupon_image url=true fullimage=true}" rel="ia_lightbox[{$item.title}]">
-				{printImage imgfile=$item.coupon_image fullimage="true" class='img-responsive' title=$item.title|escape:'html'}
-			</a>
+			{printImage imgfile=$item.coupon_image.path type="source" class='img-responsive' title=$item.title|escape:'html'}
 		</div>
 	{/if}
 
