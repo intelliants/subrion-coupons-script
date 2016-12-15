@@ -66,6 +66,7 @@
 		<page group="coupons" name="coupon_buy" url="|PACKAGE|coupon/buy/">Buy Coupon</page>
 
 		<page group="coupons" name="codes" url="|PACKAGE|coupon/codes/" filename="codes">Codes</page>
+		<page group="coupons" name="search_coupons" url="search/coupons/" filename="search" fields_item="coupons">Search</page>
 	</pages>
 
 	<permissions>
@@ -253,6 +254,8 @@
 		<phrase category="frontend" key="no_shops">No shops added.</phrase>
 		<phrase category="frontend" key="popularity">popularity</phrase>
 		<phrase category="frontend" key="purchase_coupon_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
+		<phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
+		<phrase category="frontend" key="select_category">Select category</phrase>
 		<phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
 		<phrase category="frontend" key="shop_activity">Shop activity</phrase>
 		<phrase category="frontend" key="show_code">Show code</phrase>
@@ -332,6 +335,8 @@ if ('recount_coupons' == $_GET['type'])
 	</hooks>
 
 	<blocks>
+		<block name="coupons_search" title="Quick Search" position="verytop" sticky="0" pages="index" collapsible="0" type="smarty"
+			filename="block.quicksearch"><![CDATA[]]></block>
 		<block type="smarty" name="popular_shops" title="Popular Shops" header="0" position="top" sticky="0" pages="index,coupons_home" order="1" filename="block.popular-shops"><![CDATA[]]></block>
 		<block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons"><![CDATA[]]></block>
 		<block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons"><![CDATA[]]></block>

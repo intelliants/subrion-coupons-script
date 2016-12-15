@@ -16,6 +16,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
 	$stmt = $iaCore->get('show_expired_coupons') ? iaDb::EMPTY_CONDITION : 't1.`expire_date` >= NOW()';
 
+	if ($iaView->blockExists('coupons_search'))
+	{
+		$couponBlocks['search'] = array(
+			'categories' => $iaCcat->getCategories("`level` = 1 AND `status` = 'active' ")
+		);
+	}
+
 	if ($iaView->blockExists('browse_coupons'))
 	{
 		if ('coupons_home' == $iaView->name())
