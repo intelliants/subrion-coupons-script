@@ -1,4 +1,4 @@
-{if isset($coupon_blocks.top_categories)} 
+{if $coupon_blocks.top_categories}
 	<form action="{$smarty.const.IA_URL}search/coupons/" class="ia-form q-search">
 		<div class="row">
 			<div class="col-md-5">
