@@ -1,10 +1,10 @@
-{if isset($coupon_blocks.search)} 
+{if isset($coupon_blocks.top_categories)} 
 	<form action="{$smarty.const.IA_URL}search/coupons/" class="ia-form q-search">
 		<div class="row">
 			<div class="col-md-5">
 				<select class="form-control" name="category">
 					<option value="">{lang key='select_category'}</option>
-					{foreach $coupon_blocks.search.categories as $cat}
+					{foreach $coupon_blocks.top_categories as $cat}
 						<option value="{$cat.id}">{$cat.title}</option>
 					{/foreach}
 				</select>
