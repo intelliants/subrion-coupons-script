@@ -16,12 +16,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
 	$stmt = $iaCore->get('show_expired_coupons') ? iaDb::EMPTY_CONDITION : 't1.`expire_date` >= NOW()';
 
-	if ($iaView->blockExists('coupons_search'))
-	{
-		$couponBlocks['search'] = array(
-			'categories' => $iaCcat->getCategories("`level` = 1 AND `status` = 'active' ")
-		);
-	}
+	$couponBlocks['top_categories'] = $iaCcat->getCategories("`level` = 1 && `status` = 'active' ");
 
 	if ($iaView->blockExists('browse_coupons'))
 	{
@@ -29,9 +24,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		{
 			// get category by alias
 			$category_alias = '';
-			if (!empty($vals))
+			if ($this->requestPath)
 			{
-				$category_alias = (string)implode(IA_URL_DELIMITER, $vals);
+				$category_alias = (string)implode(IA_URL_DELIMITER, $this->requestPath);
 			}
 
 			$current_category = $iaCcat->getByAlias(iaSanitize::sql($category_alias));
@@ -46,7 +41,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		$where .= " AND `status` = 'active' ";
 
 		$categories = $iaCcat->getCategories($where);
-
 		if ($categories)
 		{
 			foreach ($categories as &$category)
@@ -56,11 +50,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		}
 
 		$iaView->assign('coupons_categories', $categories);
-	}
-
-	if ($iaView->blockExists('coupon_categories'))
-	{
-		$couponBlocks['top_categories'] = $iaCcat->getCategories("`level` = 1 AND `status` = 'active' ");
 	}
 
 	if ($iaView->blockExists('top_coupons'))
