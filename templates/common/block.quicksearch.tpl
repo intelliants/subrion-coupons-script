@@ -6,7 +6,7 @@
 					<option value="">{lang key='select_category'}</option>
 					{foreach $coupon_blocks.search.categories as $cat}
 						<option value="{$cat.id}">{$cat.title}</option>
-					{/foreach}}
+					{/foreach}
 				</select>
 			</div>
 			<div class="col-md-5">
