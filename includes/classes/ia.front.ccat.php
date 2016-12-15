@@ -7,23 +7,6 @@ class iaCcat extends abstractCouponsPackageFront
 
 	protected $_itemName = 'ccats';
 
-	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE);
-
-
-	public function insert(array $entryData)
-	{
-	}
-
-	public function title($data)
-	{
-		$title = '';
-		if (isset($data['title']))
-		{
-			$title = $data['title'];
-		}
-
-		return $title;
-	}
 
 	public function url($action, array $listingData)
 	{
@@ -46,36 +29,24 @@ class iaCcat extends abstractCouponsPackageFront
 
 	public function getById($id)
 	{
-		$categories = $this->getCategories('`id` = ' . intval($id), 0, 0, 1);
+		$categories = $this->getCategories(iaDb::convertIds($id));
 
-		return ($categories ? $categories[0] : false);
+		return $categories ? $categories[0] : array();
 	}
 
-	public function getRootId()
+	public function getCategory($where = '', $start = 0, $limit = null)
 	{
-		return $this->iaDb->one(iaDb::ID_COLUMN_SELECTION, '`parent_id` = -1', 0, 0, self::getTable());
+		$categories = $this->getCategories($where, $start, $limit);
+
+		return $categories ? $categories[0] : array();
 	}
 
-	public function all($aWhere, $fields = '*')
-	{
-		return $this->iaDb->all($fields, $aWhere, 0, 1, self::getTable());
-	}
-
-	public function getCategory($aWhere, $fields = '*')
-	{
-		return $this->iaDb->row($fields, $aWhere, self::getTable());
-	}
-
-	public function getByAlias($alias)
-	{
-		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, "`title_alias` = '$alias'", self::getTable());
-	}
-
-	public function getCategories($where = '', $aStart = 0, $aLimit = null)
+	public function getCategories($where = '', $start = 0, $limit = null)
 	{
 		$fields = '*, `title_alias` `category_alias`, `num_all_coupons` `num` ';
+		$categories = $this->iaDb->all($fields, $where . ' ORDER BY `level` ASC, `title`', $start, $limit, self::getTable());
 
-		return $this->iaDb->all($fields, $where . ' ORDER BY `level` ASC, `title`', $aStart, $aLimit, self::getTable());
+		return $this->_processValues($categories);
 	}
 
 	public function existsAlias($alias)
@@ -103,5 +74,20 @@ class iaCcat extends abstractCouponsPackageFront
 				$this->getAllCategories($category, $categories);
 			}
 		}
+	}
+
+	protected function _processValues(array &$rows)
+	{
+		foreach ($rows as &$row)
+		{
+			if (!is_array($row))
+			{
+				break;
+			}
+
+			!$row['icon'] || $row['icon'] = unserialize($row['icon']);
+		}
+
+		return $rows;
 	}
 }

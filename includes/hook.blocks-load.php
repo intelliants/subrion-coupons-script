@@ -23,16 +23,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		if ('coupons_home' == $iaView->name())
 		{
 			// get category by alias
-			$category_alias = '';
-			if ($this->requestPath)
-			{
-				$category_alias = (string)implode(IA_URL_DELIMITER, $this->requestPath);
-			}
+			$categoryAlias = $iaCore->requestPath ? (string)implode(IA_URL_DELIMITER, $iaCore->requestPath) : '';
+			$currentCategory = $iaCcat->getCategory(iaDb::convertIds($categoryAlias, 'title_alias'));
+			$iaView->assign('current_category', $currentCategory);
 
-			$current_category = $iaCcat->getByAlias(iaSanitize::sql($category_alias));
-			$iaView->assign('current_category', $current_category);
-
-			$where = "`parent_id` = " . $current_category['id'];
+			$where = "`parent_id` = " . $currentCategory['id'];
 		}
 		else
 		{
@@ -41,14 +36,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 		$where .= " AND `status` = 'active' ";
 
 		$categories = $iaCcat->getCategories($where);
-		if ($categories)
-		{
-			foreach ($categories as &$category)
-			{
-				$category['icon'] = unserialize($category['icon']);
-			}
-		}
-
 		$iaView->assign('coupons_categories', $categories);
 	}
 

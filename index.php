@@ -116,7 +116,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$categoryAlias = implode(IA_URL_DELIMITER, $iaCore->requestPath);
 			}
 
-			$category = $iaCateg->getByAlias(iaSanitize::sql($categoryAlias));
+			$category = $iaCateg->getCategory(iaDb::convertIds($categoryAlias, 'title_alias'));
 			$iaView->assign('category', $category);
 
 			// requested category not found

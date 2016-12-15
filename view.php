@@ -100,7 +100,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	$iaView->assign('shop', $shop);
 
 	// get coupon category
-	$couponCategory = $iaCateg->getCategory("`id` = '{$coupon['category_id']}'");
+	$couponCategory = $iaCateg->getById($coupon['category_id']);
 	$iaView->assign('coupon_category', $couponCategory);
 
 	// get account information
