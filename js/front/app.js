@@ -10,9 +10,21 @@ $(function()
 		var $this = $(this),
 			finalDate = $this.data('countdown');
 
-		$this.countdown(finalDate, function(event) {
-			$this.html(event.strftime('%D days %H:%M:%S'));
-		});
+		$this.countdown(finalDate)
+			.on('update.countdown', function(event) {
+				var format = '%H:%M:%S';
+
+				if (event.offset.totalDays > 0) {
+					format = '%-d day%!d ' + format;
+				}
+				if (event.offset.weeks > 0) {
+					format = '%-w week%!w ' + format;
+				}
+				$this.html(event.strftime(format));
+			})
+			.on('finish.countdown', function(e) {
+				$this.html(_t('expired_offer'));
+			});
 	})
 
 	$('#action-delete').on('click', function(e)

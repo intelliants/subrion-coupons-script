@@ -243,6 +243,7 @@
 		<phrase category="frontend" key="edit_coupon">Edit Coupon</phrase>
 		<phrase category="frontend" key="error_shop_incorrect">Please select correct shop.</phrase>
 		<phrase category="frontend" key="expired_coupons">Expired Coupons</phrase>
+		<phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
 		<phrase category="frontend" key="hot">Hot</phrase>
 		<phrase category="frontend" key="likes">likes</phrase>
 		<phrase category="frontend" key="more_info">More info</phrase>
