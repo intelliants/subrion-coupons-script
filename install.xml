@@ -245,7 +245,9 @@
 		<phrase category="frontend" key="expired_coupons">Expired Coupons</phrase>
 		<phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
 		<phrase category="frontend" key="hot">Hot</phrase>
+		<phrase category="frontend" key="inactive">Inactive</phrase>
 		<phrase category="frontend" key="likes">likes</phrase>
+		<phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
 		<phrase category="frontend" key="more_info">More info</phrase>
 		<phrase category="frontend" key="no_coupons">No coupons added.</phrase>
 		<phrase category="frontend" key="no_coupons_for_shop">No coupons added for this shop.</phrase>
@@ -266,6 +268,7 @@
 		<phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
 		<phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>
 		<phrase category="frontend" key="up">up</phrase>
+		<phrase category="frontend" key="used">Used</phrase>
 		<phrase category="frontend" key="views_since">views since</phrase>
 		<phrase category="frontend" key="share_your_love">Share your love</phrase>
 		<phrase category="frontend" key="show_all_coupons">Show all coupons</phrase>
@@ -279,7 +282,6 @@
 		<phrase category="frontend" key="comment">Comment</phrase>
 		<phrase category="frontend" key="reported_problem">Problems reported</phrase>
 		<phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
-		<phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
 	</phrases>
 
 	<tooltips>
