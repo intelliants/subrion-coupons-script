@@ -22,6 +22,13 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		$this->_fields = $this->_iaField->get($this->getItemName());
 	}
 
+	protected function _setPageTitle(&$iaView, array $entryData, $action)
+	{
+		iaCore::ACTION_EDIT == $action
+			? $iaView->title(iaLanguage::getf('edit_shop', array('name' => $entryData['title'])))
+			: parent::_setPageTitle($iaView, $entryData, $action);
+	}
+
 	protected function _gridRead($params)
 	{
 		return (isset($this->_iaCore->requestPath[0]) && 'alias' == $this->_iaCore->requestPath[0])

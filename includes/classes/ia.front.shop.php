@@ -150,22 +150,17 @@ class iaShop extends abstractCouponsPackageFront
 	 */
 	public function _processValues(array $rows)
 	{
-		// Update favorites
-		$iaItem = $this->iaCore->factory('item');
-		$rows = $iaItem->updateItemsFavorites($rows, self::getTable());
-
-		// Filter fields
-		$iaField = $this->iaCore->factory('field');
-		$iaField->filter($this->getItemName(), $rows);
-
 		if ($rows)
 		{
+			$iaField = $this->iaCore->factory('field');
+
+			$rows = $this->iaCore->factory('item')->updateItemsFavorites($rows, $this->getItemName()); // Update favorites
+
 			foreach ($rows as &$row)
 			{
-				if (isset($row['shop_image']) && $row['shop_image'])
-				{
-					$row['shop_image'] = unserialize($row['shop_image']);
-				}
+				$iaField->filter($this->getItemName(), $row); // Filter fields
+
+				empty($row['shop_image']) || $row['shop_image'] = unserialize($row['shop_image']);
 			}
 		}
 

@@ -179,6 +179,7 @@
 	</fields>
 
 	<phrases>
+		<phrase category="admin" key="add_shop">Add Shop</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_shop">Are you sure you wish to delete selected shop?</phrase>
@@ -196,6 +197,7 @@
 		<phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
 		<phrase category="admin" key="coupons_package">&quot;Coupons&quot; package</phrase>
 		<phrase category="admin" key="edit_coupon_category">Edit Category ":name"</phrase>
+		<phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
 		<phrase category="admin" key="expired">expired</phrase>
 		<phrase category="admin" key="recount_coupons">Recount coupons</phrase>
 		<phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>

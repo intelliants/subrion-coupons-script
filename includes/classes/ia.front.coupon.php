@@ -156,22 +156,15 @@ class iaCoupon extends abstractCouponsPackageFront
 	 */
 	public function _processValues(array &$rows)
 	{
-		// Update favorites
-		$iaItem = $this->iaCore->factory('item');
-		$rows = $iaItem->updateItemsFavorites($rows, self::getItemName());
-
-		// Filter fields
-		$iaField = $this->iaCore->factory('field');
-		$iaField->filter($this->getItemName(), $rows);
-
 		if ($rows)
 		{
+			$iaField = $this->iaCore->factory('field');
+
+			$rows = $this->iaCore->factory('item')->updateItemsFavorites($rows, self::getItemName()); // Update favorites
+
 			foreach ($rows as &$row)
 			{
-				if (!is_array($row))
-				{
-					break;
-				}
+				$iaField->filter($this->getItemName(), $rows); // Filter fields
 
 				$row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
