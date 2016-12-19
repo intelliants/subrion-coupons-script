@@ -3,7 +3,7 @@
 		<p>
 			<span><span class="fa fa-calendar"></span> {$item.date_added|date_format:$core.config.date_format}</span>
 			{if $item.expire_date != 0}
-			<span class="text-danger"><span class="fa fa-clock-o"></span> {lang key='coupon_expire'} {$item.expire_date|date_format:$core.config.date_format}</span>
+				<span class="text-danger"><span class="fa fa-clock-o"></span> {lang key='coupon_expire'} {$item.expire_date|date_format:$core.config.date_format}</span>
 			{/if}
 		</p>
 		<p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format:$core.config.date_format}</span></p>
@@ -16,10 +16,6 @@
 				<div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
 			</div>
 		</div>
-	{elseif 'deal' == $item.coupon_type && $core.config.purchase_coupon_codes}
-		<div class="code clearfix">
-			{coupon_code coupon=$item}
-		</div>
 	{else}
 		<div class="text-center">
 			{printImage imgfile=$item.coupon_image.path type="source" class='img-responsive' title=$item.title|escape:'html'}
@@ -30,17 +26,9 @@
 		<hr>
 		<div class="coupon-price">
 			{if $item.item_discount}
-				{if 'fixed' == $item.item_discount_type}
-					{assign var=discount_total value=($item.item_price - $item.item_discount)}
-					{assign discount $item.item_discount}
-				{else}
-					{assign var=discount_total value=($item.item_price - $item.item_price * $item.item_discount / 100)}
-					{assign var=discount value=($item.item_price * $item.item_discount / 100)}
-				{/if}
-
 				<span class="label label-disabled">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
-				<span class="label label-success">{$core.config.coupon_item_price_currency}{$discount_total|string_format:"%.2f"}</span>
-				<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$discount|string_format:"%.2f"}</span>
+				<span class="label label-success">{$core.config.coupon_item_price_currency}{$item.discounted_price}</span>
+				<span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$item.discount_saving}</span>
 			{else}
 				<span class="label label-warning">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
 			{/if}
@@ -136,9 +124,7 @@ $(function()
 		var tag = $.trim($(this).attr('href'));
 		$('input[name="q"]').val(tag).closest('form').submit();
 	});
-});
 
-$(function() {
 	$('.js-delete-coupon').on('click', function(e) {
 		e.preventDefault();
 

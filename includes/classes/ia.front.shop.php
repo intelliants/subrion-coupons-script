@@ -15,7 +15,7 @@ class iaShop extends abstractCouponsPackageFront
 
 	private $_foundRows = 0;
 
-	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL);
+	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED);
 
 	private $_patterns = array(
 		'default' => ':action/:id/',
@@ -24,6 +24,7 @@ class iaShop extends abstractCouponsPackageFront
 		'add' => 'add/'
 	);
 
+
 	public function insert(array $entryData)
 	{
 		$entryData['date_added'] = date(iaDb::DATETIME_FORMAT);
@@ -31,22 +32,6 @@ class iaShop extends abstractCouponsPackageFront
 		$entryData['member_id'] = iaUsers::getIdentity()->id;
 
 		return parent::insert($entryData);
-	}
-
-	/**
-	 * Return title
-	 * @param array $data
-	 * @return string
-	 */
-	public function title(array $data)
-	{
-		$title = '';
-		if (isset($data['title']))
-		{
-			$title = $data['title'];
-		}
-
-		return $title;
 	}
 
 	/**
@@ -182,18 +167,6 @@ class iaShop extends abstractCouponsPackageFront
 	}
 
 	/**
-	 * Get latest listings with limit
-	 * @param string $where
-	 * @param int $limit
-	 * @param int $start
-	 * @return array
-	 */
-	public function getLatest($where = '', $limit = 5, $start = 0)
-	{
-		return $this->_getQuery($where . ' AND yp.date_added > 0', 'yp.`date_added` DESC', $limit, $start, false, 'loc_category');
-	}
-
-	/**
 	 * Get popular listings with limit
 	 * @param string $where
 	 * @param int $limit
@@ -213,30 +186,5 @@ class iaShop extends abstractCouponsPackageFront
 	public function getFeatured($limit)
 	{
 		return $this->_getQuery('t1.`featured` = 1 AND t1.`featured_end` > NOW()', '`title` ASC', $limit);
-	}
-
-	/**
-	 * Get listings by search word
-	 * @param string $search - word for search
-	 * @param string $where
-	 * @param int $limit
-	 * @param int $start
-	 * @return array
-	 */
-	public function searchQuery($search, $where, $limit = 0, $start = 0)
-	{
-		$search = iaSanitize::sql($search);
-		$fields = array('description', 'title');
-
-		foreach ($fields as &$field)
-		{
-			$field = "yp.`{$field}` LIKE '%{$search}%'";
-		}
-
-		$where || $where = iaDb::EMPTY_CONDITION;
-
-		$rows = $this->getCompanies($where . ' AND (' . implode(' OR ', $fields) . ') ', $limit, $start);
-
-		return $rows;
 	}
 }

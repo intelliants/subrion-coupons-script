@@ -50,10 +50,6 @@
 				{else}
 					<span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
 				{/if}
-
-				{if $core.config.purchase_coupon_codes}
-					{coupon_code coupon=$listing}
-				{/if}
 			</div>
 		{/if}
 
