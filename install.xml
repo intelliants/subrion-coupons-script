@@ -304,12 +304,6 @@ $statistics['coupons'] = array(
 );
 			]]>
 		</hook>
-		<hook name="adminQuickSearch" page_type="admin">
-			<![CDATA[
-$items['shops'] = array('title' => iaLanguage::get('shops'), 'url' => 'coupons/shops/');
-$items['coupons'] = array('title' => iaLanguage::get('coupons'), 'url' => 'coupons/coupons/');
-			]]>
-		</hook>
 		<hook name="adminDatabaseConsistency" type="smarty" page_type="admin">
 			<![CDATA[
 <div class="row">

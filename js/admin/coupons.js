@@ -87,19 +87,10 @@ Ext.onReady(function()
 
 		grid.init();
 
-		var searchTitle = intelli.urlVal('q');
-		if (searchTitle)
-		{
-			Ext.getCmp('fltTitle').setValue(searchTitle);
-		}
 		var searchStatus = intelli.urlVal('status');
 		if (searchStatus)
 		{
 			Ext.getCmp('fltStatus').setValue(searchStatus);
-		}
-
-		if (searchStatus || searchTitle)
-		{
 			intelli.gridHelper.search(grid);
 		}
 	}

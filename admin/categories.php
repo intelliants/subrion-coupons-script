@@ -15,8 +15,6 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 	protected $_phraseAddSuccess = 'coupon_category_added';
 	protected $_phraseGridEntryDeleted = 'coupon_category_deleted';
 
-	protected $_setQuickSearch = false;
-
 	private $_root;
 
 
