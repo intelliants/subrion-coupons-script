@@ -148,45 +148,26 @@ class iaCoupon extends abstractCouponsPackageFront
 		return $coupons ? $coupons[0] : array();
 	}
 
-	/**
-	 * Add some modification in listings
-	 *
-	 * @param array $rows
-	 * @return array
-	 */
-	public function _processValues(array &$rows)
+	protected function _processValues(array &$rows, $singleRow = false, $fieldNames = array())
 	{
-		if ($rows)
+		parent::_processValues($rows, $singleRow, $fieldNames);
+
+		foreach ($rows as &$row)
 		{
-			$iaField = $this->iaCore->factory('field');
+			$row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
-			$rows = $this->iaCore->factory('item')->updateItemsFavorites($rows, self::getItemName()); // Update favorites
-
-			foreach ($rows as &$row)
+			// discount calculations
+			if ('fixed' == $row['item_discount_type'])
 			{
-				$iaField->filter($this->getItemName(), $rows); // Filter fields
-
-				$row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
-
-				// discount calculations
-				if ('fixed' == $row['item_discount_type'])
-				{
-					$row['discounted_price'] = $row['item_price'] - $row['item_discount'];
-					$row['discount_saving'] = $row['item_discount'];
-				}
-				else
-				{
-					$row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
-					$row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
-				}
-
-				$row['shop_image'] = ($row['shop_image'] && ':' == $row['shop_image'][1]) ? unserialize($row['shop_image']) : $row['shop_image'];
-				$row['gallery'] = ($row['gallery'] && ':' == $row['gallery'][1]) ? unserialize($row['gallery']) : $row['gallery'];
-				$row['coupon_image'] = ($row['coupon_image'] && ':' == $row['coupon_image'][1]) ? unserialize($row['coupon_image']) : $row['coupon_image'];
+				$row['discounted_price'] = $row['item_price'] - $row['item_discount'];
+				$row['discount_saving'] = $row['item_discount'];
+			}
+			else
+			{
+				$row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
+				$row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
 			}
 		}
-
-		return $rows;
 	}
 
 	/**

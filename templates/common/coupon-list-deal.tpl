@@ -2,11 +2,11 @@
 	<div class="ia-item__image">
 		{if $listing.coupon_image}
 			{assign 'imgthumb' $listing.coupon_image|unserialize}
-			<a href="{printImage imgfile=$imgthumb.path url=true fullimage=true}" rel="ia_lightbox">
+			<a href="{printImage imgfile=$imgthumb.path url=true type='full'}" rel="ia_lightbox">
 				{printImage imgfile=$imgthumb.path title=$listing.title|escape:'html' class='img-responsive'}
 			</a>
 		{elseif $listing.shop_image}
-			<a href="{printImage imgfile=$listing.shop_image.path url=true fullimage=true}" rel="ia_lightbox">
+			<a href="{printImage imgfile=$listing.shop_image.path url=true type='full'}" rel="ia_lightbox">
 				{printImage imgfile=$listing.shop_image.path title=$listing.shop_title|escape:'html' class='img-responsive'}
 			</a>
 		{else}

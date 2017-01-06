@@ -2,7 +2,7 @@
 	<div class="ia-item-author">
 		<div class="ia-item-author__image">
 			{if $shop.shop_image}
-				<a href="{printImage imgfile=$shop.shop_image.path url=true fullimage=true}" rel="ia_lightbox">
+				<a href="{printImage imgfile=$shop.shop_image.path url=true type='full'}" rel="ia_lightbox">
 					{printImage imgfile=$shop.shop_image.path title=$shop.title|escape:'html' class='img-responsive center-block'}
 				</a>
 			{else}

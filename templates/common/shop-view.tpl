@@ -1,7 +1,7 @@
 <div class="shop-page clearfix">
 	<div class="image pull-left">
 		{if $shop.shop_image}
-			<a href="{printImage imgfile=$shop.shop_image.path url=true fullimage=true}" class="shop-thumb" rel="ia_lightbox">
+			<a href="{printImage imgfile=$shop.shop_image.path url=true type='full'}" class="shop-thumb" rel="ia_lightbox">
 				{printImage imgfile=$shop.shop_image.path title=$shop.title|escape:'html'}
 			</a>
 		{else}

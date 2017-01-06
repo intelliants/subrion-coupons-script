@@ -126,32 +126,6 @@ class iaShop extends abstractCouponsPackageFront
 		return $this->_processValues($rows);
 	}
 
-	/**
-	 * Add some modification in listings
-	 *
-	 * @param array $rows
-	 *
-	 * @return array
-	 */
-	public function _processValues(array $rows)
-	{
-		if ($rows)
-		{
-			$iaField = $this->iaCore->factory('field');
-
-			$rows = $this->iaCore->factory('item')->updateItemsFavorites($rows, $this->getItemName()); // Update favorites
-
-			foreach ($rows as &$row)
-			{
-				$iaField->filter($this->getItemName(), $row); // Filter fields
-
-				empty($row['shop_image']) || $row['shop_image'] = unserialize($row['shop_image']);
-			}
-		}
-
-		return $rows;
-	}
-
 	public function getById($id)
 	{
 		$id = intval($id);
@@ -171,6 +145,7 @@ class iaShop extends abstractCouponsPackageFront
 	 * @param string $where
 	 * @param int $limit
 	 * @param int $start
+	 *
 	 * @return array
 	 */
 	public function getPopular($where = '1', $limit = 5, $start = 0)

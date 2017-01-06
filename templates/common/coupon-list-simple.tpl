@@ -1,7 +1,7 @@
 <div class="ia-item ia-item--border ia-item--coupon{if $listing.featured} ia-item---featured{/if}{if $listing.sponsored} ia-item--sponsored{/if} has-panel" id="coupon-list-{$listing.id}">
 	<div class="ia-item__image">
 		{if $listing.shop_image}
-			<a href="{printImage imgfile=$listing.shop_image.path url=true fullimage=true}" rel="ia_lightbox">
+			<a href="{printImage imgfile=$listing.shop_image.path url=true type='full'}" rel="ia_lightbox">
 				{printImage imgfile=$listing.shop_image.path title=$listing.shop_title|escape:'html' class='img-responsive'}
 			</a>
 		{else}

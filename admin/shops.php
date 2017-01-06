@@ -7,7 +7,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected $_helperName = 'shop';
 
-	protected $_gridColumns = '`id`, `title`, `title_alias`, (:inner_sql) `coupons_num`, `date_added`, `status`';
+	protected $_gridColumns = '`id`, `title_alias`, (:inner_sql) `coupons_num`, `date_added`, `status`';
 	protected $_gridFilters = array('status' => self::EQUAL, 'title' => self::LIKE);
 
 	protected $_activityLog = array('icon' => 'cart', 'item' => 'shop');

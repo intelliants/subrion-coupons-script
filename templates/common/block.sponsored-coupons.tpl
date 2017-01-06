@@ -6,7 +6,7 @@
 					{ia_url type='link' item='coupons' data=$coupon text=$coupon.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$coupon.shop_alias}.html">{$coupon.shop_title}</a></small>
 				</h3>
 				{if $coupon.shop_image}
-					<a href="{printImage imgfile=$coupon.shop_image.path url=true fullimage=true}" class="ia-item-thumbnail" rel="ia_lightbox">
+					<a href="{printImage imgfile=$coupon.shop_image.path url=true type='full'}" class="ia-item-thumbnail" rel="ia_lightbox">
 						{printImage imgfile=$coupon.shop_image.path title=$coupon.shop_title|escape:'html' class='media-object'}
 					</a>
 				{else}

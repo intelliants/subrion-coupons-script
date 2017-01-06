@@ -1,6 +1,6 @@
 <div class="media ia-item ia-item-bordered shops-list-item">
 	{if $listing.shop_image}
-		<a href="{printImage imgfile=$listing.shop_image.path url=true fullimage=true}" class="pull-left ia-item-thumbnail" rel="ia_lightbox">
+		<a href="{printImage imgfile=$listing.shop_image.path url=true type='full'}" class="pull-left ia-item-thumbnail" rel="ia_lightbox">
 			{printImage imgfile=$listing.shop_image.path title=$listing.title|escape:'html' class='media-object'}
 		</a>
 	{else}
