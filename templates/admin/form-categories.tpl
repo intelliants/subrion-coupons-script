@@ -41,4 +41,4 @@ $(function()
 	{include file='field-type-content-fieldset.tpl' isSystem=true}
 </form>
 {ia_hooker name='smartyAdminSubmitListingBeforeFooter'}
-{ia_add_media files='js:_IA_URL_packages/coupons/js/admin/categories'}
+{ia_add_media files='js:_IA_URL_modules/coupons/js/admin/categories'}

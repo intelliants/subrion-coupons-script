@@ -94,7 +94,7 @@
 </div>
 
 {ia_hooker name='smartyViewCouponBeforeFooter'}
-{ia_add_media files='js:_IA_URL_packages/coupons/js/front/view'}
+{ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
 
 {ia_add_js}
 $(function()

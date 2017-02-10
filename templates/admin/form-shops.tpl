@@ -20,4 +20,4 @@
 	{include file='field-type-content-fieldset.tpl' isSystem=true}
 </form>
 {ia_hooker name='smartyAdminSubmitItemBeforeFooter'}
-{ia_add_media files='js:_IA_URL_packages/coupons/js/admin/shops'}
+{ia_add_media files='js:_IA_URL_modules/coupons/js/admin/shops'}

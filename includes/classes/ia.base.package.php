@@ -3,7 +3,7 @@
 
 interface iaCouponsPackage
 {
-	const PACKAGE_NAME = 'coupons';
+	const MODULE_NAME = 'coupons';
 
 	const COLUMN_ID = 'id';
 

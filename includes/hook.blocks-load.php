@@ -6,13 +6,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 	$limit = 5;
 	$couponBlocks = array();
 
-	$iaCoupon = $iaCore->factoryPackage('coupon', 'coupons');
-	$iaCcat = $iaCore->factoryPackage('ccat', $iaCoupon->getPackageName());
-	$iaShop = $iaCore->factoryPackage('shop', $iaCcat->getPackageName());
+	$iaCoupon = $iaCore->factoryModule('coupon', 'coupons');
+	$iaCcat = $iaCore->factoryModule('ccat', $iaCoupon->getPackageName());
+	$iaShop = $iaCore->factoryModule('shop', $iaCcat->getPackageName());
 
 	// include coupons css
-	$iaView->add_css('_IA_URL_packages/coupons/templates/common/css/coupons');
-	$iaView->add_js('_IA_URL_js/utils/zeroclipboard/ZeroClipboard.min, _IA_URL_packages/coupons/js/front/jquery.countdown.min, _IA_URL_packages/coupons/js/front/app');
+	$iaView->add_css('_IA_URL_modules/coupons/templates/common/css/coupons');
+	$iaView->add_js('_IA_URL_js/utils/zeroclipboard/ZeroClipboard.min, _IA_URL_modules/coupons/js/front/jquery.countdown.min, _IA_URL_modules/coupons/js/front/app');
 
 	$stmt = $iaCore->get('show_expired_coupons') ? iaDb::EMPTY_CONDITION : 't1.`expire_date` >= NOW()';
 

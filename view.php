@@ -1,8 +1,8 @@
 <?php
 //##copyright##
 
-$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
-$iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
+$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
+$iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
 if (iaView::REQUEST_JSON == $iaView->getRequestType())
 {
@@ -94,7 +94,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	$iaCoupon->incrementViewsCounter($coupon['id']);
 
 	// get shop info
-	$iaShop = $iaCore->factoryPackage('shop', IA_CURRENT_PACKAGE);
+	$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
 	$shop = $coupon['shop_id'] ? $iaShop->getById($coupon['shop_id']) : array();
 	$iaView->assign('shop', $shop);
@@ -164,7 +164,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	));
 
 	// breadcrumb formation
-	iaBreadcrumb::add(iaLanguage::get('shops'), IA_PACKAGE_URL . 'shops/');
+	iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');
 	iaBreadcrumb::add($shop['title'], $iaShop->url('view', $shop));
 
 	// get purchased codes

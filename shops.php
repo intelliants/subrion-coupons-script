@@ -3,12 +3,12 @@
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
-	$iaShop = $iaCore->factoryPackage('shop', IA_CURRENT_PACKAGE);
+	$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
 	switch ($iaView->name())
 	{
 		case 'shop_view':
-			$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
+			$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 
 			// get shop by id
 			if (isset($iaCore->requestPath[0]) && !empty($iaCore->requestPath[0]))
@@ -32,7 +32,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				));
 
 				// breadcrumb formation
-				iaBreadcrumb::add(iaLanguage::get('shops'), IA_PACKAGE_URL . 'shops/');
+				iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');
 				iaBreadcrumb::replaceEnd($shop['title']);
 
 				$coupons = $couponsExpired = array();
@@ -85,7 +85,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				$cause = ('0-9' == $letters['active']) ?  "(`title` REGEXP '^[0-9]') " : "(`title` LIKE '{$letters['active']}%') ";
 
 				// breadcrumb formation
-				iaBreadcrumb::add(iaLanguage::get('shops'), IA_PACKAGE_URL . 'shops/');
+				iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');
 				iaBreadcrumb::replaceEnd($letters['active']);
 			}
 

@@ -30,7 +30,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		return iaView::accessDenied(iaLanguage::getf('coupon_add_no_auth', array('base_url' => IA_URL)));
 	}
 
-	$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
+	$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 
 	switch ($pageAction)
 	{
@@ -79,7 +79,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$iaView->assign('sections', $sections);
 
 			// get categories
-			$iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
+			$iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
 			$categories = array();
 
@@ -162,7 +162,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 					if ($iaCore->get('shop_submission'))
 					{
 						// add shop here
-						$iaShop = $iaCore->factoryPackage('shop', IA_CURRENT_PACKAGE);
+						$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
 						$newShop = array(
 							'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,

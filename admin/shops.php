@@ -53,7 +53,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _unpackGridColumnsArray()
 	{
-		$this->_iaCore->factoryPackage('coupon', $this->getPackageName(), iaCore::ADMIN);
+		$this->_iaCore->factoryModule('coupon', $this->getPackageName(), iaCore::ADMIN);
 
 		$innerSql = 'SELECT COUNT(*) FROM `:prefix:table_coupons` c WHERE c.`shop_id` = `:prefix:table_shops`.`id`';
 		$innerSql = iaDb::printf($innerSql, array(

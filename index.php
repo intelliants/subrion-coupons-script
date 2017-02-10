@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
+$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 
 // process ajax actions
 if (iaView::REQUEST_JSON == $iaView->getRequestType())
@@ -29,9 +29,9 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType())
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
-	$iaCateg = $iaCore->factoryPackage('ccat', IA_CURRENT_PACKAGE);
+	$iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
-	iaLanguage::set('no_my_coupons', str_replace('{%URL%}', IA_PACKAGE_URL . 'coupons/add/', iaLanguage::get('no_my_coupons')));
+	iaLanguage::set('no_my_coupons', str_replace('{%URL%}', IA_MODULE_URL . 'coupons/add/', iaLanguage::get('no_my_coupons')));
 
 	$pagination = array(
 		'total' => 0,

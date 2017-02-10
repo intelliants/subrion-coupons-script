@@ -3,7 +3,7 @@
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
-	$iaCoupon = $iaCore->factoryPackage('coupon', IA_CURRENT_PACKAGE);
+	$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 
 	$pagination = array(
 		'total' => 0,

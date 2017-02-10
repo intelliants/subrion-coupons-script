@@ -286,8 +286,8 @@
 	</phrases>
 
 	<hooks>
-		<hook name="init" filename="packages/coupons/includes/hook.url-rewrite.php" page_type="front"><![CDATA[]]></hook>
-		<hook name="phpCoreBeforePageDisplay" filename="packages/coupons/includes/hook.blocks-load.php" page_type="front"><![CDATA[]]></hook>
+		<hook name="init" filename="modules/coupons/includes/hook.url-rewrite.php" page_type="front"><![CDATA[]]></hook>
+		<hook name="phpCoreBeforePageDisplay" filename="modules/coupons/includes/hook.blocks-load.php" page_type="front"><![CDATA[]]></hook>
 		<hook name="populateCommonStatisticsBlock" page_type="front">
 			<![CDATA[
 $stmt = "`status` = ':status'";
@@ -318,7 +318,7 @@ $statistics['coupons'] = array(
 			<![CDATA[
 if ('recount_coupons' == $_GET['type'])
 {
-	$iaCore->factoryPackage('coupon', 'coupons', iaCore::ADMIN)->updateCounters();
+	$iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters();
 	$iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
 }
 			]]>

@@ -84,7 +84,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _setDefaultValues(array &$entry)
 	{
-		$iaCcat = $this->_iaCore->factoryPackage('ccat', $this->getPackageName(), iaCore::ADMIN);
+		$iaCcat = $this->_iaCore->factoryModule('ccat', $this->getPackageName(), iaCore::ADMIN);
 
 		$rootCategoryId = $iaCcat->getRootId();
 

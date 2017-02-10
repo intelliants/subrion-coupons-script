@@ -42,4 +42,4 @@
 	{include file='item-view-tabs.tpl'}
 </form>
 
-{ia_add_media files='tagsinput,datepicker,js:jquery/plugins/jquery.textcounter,js:_IA_URL_packages/coupons/js/front/manage'}
+{ia_add_media files='tagsinput,datepicker,js:jquery/plugins/jquery.textcounter,js:_IA_URL_modules/coupons/js/front/manage'}

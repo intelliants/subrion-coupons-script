@@ -51,4 +51,4 @@ $(function()
 
 	{include file='field-type-content-fieldset.tpl' isSystem=true}
 </form>
-{ia_add_media files='tagsinput, js:_IA_URL_packages/coupons/js/admin/coupons'}
+{ia_add_media files='tagsinput, js:_IA_URL_modules/coupons/js/admin/coupons'}
