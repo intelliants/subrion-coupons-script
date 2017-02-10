@@ -3,7 +3,7 @@
 
 if ($iaView->url)
 {
-	$package = $iaCore->getExtras('coupons');
+	$package = $iaCore->getModules('coupons');
 	if ($package['name'] == $iaCore->get('default_package') && ($iaView->url[0] . IA_URL_DELIMITER == $package['url']))
 	{
 		array_shift($iaView->url);
