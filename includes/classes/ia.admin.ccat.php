@@ -9,9 +9,9 @@ class iaCcat extends abstractCouponsPackageAdmin
 
 	protected $_moduleUrl = 'coupons/categories/';
 
-	private $patterns = array(
+	private $patterns = [
 		'default' => ':location_alias:title_alias/',
-	);
+	];
 
 
 	public function url($action, array $data)
@@ -83,8 +83,8 @@ class iaCcat extends abstractCouponsPackageAdmin
 	public function exists($alias, $parentId, $id = false)
 	{
 		return $id
-			? (bool)$this->iaDb->exists('`title_alias` = :alias AND `parent_id` = :parent AND `id` != :id', array('alias' => $alias, 'parent' => $parentId, 'id' => $id), self::getTable())
-			: (bool)$this->iaDb->exists('`title_alias` = :alias AND `parent_id` = :parent', array('alias' => $alias, 'parent' => $parentId), self::getTable());
+			? (bool)$this->iaDb->exists('`title_alias` = :alias AND `parent_id` = :parent AND `id` != :id', ['alias' => $alias, 'parent' => $parentId, 'id' => $id], self::getTable())
+			: (bool)$this->iaDb->exists('`title_alias` = :alias AND `parent_id` = :parent', ['alias' => $alias, 'parent' => $parentId], self::getTable());
 	}
 
 	public function getRoot()
@@ -99,11 +99,11 @@ class iaCcat extends abstractCouponsPackageAdmin
 
 	public function getSitemapEntries()
 	{
-		$result = array();
+		$result = [];
 
 		$stmt = '`status` = :status AND `parent_id` != -1';
-		$this->iaDb->bind($stmt, array('status' => iaCore::STATUS_ACTIVE));
-		if ($rows = $this->iaDb->all(array('title_alias'), $stmt, null, null, self::getTable()))
+		$this->iaDb->bind($stmt, ['status' => iaCore::STATUS_ACTIVE]);
+		if ($rows = $this->iaDb->all(['title_alias'], $stmt, null, null, self::getTable()))
 		{
 			foreach ($rows as $row)
 			{

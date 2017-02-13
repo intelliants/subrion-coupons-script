@@ -24,23 +24,23 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				// increment views counter
 				$iaShop->incrementViewsCounter($shop['id']);
 
-				$iaCore->startHook('phpViewListingBeforeStart', array(
+				$iaCore->startHook('phpViewListingBeforeStart', [
 					'listing' => $shop['id'],
 					'item' => $iaShop->getItemName(),
 					'title' => $shop['title'],
 					'desc' => $shop['description']
-				));
+				]);
 
 				// breadcrumb formation
 				iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');
 				iaBreadcrumb::replaceEnd($shop['title']);
 
-				$coupons = $couponsExpired = array();
+				$coupons = $couponsExpired = [];
 				switch(true)
 				{
 					case !isset($_GET['sorting']) || 'all' == $_GET['sorting']:
 						$coupons = $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
-						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : array();
+						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
 
 						$couponsNum = count($coupons) + count($couponsExpired);
 						break;
@@ -51,7 +51,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 						break;
 
 					case ('expired' == $_GET['sorting']):
-						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : array();
+						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
 						$couponsNum = count($couponsExpired);
 				}
 
@@ -90,7 +90,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			}
 
 			// check for letters that have shops
-			$letters['existing'] = array();
+			$letters['existing'] = [];
 			$array = $iaDb->all('DISTINCT UPPER(SUBSTR(`title`, 1, 1)) `letter`', "`status` = 'active'", null, null, iaShop::getTable());
 			if ($array)
 			{

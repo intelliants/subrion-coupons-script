@@ -27,7 +27,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
 	if (!$iaCore->get('coupon_add_guest', true) && !iaUsers::hasIdentity())
 	{
-		return iaView::accessDenied(iaLanguage::getf('coupon_add_no_auth', array('base_url' => IA_URL)));
+		return iaView::accessDenied(iaLanguage::getf('coupon_add_no_auth', ['base_url' => IA_URL]));
 	}
 
 	$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
@@ -43,9 +43,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			if (iaCore::ACTION_ADD == $pageAction)
 			{
 				// set default coupon values
-				$couponEntry = array(
+				$couponEntry = [
 					'expire_date' => false
-				);
+				];
 			}
 			elseif (iaCore::ACTION_EDIT == $pageAction)
 			{
@@ -81,7 +81,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			// get categories
 			$iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
-			$categories = array();
+			$categories = [];
 
 			$iaCateg->getAllCategories($iaCateg->getRoot(), $categories);
 			$iaView->assign('coupon_categories', $categories);
@@ -89,9 +89,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		if (isset($_POST['data-coupon']))
 		{
 			$error = false;
-			$messages = array();
+			$messages = [];
 			$item = false;
-			$data = array();
+			$data = [];
 
 			$iaUtil = $iaCore->factory('util');
 
@@ -164,11 +164,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 						// add shop here
 						$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
-						$newShop = array(
+						$newShop = [
 							'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
 							'title' => $shopTitle,
 							'website' => iaUtil::checkPostParam('website'),
-						);
+						];
 
 						$newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
 
@@ -223,13 +223,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				}
 
 				// implement common hook
-				$iaCore->startHook('phpAddItemAfterAll', array(
+				$iaCore->startHook('phpAddItemAfterAll', [
 					'type' => 'front',
 					'listing' => $data['id'],
 					'item' => $iaCoupon->getItemName(),
 					'data' => $data,
 					'old' => $couponEntry
-				));
+				]);
 
 				// redirect
 				$couponEntry['id'] = $data['id'];

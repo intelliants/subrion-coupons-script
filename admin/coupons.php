@@ -1,18 +1,18 @@
 <?php
 //##copyright##
 
-class iaBackendController extends iaAbstractControllerPackageBackend
+class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'coupons';
 
 	protected $_helperName = 'coupon';
 
 	protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `coupon_type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
-	protected $_gridFilters = array('status' => self::EQUAL, 'coupon_type' => self::EQUAL, 'title' => self::LIKE);
+	protected $_gridFilters = ['status' => self::EQUAL, 'coupon_type' => self::EQUAL, 'title' => self::LIKE];
 
 	protected $_phraseAddSuccess = 'coupon_added';
 
-	protected $_activityLog = array('icon' => 'tag', 'item' => 'coupon');
+	protected $_activityLog = ['icon' => 'tag', 'item' => 'coupon'];
 
 
 	protected function _gridRead($params)
@@ -46,13 +46,13 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 	{
 		if (in_array($action, iaCore::ACTION_ADD, iaCore::ACTION_EDIT))
 		{
-			$this->_iaCore->startHook('phpAddItemAfterAll', array(
+			$this->_iaCore->startHook('phpAddItemAfterAll', [
 				'type' => iaCore::ADMIN,
 				'listing' => $entryId,
 				'item' => $this->getItemName(),
 				'data' => $entryData,
 				'old' => $previousData
-			));
+			]);
 		}
 	}
 
@@ -63,7 +63,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		$sqlCategory = 'SELECT `title` FROM `' . $prefix . 'coupons_categories` c WHERE c.`id` = `category_id`';
 		$sqlMember = 'SELECT `username` FROM `' . $prefix . iaUsers::getTable() . '` m WHERE m.`id` = `member_id`';
 
-		$columns = str_replace(array(':sql_category', ':sql_member'), array($sqlCategory, $sqlMember), $this->_gridColumns);
+		$columns = str_replace([':sql_category', ':sql_member'], [$sqlCategory, $sqlMember], $this->_gridColumns);
 
 		return iaDb::STMT_CALC_FOUND_ROWS . ' ' . $columns . ', 1 `update`, 1 `delete`';
 	}
@@ -74,7 +74,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		{
 			$memberId = $this->_iaDb->one_bind(iaDb::ID_COLUMN_SELECTION,
 				'`username` LIKE :member OR `fullname` LIKE :member',
-				array('member' => $params['member']), iaUsers::getTable());
+				['member' => $params['member']], iaUsers::getTable());
 
 			$memberId = $memberId ? (int)$memberId : -1; // -1 or other invalid value
 
@@ -84,11 +84,11 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _setDefaultValues(array &$entry)
 	{
-		$iaCcat = $this->_iaCore->factoryModule('ccat', $this->getPackageName(), iaCore::ADMIN);
+		$iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
 
 		$rootCategoryId = $iaCcat->getRootId();
 
-		$entry = array(
+		$entry = [
 			'shop_id' => 0,
 			'member_id' => iaUsers::getIdentity()->id,
 			'category_id' => $rootCategoryId,
@@ -96,7 +96,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 			'featured' => false,
 			'status' => iaCore::STATUS_ACTIVE,
 			'expire_date' => date(iaDb::DATETIME_SHORT_FORMAT, strtotime('+1 week'))
-		);
+		];
 	}
 
 	protected function _preSaveEntry(array &$entry, array $data, $action)
@@ -111,7 +111,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		// validate chosen shop
 		if (!empty($data['shop']))
 		{
-			if ($shopData = $this->_iaDb->row_bind(iaDb::ID_COLUMN_SELECTION, '`title` = :name', array('name' => $data['shop']), 'coupons_shops'))
+			if ($shopData = $this->_iaDb->row_bind(iaDb::ID_COLUMN_SELECTION, '`title` = :name', ['name' => $data['shop']], 'coupons_shops'))
 			{
 				$entry['shop_id'] = $shopData['id'];
 			}
@@ -134,7 +134,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 		$entryData['shop'] = $this->_iaDb->one('title', iaDb::convertIds($entryData['shop_id']), 'coupons_shops');
 
-		$category = $this->_iaDb->row(array('id', 'title', 'parent_id', 'parents'), iaDb::convertIds($entryData['category_id']), 'coupons_categories');
+		$category = $this->_iaDb->row(['id', 'title', 'parent_id', 'parents'], iaDb::convertIds($entryData['category_id']), 'coupons_categories');
 
 		$iaView->assign('category', $category);
 		$iaView->assign('statuses', $this->getHelper()->getStatuses());
@@ -146,26 +146,26 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		$title = iaSanitize::alias($title);
 
 		$shop = isset($params['shop']) ? $params['shop'] : null;
-		$shopAlias = $this->_iaDb->one_bind('title_alias', '`title` = :title', array('title' => $shop), 'coupons_shops');
+		$shopAlias = $this->_iaDb->one_bind('title_alias', '`title` = :title', ['title' => $shop], 'coupons_shops');
 		if (empty($shopAlias))
 		{
 			$shopAlias = iaLanguage::get('shop_incorrect');
 		}
 
-		$data = array(
+		$data = [
 			'id' => (isset($params['id']) && (int)$params['id'] ? (int)$params['id'] : $this->_iaDb->getNextId(iaCoupon::getTable(true))),
 			'shop_alias' => $shopAlias,
 			'title_alias' => $title
-		);
+		];
 
 		$url = $this->getHelper()->url('view', $data);
 
-		return array('data' => $url);
+		return ['data' => $url];
 	}
 
 	protected function _getJsonShops(array $params)
 	{
-		$result = array();
+		$result = [];
 
 		if (isset($params['q']))
 		{

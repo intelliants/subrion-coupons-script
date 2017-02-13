@@ -1,16 +1,16 @@
 <?php
 //##copyright##
 
-class iaBackendController extends iaAbstractControllerPackageBackend
+class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'categories';
 
 	protected $_helperName = 'ccat';
 
-	protected $_gridColumns = array('title', 'title_alias', 'order', 'locked', 'status');
-	protected $_gridFilters = array('status' => self::EQUAL, 'title' => self::LIKE);
+	protected $_gridColumns = ['title', 'title_alias', 'order', 'locked', 'status'];
+	protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];
 
-	protected $_activityLog = array('item' => 'category');
+	protected $_activityLog = ['item' => 'category'];
 
 	protected $_phraseAddSuccess = 'coupon_category_added';
 	protected $_phraseGridEntryDeleted = 'coupon_category_deleted';
@@ -56,14 +56,14 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _setDefaultValues(array &$entry)
 	{
-		$entry = array(
+		$entry = [
 			'parent_id' => $this->_root['id'],
 			'locked' => 0,
 			'featured' => false,
 			'icon' => false,
 			'status' => iaCore::STATUS_ACTIVE,
 			'title_alias' => ''
-		);
+		];
 	}
 
 	protected function _preSaveEntry(array &$entry, array $data, $action)
@@ -94,7 +94,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 	{
 		parent::_assignValues($iaView, $entryData);
 
-		$parent = $this->_iaDb->row(array('id', 'title', 'parents', 'child'), iaDb::convertIds($entryData['parent_id']));
+		$parent = $this->_iaDb->row(['id', 'title', 'parents', 'child'], iaDb::convertIds($entryData['parent_id']));
 
 		$iaView->assign('parent', $parent);
 	}
@@ -105,23 +105,23 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 		if (iaCore::ACTION_EDIT == $action)
 		{
-			$iaView->title(iaLanguage::getf('edit_coupon_category', array('name' => $entryData['title'])));
+			$iaView->title(iaLanguage::getf('edit_coupon_category', ['name' => $entryData['title']]));
 		}
 	}
 
 	protected function _getTree()
 	{
 		$nodeId = isset($_GET['id']) ? (int)$_GET['id'] : -1;
-		$rows = $this->_iaDb->all(array('id', 'title', 'locked', 'child'), "`parent_id` = $nodeId ORDER BY `title`");
-		$nodes = array();
+		$rows = $this->_iaDb->all(['id', 'title', 'locked', 'child'], "`parent_id` = $nodeId ORDER BY `title`");
+		$nodes = [];
 
 		foreach ($rows as $entry)
 		{
-			$nodes[] = array(
+			$nodes[] = [
 				'id' => $entry['id'],
 				'text' => $entry['title'],
 				'children' => $entry['child'] && $entry['child'] != $entry['id']
-			);
+			];
 		}
 
 		return $nodes;
@@ -137,10 +137,10 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 			$categoryAlias = $this->_iaDb->one('title_alias', iaDb::convertIds($category));
 		}
 
-		$data = array(
+		$data = [
 			'id' => (isset($params['id']) && (int)$params['id'] > $this->getHelper()->getRootId() ? (int)$params['id'] : '{id}'),
 			'title_alias' => ($categoryAlias ? $categoryAlias . IA_URL_DELIMITER : '') . $title,
-		);
+		];
 		/*
 		if ($iaCateg->existsAlias($data['title_alias']))
 		{
@@ -149,6 +149,6 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		*/
 		$alias = $this->getHelper()->url('view', $data);
 
-		return array('data' => $alias);
+		return ['data' => $alias];
 	}
 }

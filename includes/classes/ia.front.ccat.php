@@ -10,18 +10,18 @@ class iaCcat extends abstractCouponsPackageFront
 
 	public function url($action, array $listingData)
 	{
-		$patterns = array(
+		$patterns = [
 			'default' => ':action/:id/',
 			'view' => ':alias/'
-		);
+		];
 
 		$url = iaDb::printf(
 			isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
-			array(
+			[
 				'action' => $action,
 				'alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
 				'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
-			)
+			]
 		);
 
 		return $this->getInfo('url') . $url;
@@ -31,14 +31,14 @@ class iaCcat extends abstractCouponsPackageFront
 	{
 		$categories = $this->getCategories(iaDb::convertIds($id));
 
-		return $categories ? $categories[0] : array();
+		return $categories ? $categories[0] : [];
 	}
 
 	public function getCategory($where = '', $start = 0, $limit = null)
 	{
 		$categories = $this->getCategories($where, $start, $limit);
 
-		return $categories ? $categories[0] : array();
+		return $categories ? $categories[0] : [];
 	}
 
 	public function getCategories($where = '', $start = 0, $limit = null)
@@ -51,7 +51,7 @@ class iaCcat extends abstractCouponsPackageFront
 
 	public function existsAlias($alias)
 	{
-		return $this->iaDb->exists('`title_alias` = :alias', array('alias' => $alias), 0, self::getTable());
+		return $this->iaDb->exists('`title_alias` = :alias', ['alias' => $alias], 0, self::getTable());
 	}
 
 	public function getRoot()
@@ -62,7 +62,7 @@ class iaCcat extends abstractCouponsPackageFront
 	public function getAllCategories($parent, &$categories)
 	{
 		$id = $parent['id'];
-		$cats = $this->iaDb->assoc(array('id', 'parent_id', 'title', 'level'), "`parent_id` = '{$id}'" . ' ORDER BY `title`', self::getTable());
+		$cats = $this->iaDb->assoc(['id', 'parent_id', 'title', 'level'], "`parent_id` = '{$id}'" . ' ORDER BY `title`', self::getTable());
 
 		if ($cats)
 		{

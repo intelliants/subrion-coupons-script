@@ -7,19 +7,19 @@ class iaShop extends abstractCouponsPackageAdmin
 
 	protected $_itemName = 'shops';
 
-	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_SUSPENDED);
+	protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_SUSPENDED];
 
-	private $patterns = array(
+	private $patterns = [
 		'default' => ':action/:id/',
 		'view' => 'shop/:title_alias.html',
 		'edit' => 'edit/?id=:id',
 		'add' => 'add/',
-	);
+	];
 
-	public $dashboardStatistics = array('icon' => 'cart');
+	public $dashboardStatistics = ['icon' => 'cart'];
 
 
-	public function url($action, $data = array())
+	public function url($action, $data = [])
 	{
 		$data['action'] = $action;
 		unset($data['title']);
@@ -36,11 +36,11 @@ class iaShop extends abstractCouponsPackageAdmin
 
 	public function getSitemapEntries()
 	{
-		$result = array();
+		$result = [];
 
 		$stmt = '`status` = :status';
-		$this->iaDb->bind($stmt, array('status' => iaCore::STATUS_ACTIVE));
-		if ($rows = $this->iaDb->all(array('title_alias'), $stmt, null, null, self::getTable()))
+		$this->iaDb->bind($stmt, ['status' => iaCore::STATUS_ACTIVE]);
+		if ($rows = $this->iaDb->all(['title_alias'], $stmt, null, null, self::getTable()))
 		{
 			foreach ($rows as $row)
 			{

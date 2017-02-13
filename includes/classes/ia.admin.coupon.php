@@ -7,20 +7,20 @@ class iaCoupon extends abstractCouponsPackageAdmin
 
 	protected $_itemName = 'coupons';
 
-	protected $_activityLog = array('item' => 'coupon', 'icon' => 'tag');
-	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED);
+	protected $_activityLog = ['item' => 'coupon', 'icon' => 'tag'];
+	protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED];
 
-	protected $_urlPatterns = array(
+	protected $_urlPatterns = [
 		'default' => ':action/:id/',
 		'view' => 'coupon/:shop_alias:title_alias/:id.html',
 		'edit' => 'edit/?id=:id',
 		'add' => 'add/'
-	);
+	];
 
-	public $dashboardStatistics = array('icon' => 'tag');
+	public $dashboardStatistics = ['icon' => 'tag'];
 
 
-	public function gridRead($params, $columns, array $filterParams = array(), array $persistentConditions = array())
+	public function gridRead($params, $columns, array $filterParams = [], array $persistentConditions = [])
 	{
 		$columns = '*, ';
 		$columns .= "(SELECT `title` FROM `{$this->_iaDb->prefix}coupons_categories` `cats` WHERE `cats`.`id` = `category_id`) `category_title`, ";
@@ -30,7 +30,7 @@ class iaCoupon extends abstractCouponsPackageAdmin
 		return parent::gridRead($params, $columns, $filterParams);
 	}
 
-	public function url($action, $data = array())
+	public function url($action, $data = [])
 	{
 		$data['action'] = $action;
 		$data['shop_alias'] = !isset($data['shop_alias']) ? '' : $data['shop_alias'] . IA_URL_DELIMITER;
@@ -59,7 +59,7 @@ class iaCoupon extends abstractCouponsPackageAdmin
 
 	public function updateCounters()
 	{
-		$this->iaDb->update(array('num_coupons' => 0, 'num_all_coupons' => 0), '', null, 'coupons_categories');
+		$this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
 
 		$sql =
 			'UPDATE `:prefixcoupons_categories` c SET ' .
@@ -79,11 +79,11 @@ class iaCoupon extends abstractCouponsPackageAdmin
 			') ' .
 			"WHERE c.`status` = ':status'";
 
-		$sql = iaDb::printf($sql, array(
+		$sql = iaDb::printf($sql, [
 			'prefix' => $this->iaDb->prefix,
 			'table_coupons' => self::getTable(true),
 			'status' => iaCore::STATUS_ACTIVE
-		));
+		]);
 
 		return $this->iaDb->query($sql);
 	}
@@ -97,19 +97,19 @@ class iaCoupon extends abstractCouponsPackageAdmin
 			'LEFT JOIN `:prefix:table_shops` shop ' .
 				'ON (coupon.`shop_id` = shop.`id`)' .
 			"WHERE coupon.`status` = ':status'";
-		$sql = iaDb::printf($sql, array(
+		$sql = iaDb::printf($sql, [
 			'prefix' => $this->iaDb->prefix,
 			'table_coupons' => self::getTable(),
 			'table_shops' => 'coupons_shops',
 			'status' => iaCore::STATUS_ACTIVE
-		));
+		]);
 
 		return $this->iaDb->getAll($sql);
 	}
 
 	public function getSitemapEntries()
 	{
-		$result = array();
+		$result = [];
 
 		if ($rows = $this->_get())
 		{

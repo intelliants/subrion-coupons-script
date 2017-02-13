@@ -17,11 +17,11 @@
 		<screenshot name="4.jpg">Admin panel: Add Coupon</screenshot>
 	</screenshots>
 
-	<packageitems>
+	<items>
 		<item table_name="coupons_coupons">coupons</item>
 		<item table_name="coupons_shops">shops</item>
 		<item table_name="coupons_categories" payable="0">ccats</item>
-	</packageitems>
+	</items>
 
 	<actions>
 		<action name="coupon_category_view" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit">View Categories</action>

@@ -1,16 +1,16 @@
 <?php
 //##copyright##
 
-class iaBackendController extends iaAbstractControllerPackageBackend
+class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'shops';
 
 	protected $_helperName = 'shop';
 
 	protected $_gridColumns = '`id`, `title_alias`, (:inner_sql) `coupons_num`, `date_added`, `status`';
-	protected $_gridFilters = array('status' => self::EQUAL, 'title' => self::LIKE);
+	protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];
 
-	protected $_activityLog = array('icon' => 'cart', 'item' => 'shop');
+	protected $_activityLog = ['icon' => 'cart', 'item' => 'shop'];
 
 	private $_fields;
 
@@ -25,7 +25,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 	protected function _setPageTitle(&$iaView, array $entryData, $action)
 	{
 		iaCore::ACTION_EDIT == $action
-			? $iaView->title(iaLanguage::getf('edit_shop', array('name' => $entryData['title'])))
+			? $iaView->title(iaLanguage::getf('edit_shop', ['name' => $entryData['title']]))
 			: parent::_setPageTitle($iaView, $entryData, $action);
 	}
 
@@ -53,14 +53,14 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _unpackGridColumnsArray()
 	{
-		$this->_iaCore->factoryModule('coupon', $this->getPackageName(), iaCore::ADMIN);
+		$this->_iaCore->factoryModule('coupon', $this->getModuleName(), iaCore::ADMIN);
 
 		$innerSql = 'SELECT COUNT(*) FROM `:prefix:table_coupons` c WHERE c.`shop_id` = `:prefix:table_shops`.`id`';
-		$innerSql = iaDb::printf($innerSql, array(
+		$innerSql = iaDb::printf($innerSql, [
 			'prefix' => $this->_iaDb->prefix,
 			'table_coupons' => iaCoupon::getTable(),
 			'table_shops' => $this->getTable()
-		));
+		]);
 
 		$columns = str_replace(':inner_sql', $innerSql, $this->_gridColumns);
 
@@ -73,7 +73,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 		{
 			$memberId = $this->_iaDb->one_bind(iaDb::ID_COLUMN_SELECTION,
 				'`username` LIKE :member OR `fullname` LIKE :member',
-				array('member' => $params['member']), iaUsers::getTable());
+				['member' => $params['member']], iaUsers::getTable());
 
 			$memberId = $memberId ? (int)$memberId : -1; // -1 or other invalid value
 
@@ -83,11 +83,11 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _setDefaultValues(array &$entry)
 	{
-		$entry = array(
+		$entry = [
 			'member_id' => iaUsers::getIdentity()->id,
 			'featured' => false,
 			'status' => iaCore::STATUS_ACTIVE
-		);
+		];
 	}
 
 	protected function _assignValues(&$iaView, array &$entryData)
@@ -134,7 +134,7 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 
 	protected function _getAlias(array $params)
 	{
-		$result = array('alias' => '');
+		$result = ['alias' => ''];
 
 		$title = isset($params['title']) ? $params['title'] : '';
 		if (!isset($params['alias']))
@@ -147,13 +147,13 @@ class iaBackendController extends iaAbstractControllerPackageBackend
 			$title = iaSanitize::alias($title);
 		}
 
-		$data = array(
+		$data = [
 			'id' => (isset($params['id']) && (int)$params['id'] > 0 ? (int)$params['id'] : '{id}'),
 			'title_alias' => $title
-		);
+		];
 
 		if (!isset($params['alias'])
-			&& $this->_iaDb->exists('`title_alias` = :alias AND `id` != :id', array('alias' => $data['title_alias'], 'id' => (int)$params['id']), $this->getTable()))
+			&& $this->_iaDb->exists('`title_alias` = :alias AND `id` != :id', ['alias' => $data['title_alias'], 'id' => (int)$params['id']], $this->getTable()))
 		{
 			$result['exists'] = iaLanguage::get('coupon_shop_already_exists');
 		}

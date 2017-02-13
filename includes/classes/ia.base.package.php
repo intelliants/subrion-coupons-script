@@ -12,12 +12,12 @@ interface iaCouponsPackage
 	const STATUS_USED = 'used';
 }
 
-abstract class abstractCouponsPackageAdmin extends abstractPackageAdmin implements iaCouponsPackage
+abstract class abstractCouponsPackageAdmin extends abstractModuleAdmin implements iaCouponsPackage
 {
-	protected $_packageName = 'coupons';
+	protected $_moduleName = 'coupons';
 }
 
-abstract class abstractCouponsPackageFront extends abstractPackageFront implements iaCouponsPackage
+abstract class abstractCouponsPackageFront extends abstractModuleFront implements iaCouponsPackage
 {
-	protected $_packageName = 'coupons';
+	protected $_moduleName = 'coupons';
 }

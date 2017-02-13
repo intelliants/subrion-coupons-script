@@ -8,21 +8,21 @@ class iaShop extends abstractCouponsPackageFront
 	protected $_itemName = 'shops';
 
 	public $coreSearchEnabled = true;
-	public $coreSearchOptions = array(
+	public $coreSearchOptions = [
 		'tableAlias' => 't1',
-		'regularSearchStatements' => array("t1.`title` LIKE '%:query%' OR t1.`title_alias` LIKE '%:query%' OR t1.`domain` LIKE '%:query%'")
-	);
+		'regularSearchStatements' => ["t1.`title` LIKE '%:query%' OR t1.`title_alias` LIKE '%:query%' OR t1.`domain` LIKE '%:query%'"]
+	];
 
 	private $_foundRows = 0;
 
-	protected $_statuses = array(iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED);
+	protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED];
 
-	private $_patterns = array(
+	private $_patterns = [
 		'default' => ':action/:id/',
 		'view' => 'shop/:title_alias.html',
 		'edit' => 'edit/?id=:id',
 		'add' => 'add/'
-	);
+	];
 
 
 	public function insert(array $entryData)
@@ -40,7 +40,7 @@ class iaShop extends abstractCouponsPackageFront
 	 * @param array $data
 	 * @return string
 	 */
-	public function url($action, $data = array())
+	public function url($action, $data = [])
 	{
 		$data['action'] = $action;
 		unset($data['title']);
@@ -64,7 +64,7 @@ class iaShop extends abstractCouponsPackageFront
 	{
 		if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id'])
 		{
-			return array($this->url('edit', $params['item']), null);
+			return [$this->url('edit', $params['item']), null];
 		}
 
 		return false;
@@ -74,7 +74,7 @@ class iaShop extends abstractCouponsPackageFront
 	{
 		$rows = $this->_getQuery($stmt, $order, $limit, $start, true);
 
-		return array($this->foundRows(), $rows);
+		return [$this->foundRows(), $rows];
 	}
 
 	public function foundRows()
@@ -94,11 +94,11 @@ class iaShop extends abstractCouponsPackageFront
 			. ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
 			. 'LIMIT :start, :limit ';
 
-		$where = array("(t2.`status` = 'active' OR t2.`status` IS NULL)");
+		$where = ["(t2.`status` = 'active' OR t2.`status` IS NULL)"];
 		empty($aWhere) || $where[] = $aWhere;
 		$where[] = "t1.`status` = 'active' ";
 
-		$data = array(
+		$data = [
 			'found_rows' => ($foundRows === true ? 'SQL_CALC_FOUND_ROWS' : ''),
 			'fields' => 't1.*, t1.`id`, t1.`title`, t1.`title_alias`, t1.`date_added` '
 					. ', t2.`fullname` `account`, t2.`username` `account_username` '
@@ -109,7 +109,7 @@ class iaShop extends abstractCouponsPackageFront
 			'where' => implode(' AND ', $where),
 			'start' => $start,
 			'limit' => $limit,
-		);
+		];
 		$rows = $iaDb->getAll(iaDb::printf($sql, $data));
 
 		if ($foundRows === true)

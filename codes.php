@@ -5,12 +5,12 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 {
 	$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 
-	$pagination = array(
+	$pagination = [
 		'total' => 0,
 		'limit' => 20,
 		'start' => 0,
 		'url' => IA_SELF . '?page={page}'
-	);
+	];
 
 	$page = isset($_GET['page']) && is_numeric($_GET['page']) ? max((int)$_GET['page'], 1) : 1;
 	$pagination['start'] = ($page - 1) * $pagination['limit'];

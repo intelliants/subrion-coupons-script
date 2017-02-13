@@ -4,11 +4,11 @@
 if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT == $iaCore->getAccessType())
 {
 	$limit = 5;
-	$couponBlocks = array();
+	$couponBlocks = [];
 
 	$iaCoupon = $iaCore->factoryModule('coupon', 'coupons');
-	$iaCcat = $iaCore->factoryModule('ccat', $iaCoupon->getPackageName());
-	$iaShop = $iaCore->factoryModule('shop', $iaCcat->getPackageName());
+	$iaCcat = $iaCore->factoryModule('ccat', $iaCoupon->getModuleName());
+	$iaShop = $iaCore->factoryModule('shop', $iaCcat->getModuleName());
 
 	// include coupons css
 	$iaView->add_css('_IA_URL_modules/coupons/templates/common/css/coupons');

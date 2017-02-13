@@ -28,10 +28,10 @@ COMMENT;
 
 		$iaMailer = $iaCore->factory('mailer');
 		$iaMailer->loadTemplate('reported_as_problem');
-		$iaMailer->setReplacements(array(
+		$iaMailer->setReplacements([
 			'title' => $listing['title'],
 			'comments' => $comment,
-		));
+		]);
 		$iaMailer->sendToAdministrators();
 
 		$email = (isset($listing['email']) && $listing['email']) ? $listing['email'] : $iaDb->one('email', iaDb::convertIds($listing['member_id']), iaUsers::getTable());
@@ -39,15 +39,15 @@ COMMENT;
 		if ($email)
 		{
 			$iaMailer->loadTemplate('reported_as_problem');
-			$iaMailer->setReplacements(array(
+			$iaMailer->setReplacements([
 				'title' => $listing['title'],
 				'comments' => $comment,
-			));
+			]);
 			$iaMailer->addAddress($email);
 
 			$iaMailer->send();
 		}
-		$fields = array('reported_as_problem' => 1);
+		$fields = ['reported_as_problem' => 1];
 		if ($comment)
 		{
 			if (isset($listing['reported_as_problem_comments']) && $listing['reported_as_problem_comments'])
@@ -86,7 +86,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 	$iaItem = $iaCore->factory('item');
 	// update favorites state
-	$coupon = array_shift($iaItem->updateItemsFavorites(array($coupon), $iaCoupon->getItemName()));
+	$coupon = array_shift($iaItem->updateItemsFavorites([$coupon], $iaCoupon->getItemName()));
 	$coupon['item'] = $iaCoupon->getItemName();
 	$iaView->assign('item', $coupon);
 
@@ -96,7 +96,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	// get shop info
 	$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
-	$shop = $coupon['shop_id'] ? $iaShop->getById($coupon['shop_id']) : array();
+	$shop = $coupon['shop_id'] ? $iaShop->getById($coupon['shop_id']) : [];
 	$iaView->assign('shop', $shop);
 
 	// get coupon category
@@ -112,56 +112,56 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		{
 			if (iaUsers::hasIdentity() && $coupon['member_id'] == iaUsers::getIdentity()->id)
 			{
-				$actionUrls = array(
+				$actionUrls = [
 					iaCore::ACTION_EDIT => $iaCoupon->url(iaCore::ACTION_EDIT, $coupon),
 					iaCore::ACTION_DELETE => $iaCoupon->url(iaCore::ACTION_DELETE, $coupon)
-				);
+				];
 				$iaView->assign('tools', $actionUrls);
 
-				$iaItem->setItemTools(array(
+				$iaItem->setItemTools([
 					'id' => 'action-edit',
 					'title' => iaLanguage::get('edit_coupon'),
-					'attributes' => array(
+					'attributes' => [
 						'href' => $actionUrls[iaCore::ACTION_EDIT]
-					)
-				));
-				$iaItem->setItemTools(array(
+					]
+				]);
+				$iaItem->setItemTools([
 					'id' => 'action-delete',
 					'title' => iaLanguage::get('delete_coupon'),
-					'attributes' => array(
+					'attributes' => [
 						'href' => $actionUrls[iaCore::ACTION_DELETE],
 						'class' => 'js-delete-coupon'
-					)
-				));
-				$iaItem->setItemTools(array(
+					]
+				]);
+				$iaItem->setItemTools([
 					'id' => 'bar-chart',
 					'title' => iaLanguage::get('coupon_statistics'),
-					'attributes' => array(
+					'attributes' => [
 						'href' => '#',
 						'id' => 'js-cmd-statistics-coupon',
 						'data-id' => $coupon['id']
-					)
-				));
+					]
+				]);
 			}
 		}
 	}
 
-	$iaItem->setItemTools(array(
+	$iaItem->setItemTools([
 		'id' => 'action-report',
 		'title' => iaLanguage::get('report_coupon'),
-		'attributes' => array(
+		'attributes' => [
 			'href' => '#',
 			'id' => 'js-cmd-report-coupon',
 			'data-id' => $coupon['id']
-		)
-	));
+		]
+	]);
 
-	$iaCore->startHook('phpViewListingBeforeStart', array(
+	$iaCore->startHook('phpViewListingBeforeStart', [
 		'listing' => $coupon['id'],
 		'item' => $iaCoupon->getItemName(),
 		'title' => $coupon['title'],
 		'desc' => $coupon['short_description']
-	));
+	]);
 
 	// breadcrumb formation
 	iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');

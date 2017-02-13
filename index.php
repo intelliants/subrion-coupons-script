@@ -6,22 +6,22 @@ $iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 // process ajax actions
 if (iaView::REQUEST_JSON == $iaView->getRequestType())
 {
-	if (!in_array($_GET['trigger'], array('up', 'down')))
+	if (!in_array($_GET['trigger'], ['up', 'down']))
 	{
 		return iaView::errorPage(iaView::ERROR_INTERNAL);
 	}
 
 	if ($iaCoupon->incrementThumbsCounter((int)$_GET['id'], $_GET['trigger']))
 	{
-		$output = array(
+		$output = [
 			'message' => iaLanguage::get('thumbs_vote_accepted'),
 			'error' => false,
 			'rating' => (int)$iaCoupon->getThumbsNum((int)$_GET['id'])
-		);
+		];
 	}
 	else
 	{
-		$output = array('message' => iaLanguage::get('thumbs_already_voted'), 'error' => true);
+		$output = ['message' => iaLanguage::get('thumbs_already_voted'), 'error' => true];
 	}
 
 	$iaView->assign($output);
@@ -33,12 +33,12 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 	iaLanguage::set('no_my_coupons', str_replace('{%URL%}', IA_MODULE_URL . 'coupons/add/', iaLanguage::get('no_my_coupons')));
 
-	$pagination = array(
+	$pagination = [
 		'total' => 0,
 		'limit' => $iaCore->get('coupons_per_page', 2),
 		'start' => 0,
 		'url' => IA_SELF . '?page={page}'
-	);
+	];
 
 	$page = isset($_GET['page']) && is_numeric($_GET['page']) ? max((int)$_GET['page'], 1) : 1;
 	$pagination['start'] = ($page - 1) * $pagination['limit'];
@@ -70,7 +70,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		case 'printable_coupons':
 		case 'deals':
 		case 'coupon_codes':
-			$typesMap = array('printable_coupons' => 'printable', 'deals' => 'deal', 'coupon_codes' => 'simple');
+			$typesMap = ['printable_coupons' => 'printable', 'deals' => 'deal', 'coupon_codes' => 'simple'];
 
 			// get coupons
 			$coupons = $iaCoupon->getCoupons(iaDb::convertIds($typesMap[$iaView->name()], 'coupon_type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
@@ -189,12 +189,12 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	$iaPage = $iaCore->factory('page', iaCore::FRONT);
 	if ($iaAcl->isAccessible('coupon_add', iaCore::ACTION_ADD))
 	{
-		$pageActions[] = array(
+		$pageActions[] = [
 			'icon' => 'plus-square',
 			'title' => iaLanguage::get('page_title_coupon_add'),
 			'url' => $iaPage->getUrlByName('coupon_add'),
 			'classes' => 'btn-success'
-		);
+		];
 		$iaView->set('actions', $pageActions);
 	}
 
