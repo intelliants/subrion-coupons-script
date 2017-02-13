@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-class iaCoupon extends abstractCouponsPackageFront
+class iaCoupon extends abstractCouponsModuleFront
 {
 	const SORTING_SESSION_KEY = 'coupons_sorting';
 

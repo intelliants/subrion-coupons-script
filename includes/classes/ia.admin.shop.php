@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-class iaShop extends abstractCouponsPackageAdmin
+class iaShop extends abstractCouponsModuleAdmin
 {
 	protected static $_table = 'coupons_shops';
 

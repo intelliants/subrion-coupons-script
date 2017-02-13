@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-interface iaCouponsPackage
+interface iaCouponsModule
 {
 	const MODULE_NAME = 'coupons';
 
@@ -12,12 +12,12 @@ interface iaCouponsPackage
 	const STATUS_USED = 'used';
 }
 
-abstract class abstractCouponsPackageAdmin extends abstractModuleAdmin implements iaCouponsPackage
+abstract class abstractCouponsModuleAdmin extends abstractModuleAdmin implements iaCouponsModule
 {
 	protected $_moduleName = 'coupons';
 }
 
-abstract class abstractCouponsPackageFront extends abstractModuleFront implements iaCouponsPackage
+abstract class abstractCouponsModuleFront extends abstractModuleFront implements iaCouponsModule
 {
 	protected $_moduleName = 'coupons';
 }

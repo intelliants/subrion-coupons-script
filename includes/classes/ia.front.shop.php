@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-class iaShop extends abstractCouponsPackageFront
+class iaShop extends abstractCouponsModuleFront
 {
 	protected static $_table = 'coupons_shops';
 

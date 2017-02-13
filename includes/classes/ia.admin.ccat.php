@@ -1,7 +1,7 @@
 <?php
 //##copyright##
 
-class iaCcat extends abstractCouponsPackageAdmin
+class iaCcat extends abstractCouponsModuleAdmin
 {
 	protected static $_table = 'coupons_categories';
 
