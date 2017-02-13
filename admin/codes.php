@@ -4,6 +4,7 @@
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'codes';
+	protected $_itemName = 'codes';
 
 	protected $_gridColumns = ['code', 'status', 'order', 'multilingual', 'delete' => 'removable'];
 	protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];

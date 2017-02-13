@@ -4,6 +4,7 @@
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
 	protected $_name = 'categories';
+	protected $_itemName = 'ccats';
 
 	protected $_helperName = 'ccat';
 
@@ -44,7 +45,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		return parent::_entryAdd($entryData);
 	}
 
-	protected function _modifyGridParams(&$conditions, &$values)
+	protected function _modifyGridParams(&$conditions, &$values, array $params)
 	{
 		$conditions[] = '`parent_id` >= 0';
 	}
@@ -95,7 +96,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		parent::_assignValues($iaView, $entryData);
 
 		$parent = $this->_iaDb->row(['id', 'title', 'parents', 'child'], iaDb::convertIds($entryData['parent_id']));
-
 		$iaView->assign('parent', $parent);
 	}
 

@@ -46,18 +46,18 @@ class iaCoupon extends abstractCouponsModuleAdmin
 		return $this->getInfo('url') . iaDb::printf($this->_urlPatterns[$action], $data);
 	}
 
-	public function getById($aId)
+	public function getById($id, $process = true)
 	{
 		$sql = 'SELECT t1.*, IF(acc.`fullname` != \'\', acc.`fullname`, acc.`username`) `account`, t3.`title` `shop` '
 			. 'FROM `' . self::getTable(true) . '` t1 '
 			. 'LEFT JOIN `' . $this->iaDb->prefix . 'members` acc ON t1.`member_id` = acc.`id` '
 			. 'LEFT JOIN `' . $this->iaDb->prefix . 'coupons_shops` t3 ON t1.`shop_id` = t3.`id` '
-			. 'WHERE t1.`id` = ' . intval($aId);
+			. 'WHERE t1.`id` = ' . intval($id);
 
 		return $this->iaDb->getRow($sql);
 	}
 
-	public function updateCounters()
+	public function updateCounters($itemId, array $itemData, $action, $previousData = null)
 	{
 		$this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
 
