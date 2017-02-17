@@ -5,8 +5,8 @@
 	<author>Intelliants LLC</author>
 	<contributor>Intelliants LLC</contributor>
 	<version>4.1.0</version>
-	<date>2016-09-14</date>
-	<compatibility>4.1</compatibility>
+	<date>2017-02-14</date>
+	<compatibility>4.1.0</compatibility>
 	<url>coupons</url>
 
 	<screenshots>
@@ -24,14 +24,14 @@
 	</items>
 
 	<actions>
-		<action name="coupon_category_view" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit">View Categories</action>
-		<action name="coupon_category_add" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit">Add Category</action>
+		<action name="ccats" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit"><![CDATA[]]></action>
+		<action name="add_category" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit"><![CDATA[]]></action>
 
-		<action name="shop_view" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit">View Shops</action>
-		<action name="shop_add" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit">Add Shop</action>
+		<action name="shops" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit"><![CDATA[]]></action>
+		<action name="add_shop" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit"><![CDATA[]]></action>
 
-		<action name="coupon_view" url="coupons/coupons/" icon="list" pages="coupons_coupons:add,coupons_coupons:edit">View Coupons</action>
-		<action name="coupon_add" url="coupons/coupons/add/" icon="plus-alt" pages="coupons_coupons,coupons_coupons:edit">Add Coupon</action>
+		<action name="coupons" url="coupons/coupons/" icon="list" pages="coupons_coupons:add,coupons_coupons:edit"><![CDATA[]]></action>
+		<action name="add_coupon" url="coupons/coupons/add/" icon="plus-alt" pages="coupons_coupons,coupons_coupons:edit"><![CDATA[]]></action>
 	</actions>
 
 	<groups>
@@ -141,8 +141,7 @@
 	<fields>
 		<field item="ccats" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
 		<field item="ccats" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
-		<field item="ccats" name="icon" group="categories" type="image" width="128" height="128" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
-		<field item="ccats" name="category_icon_class" group="categories" type="text" length="100" adminonly="1" page="coupons_home">Category icon class</field>
+		<field item="ccats" name="icon" type="iconpicker" group="categories" default="fa-folder" adminonly="1" page="coupons_home">Icon</field>
 		<field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
 		<field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
@@ -179,7 +178,6 @@
 
 	<phrases>
 		<phrase category="admin" key="add_category">Add Category</phrase>
-		<phrase category="admin" key="add_coupon">Add Coupon</phrase>
 		<phrase category="admin" key="add_shop">Add Shop</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
@@ -192,7 +190,7 @@
 		<phrase category="admin" key="coupon_category_added">Coupon category added.</phrase>
 		<phrase category="admin" key="coupon_category_deleted">Coupon category deleted.</phrase>
 		<phrase category="admin" key="coupon_category_already_exists">Coupon category with similar title alias exists in this category.</phrase>
-		<phrase category="admin" key="field_ccats_category_icon_class_annotation"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes. Input only icon title like this: <code>birthday-cake</code>]]></phrase>
+		<phrase category="admin" key="field_ccats_icon_annotation"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes.]]></phrase>
 		<phrase category="admin" key="coupon_shop_already_exists">Shop with similar title alias exists.</phrase>
 		<phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
 		<phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
@@ -206,6 +204,7 @@
 		<phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
 		<phrase category="admin" key="reported_as_problem_comments">Problem report comments</phrase>
 
+		<phrase category="common" key="add_coupon">Add Coupon</phrase>
 		<phrase category="common" key="ccats">Categories</phrase>
 		<phrase category="common" key="coupon_category">Category</phrase>
 		<phrase category="common" key="shops">Shops</phrase>
@@ -233,7 +232,6 @@
 		<phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
 		<phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupone as problem?</phrase>
 
-		<phrase category="frontend" key="add_coupon">Add Coupon</phrase>
 		<phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
 		<phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
 		<phrase category="frontend" key="coupon_add_no_auth">Guests are not allowed to add coupons. Only registered members can do that. Please &lt;a href=":base_urllogin/"&gt;sign in&lt;/a&gt; or &lt;a href=":base_urlregistration/"&gt;register&lt;/a&gt; in order to continue.</phrase>
