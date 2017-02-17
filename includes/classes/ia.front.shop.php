@@ -40,15 +40,12 @@ class iaShop extends abstractCouponsModuleFront
 	 * @param array $data
 	 * @return string
 	 */
-	public function url($action, $data = [])
+	public function url($action, array $data)
 	{
 		$data['action'] = $action;
 		unset($data['title']);
 
-		if (!isset($this->_patterns[$action]))
-		{
-			$action = 'default';
-		}
+		isset($this->_patterns[$action]) || $action = 'default';
 
 		$url = iaDb::printf($this->_patterns[$action], $data);
 
@@ -60,7 +57,7 @@ class iaShop extends abstractCouponsModuleFront
 	 * @param array $params
 	 * @return array|bool
 	 */
-	public function accountActions(array $params)
+	public function accountActions($params)
 	{
 		if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id'])
 		{
@@ -86,10 +83,12 @@ class iaShop extends abstractCouponsModuleFront
 	{
 		$iaDb = &$this->iaDb;
 
-		$sql = 'SELECT :fields '
-			. 'FROM :shops as `t1` '
+		$sql = 'SELECT t1.*, '
+				. 't2.`fullname` `account`, t2.`username` `account_username`, '
+				. '(SELECT COUNT(*) FROM `:table_coupons` coupons WHERE `coupons`.`shop_id` = t1.`id`) `num_coupons` '
+			. 'FROM :table_shops as `t1` '
 			. ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
-			. 'LEFT JOIN `:members` t2 ON (t2.`id` = t1.`member_id`) '
+			. 'LEFT JOIN `:table_members` t2 ON (t2.`id` = t1.`member_id`) '
 			. 'WHERE :where '
 			. ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
 			. 'LIMIT :start, :limit ';
@@ -100,16 +99,14 @@ class iaShop extends abstractCouponsModuleFront
 
 		$data = [
 			'found_rows' => ($foundRows === true ? 'SQL_CALC_FOUND_ROWS' : ''),
-			'fields' => 't1.*, t1.`id`, t1.`title`, t1.`title_alias`, t1.`date_added` '
-					. ', t2.`fullname` `account`, t2.`username` `account_username` '
-					. ', (SELECT COUNT(*) FROM :coupons `coupons` WHERE `coupons`.`shop_id` = t1.`id`) `num_coupons` ',
-			'shops' => self::getTable(true),
-			'members' => iaUsers::getTable(true),
-			'coupons' => $iaDb->prefix . 'coupons_coupons',
+			'table_shops' => self::getTable(true),
+			'table_members' => iaUsers::getTable(true),
+			'table_coupons' => $iaDb->prefix . 'coupons_coupons',
 			'where' => implode(' AND ', $where),
 			'start' => $start,
 			'limit' => $limit,
 		];
+
 		$rows = $iaDb->getAll(iaDb::printf($sql, $data));
 
 		if ($foundRows === true)
@@ -123,14 +120,18 @@ class iaShop extends abstractCouponsModuleFront
 			$this->_foundRows = $iaDb->getOne(iaDb::printf($sql, $data));
 		}
 
-		return $this->_processValues($rows);
+		$this->_processValues($rows);
+
+		return $rows;
 	}
 
-	public function getById($id)
+	public function getById($id, $decorate = true)
 	{
-		$id = intval($id);
-		$listing = $this->_getQuery("t1.`id` = '$id'");
-		return ($listing ? $listing[0] : false);
+		$rows = $this->_getQuery('t1.`id` = ' . (int)$id);
+
+		$decorate && $this->_processValues($rows);
+
+		return $rows ? $rows[0] : $rows;
 	}
 
 	public function getByAlias($alias)
@@ -153,13 +154,15 @@ class iaShop extends abstractCouponsModuleFront
 		return $this->_getQuery($where, 't1.`views_num` DESC', $limit, $start, false);
 	}
 
-	public function getShops($where = '', $order = '`title` ASC ', $limit = 5, $start = 0, $found_rows = false)
+	public function get($where = '', $order = null, $limit = 5, $start = 0, $found_rows = false)
 	{
+		is_null($order) && $order = 't1.`title_' . $this->iaView->language . '`';
+
 		return $this->_getQuery($where, $order, $limit, $start, $found_rows);
 	}
 
 	public function getFeatured($limit)
 	{
-		return $this->_getQuery('t1.`featured` = 1 AND t1.`featured_end` > NOW()', '`title` ASC', $limit);
+		return $this->_getQuery('t1.`featured` = 1 AND t1.`featured_end` > NOW()', '`title_' . $this->iaView->language . '`', $limit);
 	}
 }

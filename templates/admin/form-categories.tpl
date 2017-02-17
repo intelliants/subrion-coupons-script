@@ -1,7 +1,9 @@
 <form method="post" enctype="multipart/form-data" class="sap-form form-horizontal">
 	{preventCsrf}
 	{capture name='categories' append='fieldset_before'}
-		<div class="row">
+		{include 'tree.tpl' url="{$smarty.const.IA_ADMIN_URL}coupons/categories/tree.json?cid={$id}"}
+
+		{*<div class="row">
 			<label class="col col-lg-2 control-label">
 				{lang key='coupon_category'}<br>
 				<a href="#" class="categories-toggle" id="js-tree-toggler">{lang key='open_close'}</a>
@@ -24,11 +26,11 @@ $(function()
 				{/ia_add_js}
 				{ia_add_media files='tree'}
 			</div>
-		</div>
+		</div>*}
 	{/capture}
 
 	{capture name='title' append='field_after'}
-		<div class="row" id="field-title-alias"{if iaCore::ACTION_EDIT != $pageAction && empty($smarty.post.save)} style="display: none;"{/if}>
+		<div class="row" id="title_alias_fieldzone"{if iaCore::ACTION_EDIT != $pageAction && empty($smarty.post.save)} style="display: none;"{/if}>
 			<label class="col col-lg-2 control-label" for="field_title_alias">{lang key='title_alias'}</label>
 
 			<div class="col col-lg-4">
@@ -38,7 +40,7 @@ $(function()
 		</div>
 	{/capture}
 
-	{include file='field-type-content-fieldset.tpl' isSystem=true}
+	{include 'field-type-content-fieldset.tpl' isSystem=true}
 </form>
 {ia_hooker name='smartyAdminSubmitListingBeforeFooter'}
 {ia_add_media files='js:_IA_URL_modules/coupons/js/admin/categories'}

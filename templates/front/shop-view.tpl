@@ -1,8 +1,8 @@
 <div class="shop-page clearfix">
 	<div class="image pull-left">
 		{if $shop.shop_image}
-			<a href="{printImage imgfile=$shop.shop_image.path url=true type='full'}" class="shop-thumb" rel="ia_lightbox">
-				{printImage imgfile=$shop.shop_image.path title=$shop.title|escape:'html'}
+			<a href="{ia_image file=$shop.shop_image url=true type='large'}" class="shop-thumb" rel="ia_lightbox">
+				{ia_image file=$shop.shop_image type='thumbnail' title=$shop.title}
 			</a>
 		{else}
 			<a href="{$shop.website}" class="shop-thumb" target="_blank">
@@ -47,7 +47,7 @@ $(function()
 
 {if $coupons}
 	{foreach $coupons as $listing}
-		{include file='extra:coupons/list-coupons'}
+		{include 'extra:coupons/list-coupons'}
 	{/foreach}
 {else}
 	<div class="alert alert-info">{lang key='no_coupons_for_shop'}</div>
@@ -56,6 +56,6 @@ $(function()
 {if $coupons_expired}
 	<h3>{lang key='expired_coupons'}: {$coupons_expired|count}</h3>
 	{foreach $coupons_expired as $listing}
-		{include file='extra:coupons/list-coupons'}
+		{include 'extra:coupons/list-coupons'}
 	{/foreach}
 {/if}

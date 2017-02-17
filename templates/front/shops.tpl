@@ -1,5 +1,5 @@
 {if $letters}
-	{include file='ia-alpha-sorting.tpl' letters=$letters url="{$core.packages.coupons.url}shops/"}
+	{include 'ia-alpha-sorting.tpl' letters=$letters url="{$core.packages.coupons.url}shops/"}
 {/if}
 
 {if !empty($shops)}

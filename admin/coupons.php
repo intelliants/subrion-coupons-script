@@ -8,25 +8,14 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
 	protected $_helperName = 'coupon';
 
-	protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `coupon_type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
+	protected $_gridColumns = ['title', 'title_alias', 'expire_date', 'date_added', 'coupon_type', 'short_description', 'status', 'reported_as_problem', 'reported_as_problem_comments'];
+	//protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `coupon_type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
 	protected $_gridFilters = ['status' => self::EQUAL, 'coupon_type' => self::EQUAL, 'title' => self::LIKE];
 
 	protected $_phraseAddSuccess = 'coupon_added';
 
 	protected $_activityLog = ['icon' => 'tag', 'item' => 'coupon'];
 
-
-	protected function _gridRead($params)
-	{
-		$action = empty($this->_iaCore->requestPath[0]) ? null : $this->_iaCore->requestPath[0];
-
-		switch ($action)
-		{
-			default: return parent::_gridRead($params);
-			case 'alias': return $this->_getJsonAlias($_GET);
-			case 'shops': return $this->_getJsonShops($_GET);
-		}
-	}
 
 	protected function _entryAdd(array $entryData)
 	{
@@ -64,9 +53,10 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		$sqlCategory = 'SELECT `title` FROM `' . $prefix . 'coupons_categories` c WHERE c.`id` = `category_id`';
 		$sqlMember = 'SELECT `username` FROM `' . $prefix . iaUsers::getTable() . '` m WHERE m.`id` = `member_id`';
 
-		$columns = str_replace([':sql_category', ':sql_member'], [$sqlCategory, $sqlMember], $this->_gridColumns);
+		$columns = parent::_unpackGridColumnsArray() . ', (:sql_category) `category`, (:sql_member) `member`';
+		$columns = str_replace([':sql_category', ':sql_member'], [$sqlCategory, $sqlMember], $columns);
 
-		return iaDb::STMT_CALC_FOUND_ROWS . ' ' . $columns . ', 1 `update`, 1 `delete`';
+		return $columns;
 	}
 
 	protected function _modifyGridParams(&$conditions, &$values, array $params)
@@ -87,12 +77,10 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		$iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
 
-		$rootCategoryId = $iaCcat->getRootId();
-
 		$entry = [
 			'shop_id' => 0,
 			'member_id' => iaUsers::getIdentity()->id,
-			'category_id' => $rootCategoryId,
+			'category_id' => $iaCcat->getRootId(),
 			'sponsored' => false,
 			'featured' => false,
 			'status' => iaCore::STATUS_ACTIVE,
@@ -104,7 +92,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		parent::_preSaveEntry($entry, $data, $action);
 
-		$entry['category_id'] = (int)$data['category_id'];
+		$entry['category_id'] = (int)$data['tree_id'];
+		$entry['shop_id'] = 0;
 
 		$entry['title_alias'] = empty($data['title_alias']) ? $data['title'] : $data['title_alias'];
 		$entry['title_alias'] = iaSanitize::alias($entry['title_alias']);
@@ -112,7 +101,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		// validate chosen shop
 		if (!empty($data['shop']))
 		{
-			if ($shopData = $this->_iaDb->row_bind(iaDb::ID_COLUMN_SELECTION, '`title` = :name', ['name' => $data['shop']], 'coupons_shops'))
+			if ($shopData = $this->_iaDb->row(iaDb::ID_COLUMN_SELECTION, iaDb::convertIds($data['shop'], 'title_' . $this->_iaCore->language['iso']), 'coupons_shops'))
 			{
 				$entry['shop_id'] = $shopData['id'];
 			}
@@ -133,11 +122,15 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		parent::_assignValues($iaView, $entryData);
 
-		$entryData['shop'] = $this->_iaDb->one('title', iaDb::convertIds($entryData['shop_id']), 'coupons_shops');
+		$shopName = empty($_POST['shop'])
+			? $this->_iaDb->one('title_' . $iaView->language, iaDb::convertIds($entryData['shop_id']), 'coupons_shops')
+			: $_POST['shop'];
 
-		$category = $this->_iaDb->row(['id', 'title', 'parent_id', 'parents'], iaDb::convertIds($entryData['category_id']), 'coupons_categories');
+		$category = $this->_iaDb->row(['id', 'title' => 'title_' . $iaView->language, 'parent_id', 'parents'], iaDb::convertIds($entryData['category_id']), 'coupons_categories');
+		$entryData['parents'] = $category['parents'];
 
-		$iaView->assign('category', $category);
+		$iaView->assign('parent', $category);
+		$iaView->assign('shopName', $shopName);
 		$iaView->assign('statuses', $this->getHelper()->getStatuses());
 	}
 
@@ -146,8 +139,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		$title = isset($params['title']) ? $params['title'] : '';
 		$title = iaSanitize::alias($title);
 
-		$shop = isset($params['shop']) ? $params['shop'] : null;
-		$shopAlias = $this->_iaDb->one_bind('title_alias', '`title` = :title', ['title' => $shop], 'coupons_shops');
+		$shop = isset($params['shop']) ? $params['shop'] : '';
+		$shopAlias = $this->_iaDb->one('title_alias', iaDb::convertIds($shop, 'title_' . $this->_iaCore->language['iso']), 'coupons_shops');
 		if (empty($shopAlias))
 		{
 			$shopAlias = iaLanguage::get('shop_incorrect');
@@ -170,10 +163,10 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
 		if (isset($params['q']))
 		{
-			$stmt = "`title` LIKE '" . iaSanitize::sql($params['q']) . "%' ORDER BY `title` ASC";
+			$column = 'title_' . $this->_iaCore->language['iso'];
+			$stmt = "`$column` LIKE '" . iaSanitize::sql($params['q']) . "%' ORDER BY `$column`";
 
-			$options = $this->_iaDb->onefield('title', $stmt, 0, 15, 'coupons_shops');
-			$result['options'] = $options;
+			$result['options'] = $this->_iaDb->onefield($column, $stmt, 0, 15, 'coupons_shops');
 		}
 
 		return $result;

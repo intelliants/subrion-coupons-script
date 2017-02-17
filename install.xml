@@ -77,20 +77,20 @@
 		<object id="coupon_view" action="delete" access="1">Delete Coupon</object>
 		<object id="my_coupons" access="0">View Own Listings</object>
 
-		<object meta_object="admin_page" id="coupons" access="1">View Coupons</object>
-		<object meta_object="admin_page" id="coupons" action="add">Add Coupon</object>
-		<object meta_object="admin_page" id="coupons" action="edit">Edit Coupon</object>
-		<object meta_object="admin_page" id="coupons" action="delete">Delete Coupon</object>
+		<object meta_object="admin_page" id="coupons_coupons" access="1">View Coupons</object>
+		<object meta_object="admin_page" id="coupons_coupons" action="add">Add Coupon</object>
+		<object meta_object="admin_page" id="coupons_coupons" action="edit">Edit Coupon</object>
+		<object meta_object="admin_page" id="coupons_coupons" action="delete">Delete Coupon</object>
 
-		<object meta_object="admin_page" id="shops" access="1">View Shops</object>
-		<object meta_object="admin_page" id="shops" action="add">Add Shop</object>
-		<object meta_object="admin_page" id="shops" action="edit">Edit Shop</object>
-		<object meta_object="admin_page" id="shops" action="delete">Delete Shop</object>
+		<object meta_object="admin_page" id="coupons_shops" access="1">View Shops</object>
+		<object meta_object="admin_page" id="coupons_shops" action="add">Add Shop</object>
+		<object meta_object="admin_page" id="coupons_shops" action="edit">Edit Shop</object>
+		<object meta_object="admin_page" id="coupons_shops" action="delete">Delete Shop</object>
 
-		<object meta_object="admin_page" id="ccats" access="1">View Categories</object>
-		<object meta_object="admin_page" id="ccats" action="add">Add Category</object>
-		<object meta_object="admin_page" id="ccats" action="edit">Edit Category</object>
-		<object meta_object="admin_page" id="ccats" action="delete">Delete Category</object>
+		<object meta_object="admin_page" id="coupons_categories" access="1">View Categories</object>
+		<object meta_object="admin_page" id="coupons_categories" action="add">Add Category</object>
+		<object meta_object="admin_page" id="coupons_categories" action="edit">Edit Category</object>
+		<object meta_object="admin_page" id="coupons_categories" action="delete">Delete Category</object>
 
 		<permission type="group" type_id="4" access="0">my_coupons</permission>
 		<permission type="group" type_id="4" access="0">codes</permission>
@@ -139,33 +139,33 @@
 	</fields_groups>
 
 	<fields>
-		<field name="title" group="categories" item="ccats" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
-		<field name="description" group="categories" item="ccats" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
-		<field name="icon" group="categories" item="ccats" type="image" width="128" height="128" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
-		<field name="category_icon_class" group="categories" item="ccats" type="text" length="100" adminonly="1" page="coupons_home">Category icon class</field>
-		<field name="meta_description" group="categories" item="ccats" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
-		<field name="meta_keywords" group="categories" item="ccats" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
+		<field item="ccats" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
+		<field item="ccats" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
+		<field item="ccats" name="icon" group="categories" type="image" width="128" height="128" editable="0" adminonly="1" page="coupons_home">Category Icon</field>
+		<field item="ccats" name="category_icon_class" group="categories" type="text" length="100" adminonly="1" page="coupons_home">Category icon class</field>
+		<field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
+		<field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
-		<field name="title" group="coupons" item="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
-		<field name="coupon_type" group="coupons" item="coupons" type="combo" required="1"
+		<field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
+		<field item="coupons" name="coupon_type" group="coupons" type="combo" required="1"
 			page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
-		<field name="coupon_code" group="coupons" item="coupons" type="text" length="70" required="1"
+		<field item="coupons" name="coupon_code" group="coupons" type="text" length="70" required="1"
 			page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
-		<field name="coupon_image" group="coupons" item="coupons" type="image"
+		<field item="coupons" name="coupon_image" group="coupons" type="image"
 			page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:printable">Coupon Image</field>
-		<field name="gallery" group="coupons" item="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
-		<field name="coupon_tags" group="coupons" item="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
-		<field name="short_description" group="coupons" item="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
-		<field name="description" group="coupons" item="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal" multilingual="1">Description</field>
-		<field name="expire_date" group="coupons" item="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
-		<field name="affiliate_link" group="coupons" item="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Affiliate Link</field>
-		<field name="meta_description" group="coupons" item="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
-		<field name="meta_keywords" group="coupons" item="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
-		<field name="activations" group="coupons_pricing" item="coupons" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
-		<field name="cost" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
-		<field name="item_price" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
-		<field name="item_discount" group="coupons_pricing" item="coupons" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
-		<field name="item_discount_type" group="coupons_pricing" item="coupons" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
+		<field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
+		<field item="coupons" name="coupon_tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
+		<field item="coupons" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
+		<field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal" multilingual="1">Description</field>
+		<field item="coupons" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
+		<field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Affiliate Link</field>
+		<field item="coupons" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
+		<field item="coupons" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
+		<field item="coupons" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
+		<field item="coupons" name="cost" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
+		<field item="coupons" name="item_price" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
+		<field item="coupons" name="item_discount" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
+		<field item="coupons" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
 		<field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0" multilingual="1">Title</field>
 		<field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Website</field>
@@ -178,6 +178,8 @@
 	</fields>
 
 	<phrases>
+		<phrase category="admin" key="add_category">Add Category</phrase>
+		<phrase category="admin" key="add_coupon">Add Coupon</phrase>
 		<phrase category="admin" key="add_shop">Add Shop</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
 		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
@@ -195,6 +197,7 @@
 		<phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
 		<phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
 		<phrase category="admin" key="coupons_package">&quot;Coupons&quot; package</phrase>
+		<phrase category="admin" key="edit_coupon">Edit Coupon</phrase>
 		<phrase category="admin" key="edit_coupon_category">Edit Category ":name"</phrase>
 		<phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
 		<phrase category="admin" key="expired">expired</phrase>
@@ -286,8 +289,8 @@
 	</phrases>
 
 	<hooks>
-		<hook name="init" filename="modules/coupons/includes/hook.url-rewrite.php" page_type="front"><![CDATA[]]></hook>
-		<hook name="phpCoreBeforePageDisplay" filename="modules/coupons/includes/hook.blocks-load.php" page_type="front"><![CDATA[]]></hook>
+		<hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
+		<hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
 		<hook name="populateCommonStatisticsBlock" page_type="front">
 			<![CDATA[
 $stmt = "`status` = ':status'";
@@ -342,7 +345,7 @@ if ('recount_coupons' == $_GET['type'])
 		<block type="smarty" name="neighbour_categories" title="Browse Neighbour Categories" position="bottom" sticky="0" collapsible="1" pages="index,coupons_home">
 		<![CDATA[
 {if !empty($neighbours)}
-	{include file='ia-categories.tpl' categories=$neighbours num_columns=3 item='ccats' package='coupons'}
+	{include 'ia-categories.tpl' categories=$neighbours num_columns=3 item='ccats' package='coupons'}
 {/if}
 			]]>
 		</block>
@@ -370,13 +373,11 @@ if ('recount_coupons' == $_GET['type'])
 			<![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
 	`id` int(8) unsigned NOT NULL auto_increment,
-	`parent_id` int(8) NOT NULL,
-	`title` varchar(150) NOT NULL,
+	`parent_id` int(8) unsigned NOT NULL,
 	`title_alias` varchar(150) NOT NULL,
 	`featured` tinyint(1) unsigned NOT NULL,
 	`featured_start` datetime,
 	`featured_end` datetime,
-	`description` text NOT NULL,
 	`status` enum('inactive','active') NOT NULL default 'inactive',
 	`order` int(8) NOT NULL,
 	`level` smallint(6) unsigned NOT NULL default 1,
@@ -387,12 +388,11 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
 	`num_coupons` mediumint(8) NOT NULL,
 	`num_all_coupons` mediumint(8) NOT NULL,
 	`no_follow` tinyint(1) unsigned NOT NULL,
-	`locked` tinyint(1) unsigned NOT NULL,
+	`locked` tinyint(1) unsigned NOT NULL default 0,
 	`views_num` mediumint(8) unsigned NOT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE `UNIQUE` (`parent_id`,`title_alias`),
-	KEY `ORDER` (`order`),
-	FULLTEXT KEY `TEXT` (`title`,`description`)
+	KEY `ORDER` (`order`)
 ) {mysql_version};
 			]]>
 		</sql>
@@ -435,10 +435,10 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_coupons`(
 	`activations` mediumint(7) unsigned NOT NULL,
 	`cost` decimal(10,2) unsigned,
 	`item_price` decimal(10,2) unsigned,
-	`reported_as_problem` tinyint(1) unsigned NOT NULL,
+	`reported_as_problem` tinyint(1) unsigned NOT NULL default 0,
 	`reported_as_problem_comments` TEXT NOT NULL,
 	PRIMARY KEY (`id`),
-	KEY `ALIAS` (`title_alias`)
+	KEY `SLUG` (`title_alias`)
 ) {mysql_version};
 			]]>
 		</sql>
@@ -470,18 +470,18 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_shops`(
 	`status` enum('suspended', 'approval', 'inactive', 'active') NOT NULL default 'active',
 	`views_num` int(11) unsigned NOT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE `ALIAS` (`title_alias`)
+	UNIQUE `SLUG` (`title_alias`)
 ) {mysql_version};
 			]]>
 		</sql>
 		<sql>
 			<![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `coupon_id` int(9) NOT NULL,
+  `id` int(10) unsigned NOT NULL auto_increment,
+  `coupon_id` int(8) unsigned NOT NULL,
   `transaction_id` int(9) unsigned NOT NULL,
   `code` varchar(32) NOT NULL,
-  `status` enum('active','inactive','used') NOT NULL DEFAULT 'active',
+  `status` enum('active','inactive','used') NOT NULL default 'active',
   PRIMARY KEY (`id`),
   KEY `COUPON` (`coupon_id`)
 ) {mysql_version};

@@ -26,7 +26,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			// get coupon info
 			$couponId = (int)$iaCore->requestPath[0];
-			$coupon = $iaCoupon->getCoupons("t1.`id` = {$couponId}", '', 1, 0, false, true);
+			$coupon = $iaCoupon->get("t1.`id` = {$couponId}", '', 1, 0, false, true);
 
 			if (empty($coupon))
 			{

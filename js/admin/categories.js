@@ -52,8 +52,8 @@ intelli.titleCache = '';
 intelli.fillUrlBox = function()
 {
 	var alias = $('#field_title_alias').val();
-	var title = ('' == alias ? $('#field_title').val() : alias);
-	var category = $('#input-category').val();
+	var title = ('' == alias ? $('#field_ccats_title').val() : alias);
+	var category = $('#input-tree').val();
 	var cache = title + '%%' + category;
 
 	if ('' != title && intelli.titleCache != cache)
@@ -79,10 +79,6 @@ intelli.fillUrlBox = function()
 
 $(function()
 {
-	$('#field_title').keyup(function()
-	{
-		$('#field-title-alias').show();
-	});
-
-	$('#field_title, #field_title_alias').blur(intelli.fillUrlBox).blur();
+	$('#field_ccats_title').keyup(function(){$('#title_alias_fieldzone').show();});
+	$('#field_ccats_title, #field_title_alias').blur(intelli.fillUrlBox).blur();
 });

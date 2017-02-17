@@ -1,8 +1,8 @@
 <div class="ia-item ia-item--border ia-item--coupon{if $listing.featured} ia-item---featured{/if}{if $listing.sponsored} ia-item--sponsored{/if} has-panel" id="coupon-list-{$listing.id}">
 	<div class="ia-item__image">
 		{if $listing.shop_image}
-			<a href="{printImage imgfile=$listing.shop_image.path url=true type='full'}" rel="ia_lightbox">
-				{printImage imgfile=$listing.shop_image.path title=$listing.shop_title|escape:'html' class='img-responsive'}
+			<a href="{ia_image file=$listing.shop_image url=true type='large'}" rel="ia_lightbox">
+				{ia_image file=$listing.shop_image type='thumbnail' title=$listing.shop_title class='img-responsive'}
 			</a>
 		{else}
 			<a href="{$smarty.const.IA_URL}shop/{$listing.shop_alias}.html">
@@ -29,7 +29,7 @@
 		</div>
 
 		<div class="ia-item__title">
-			{ia_url type='link' item='coupons' data=$listing text=$listing.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$listing.shop_alias}.html">{$listing.shop_title}</a></small>
+			{ia_url type='link' item='coupons' data=$listing text=$listing.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$listing.shop_alias}.html">{$listing.shop_title|escape:'html'}</a></small>
 		</div>
 
 		<div class="btn-coupon js-btn-coupon" data-affiliate-link="

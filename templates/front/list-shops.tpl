@@ -1,7 +1,7 @@
 <div class="media ia-item ia-item-bordered shops-list-item">
 	{if $listing.shop_image}
-		<a href="{printImage imgfile=$listing.shop_image.path url=true type='full'}" class="pull-left ia-item-thumbnail" rel="ia_lightbox">
-			{printImage imgfile=$listing.shop_image.path title=$listing.title|escape:'html' class='media-object'}
+		<a href="{ia_image file=$listing.shop_image url=true type='large'}" class="pull-left ia-item-thumbnail" rel="ia_lightbox">
+			{ia_image file=$listing.shop_image type='thumbnail' title=$listing.title class='media-object'}
 		</a>
 	{else}
 		<a href="{$smarty.const.IA_URL}shop/{$listing.title_alias}.html" class="pull-left ia-item-thumbnail">

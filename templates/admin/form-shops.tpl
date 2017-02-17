@@ -7,7 +7,7 @@
 	{else}
 		{capture name='title' append='field_after'}
 	{/if}
-		<div class="row" id="field-title-alias"{if 'edit' != $pageAction && empty($smarty.post.save)} style="display: none;"{/if}>
+		<div class="row" id="title_alias_fieldzone"{if iaCore::ACTION_EDIT != $pageAction && empty($smarty.post.save)} style="display: none;"{/if}>
 			<label class="col col-lg-2 control-label" for="field_title_alias">{lang key='title_alias'}</label>
 
 			<div class="col col-lg-4">
@@ -17,7 +17,7 @@
 		</div>
 	{/capture}
 
-	{include file='field-type-content-fieldset.tpl' isSystem=true}
+	{include 'field-type-content-fieldset.tpl' isSystem=true}
 </form>
 {ia_hooker name='smartyAdminSubmitItemBeforeFooter'}
 {ia_add_media files='js:_IA_URL_modules/coupons/js/admin/shops'}

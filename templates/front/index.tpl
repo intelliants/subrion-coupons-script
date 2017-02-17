@@ -4,7 +4,7 @@
 
 {if isset($categories) && $categories}
 	<div class="ia-categories">
-		{include file='ia-categories.tpl' categories=$categories num_columns=3 show_amount=true item='ccats' package='coupons'}
+		{include 'ia-categories.tpl' categories=$categories num_columns=3 show_amount=true item='ccats' package='coupons'}
 	</div>
 {/if}
 
@@ -49,7 +49,7 @@
 	{/if}
 	<div class="ia-items">
 		{foreach $coupons as $listing}
-			{include file='extra:coupons/list-coupons'}
+			{include 'extra:coupons/list-coupons'}
 		{/foreach}
 
 		{navigation aTotal=$pagination.total aTemplate=$pagination.url aItemsPerPage=$pagination.limit aNumPageItems=5 aTruncateParam=1}

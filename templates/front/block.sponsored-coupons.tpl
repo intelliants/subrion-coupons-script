@@ -3,11 +3,11 @@
 		<div class="media ia-item ia-item-bordered-bottom">
 			<div class="media-body">
 				<h3 class="media-heading">
-					{ia_url type='link' item='coupons' data=$coupon text=$coupon.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$coupon.shop_alias}.html">{$coupon.shop_title}</a></small>
+					{ia_url type='link' item='coupons' data=$coupon text=$coupon.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$coupon.shop_alias}.html">{$coupon.shop_title|escape:'html'}</a></small>
 				</h3>
 				{if $coupon.shop_image}
-					<a href="{printImage imgfile=$coupon.shop_image.path url=true type='full'}" class="ia-item-thumbnail" rel="ia_lightbox">
-						{printImage imgfile=$coupon.shop_image.path title=$coupon.shop_title|escape:'html' class='media-object'}
+					<a href="{ia_image file=$coupon.shop_image url=true type='large'}" class="ia-item-thumbnail" rel="ia_lightbox">
+						{ia_image file=$coupon.shop_image title=$coupon.shop_title type='thumbnail' class='media-object'}
 					</a>
 				{else}
 					<a href="{$smarty.const.IA_URL}shop/{$coupon.shop_alias}.html" class="ia-item-thumbnail">

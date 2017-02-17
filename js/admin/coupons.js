@@ -99,11 +99,11 @@ Ext.onReady(function()
 intelli.titleCache = '';
 intelli.fillUrlBox = function()
 {
-	var alias = $("input[name='title_alias']").val();
-	var title = ('' == alias ? $("input[name='title']").val() : alias);
+	var alias = $('#input-alias').val();
+	var title = ('' == alias ? $('#field_coupons_title').val() : alias);
 	var shop = $('#input-shop').val();
-	var category = $('#input-category').val();
-	var cache = shop + '%%';
+	var category = $('#input-tree').val();
+	var cache = category + '%%' + shop + '%%' + title;
 
 	if ('' != title && '' != shop && intelli.titleCache != cache)
 	{
@@ -128,8 +128,8 @@ $(function()
 		return;
 	}
 
-	$('#field_title').keyup(function(){ $('#field-title-alias').show(); });
-	$("input[name='title'], input[name='alias']").blur(intelli.fillUrlBox).blur();
+	$('#field_coupons_title').keyup(function(){ $('#title_alias_fieldzone').show(); });
+	$('#field_coupons_title, #input-alias').blur(intelli.fillUrlBox).blur();
 
 	// get shops autocomplete
 	$('#input-shop').typeahead(
@@ -141,7 +141,7 @@ $(function()
 				url: intelli.config.admin_url + '/coupons/coupons/shops.json',
 				dataType: 'json',
 				data: {q: query},
-				success: function (data)
+				success: function(data)
 				{
 					return typeof data.options == 'undefined' ? false : process(data.options);
 				}
@@ -154,6 +154,7 @@ $(function()
 	// hide pricing options for non deals
 	$('#field_coupons_coupon_type').on('change', function()
 	{
-		'deal' == $(this).val() ? $('#coupons_pricing').show() : $('#coupons_pricing').hide();
+		var $o = $('#coupons_pricing');
+		'deal' == $(this).val() ? $o.show() : $o.hide();
 	});
 });

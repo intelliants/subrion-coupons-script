@@ -51,7 +51,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	{
 		case 'new_coupons':
 			// get new coupons
-			$coupons = $iaCoupon->getCoupons($stmt, 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
+			$coupons = $iaCoupon->get($stmt, 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
 			$iaView->assign('coupons', $coupons);
 
 			$pagination['total'] = $iaCoupon->foundRows();
@@ -60,7 +60,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 		case 'popular_coupons':
 			// get popular coupons
-			$coupons = $iaCoupon->getCoupons($stmt, 't1.`views_num` DESC', $pagination['limit'], $pagination['start'], true);
+			$coupons = $iaCoupon->get($stmt, 't1.`views_num` DESC', $pagination['limit'], $pagination['start'], true);
 			$iaView->assign('coupons', $coupons);
 
 			$pagination['total'] = $iaCoupon->foundRows();
@@ -73,7 +73,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$typesMap = ['printable_coupons' => 'printable', 'deals' => 'deal', 'coupon_codes' => 'simple'];
 
 			// get coupons
-			$coupons = $iaCoupon->getCoupons(iaDb::convertIds($typesMap[$iaView->name()], 'coupon_type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
+			$coupons = $iaCoupon->get(iaDb::convertIds($typesMap[$iaView->name()], 'coupon_type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
 			$iaView->assign('coupons', $coupons);
 
 			$pagination['total'] = $iaCoupon->foundRows();
@@ -87,7 +87,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			}
 
 			// get member coupons
-			$coupons = $iaCoupon->getCoupons("t1.`member_id` = '" . iaUsers::getIdentity()->id . "'", 't1.`date_added` DESC', 20, 0, false, true);
+			$coupons = $iaCoupon->get("t1.`member_id` = '" . iaUsers::getIdentity()->id . "'", 't1.`date_added` DESC', 20, 0, false, true);
 
 			$iaView->assign('coupons', $coupons);
 			$pagination['total'] = $iaCoupon->foundRows();

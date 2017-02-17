@@ -61,7 +61,7 @@ class iaCoupon extends abstractCouponsModuleFront
 	 * @param array $params
 	 * @return array|bool
 	 */
-	public function accountActions(array $params)
+	public function accountActions($params)
 	{
 		if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id'])
 		{
@@ -87,17 +87,20 @@ class iaCoupon extends abstractCouponsModuleFront
 	{
 		$iaDb = &$this->iaDb;
 
-		$sql = 'SELECT :found_rows :fields '
+		$sql = 'SELECT :found_rows t1.*'
+				. ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+				. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
+				. ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
 			// count codes for each coupon
-			. ', (SELECT COUNT(*) FROM `:codes` `cc` LEFT JOIN `:prefixpayment_transactions` `pt` ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
-			. 'FROM `:coupons` t1 '
+				. ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
+			. 'FROM `:table_coupons` t1 '
 			. ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
-				. 'LEFT JOIN `:categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
-				. 'LEFT JOIN `:members` t3 ON(t3.`id` = t1.`member_id`)'
-				. 'LEFT JOIN `:shops` t4 ON(t4.`id` = t1.`shop_id`) '
+				. 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
+				. 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
+				. 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
 			. 'WHERE :where '
 			. ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
-			. 'LIMIT :start, :limit ';
+			. 'LIMIT :start, :limit';
 
 		$where = [
 			//"(t3.`status` = 'active' OR t3.`status` IS NULL) AND `t4`.`status` = 'active' ",
@@ -108,20 +111,17 @@ class iaCoupon extends abstractCouponsModuleFront
 
 		$data = [
 			'found_rows' => ($foundRows === true ? iaDb::STMT_CALC_FOUND_ROWS : ''),
-			'fields' => 't1.*'
-				. ', t2.`title_alias` `category_alias`, t2.`title` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
-				. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
-				. ', t4.`title_alias` `shop_alias`, t4.`title` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` ',
-			'coupons' => self::getTable(true),
-			'prefix' => $iaDb->prefix,
-			'passed' => 'passed',
-			'codes' => $iaDb->prefix . 'coupons_codes',
-			'categs' => $iaDb->prefix . 'coupons_categories',
-			'shops' => $iaDb->prefix . 'coupons_shops',
-			'members' => iaUsers::getTable(true),
+			'table_coupons' => self::getTable(true),
+			'table_codes' => $iaDb->prefix . 'coupons_codes',
+			'table_categs' => $iaDb->prefix . 'coupons_categories',
+			'table_shops' => $iaDb->prefix . 'coupons_shops',
+			'table_members' => iaUsers::getTable(true),
+			'table_transactions' => $iaDb->prefix . 'payment_transactions',
+			'lang' => $this->iaCore->language['iso'],
 			'where' => implode(' AND ', $where),
+			'passed' => 'passed',
 			'start' => $start,
-			'limit' => $limit,
+			'limit' => $limit
 		];
 
 		$rows = $iaDb->getAll(iaDb::printf($sql, $data));
@@ -138,17 +138,21 @@ class iaCoupon extends abstractCouponsModuleFront
 			$this->_foundRows = $iaDb->getOne(iaDb::printf($sql, $data));
 		}
 
-		return $this->_processValues($rows);
+		$this->_processValues($rows);
+
+		return $rows;
 	}
 
-	public function getById($id)
+	public function getById($id, $decorate = true)
 	{
-		$coupons = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
+		$rows = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
 
-		return $coupons ? $coupons[0] : [];
+		$decorate && $this->_processValues($rows);
+
+		return $rows ? $rows[0] : [];
 	}
 
-	protected function _processValues(array &$rows, $singleRow = false, $fieldNames = [])
+	protected function _processValues(&$rows, $singleRow = false, $fieldNames = [])
 	{
 		parent::_processValues($rows, $singleRow, $fieldNames);
 
@@ -181,7 +185,7 @@ class iaCoupon extends abstractCouponsModuleFront
 	 *
 	 * @return array
 	 */
-	public function getCoupons($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
+	public function get($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
 	{
 		return $this->_getQuery($where, $order, $limit, $start, $foundRows, $ignoreStatus);
 	}
@@ -245,7 +249,7 @@ class iaCoupon extends abstractCouponsModuleFront
 		return parent::insert($entryData);
 	}
 
-	public function updateCounters()
+	public function updateCounters($itemId, array $itemData, $action, $previousData = null)
 	{
 		$this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
 
@@ -375,7 +379,7 @@ SQL;
 	public function getDealOfTheDay()
 	{
 		$where = "`coupon_type` = 'deal' && `t1`.`status` = 'active' ";
-		$deals = $this->getCoupons($where, '`views_num` DESC', 1);
+		$deals = $this->get($where, '`views_num` DESC', 1);
 
 		return $deals ? $deals[0] : [];
 	}

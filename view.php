@@ -69,7 +69,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 	// get coupon info 
 	$couponId = (int)$iaCore->requestPath[2];
-	$coupon = $iaCoupon->getCoupons("t1.`id` = '{$couponId}'", '', 1, 0, false, true);
+	$coupon = $iaCoupon->get("t1.`id` = '{$couponId}'", '', 1, 0, false, true);
 
 	if (empty($coupon))
 	{
@@ -77,6 +77,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 	}
 
 	$coupon = array_shift($coupon);
+	$coupon['item'] = $iaCoupon->getItemName();
 
 	if ($coupon['status'] != iaCore::STATUS_ACTIVE
 		&& $coupon['member_id'] != iaUsers::getIdentity()->id)
@@ -84,16 +85,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 		return iaView::errorPage(iaView::ERROR_NOT_FOUND);
 	}
 
-	$iaItem = $iaCore->factory('item');
-	// update favorites state
-	$coupon = array_shift($iaItem->updateItemsFavorites([$coupon], $iaCoupon->getItemName()));
-	$coupon['item'] = $iaCoupon->getItemName();
 	$iaView->assign('item', $coupon);
 
 	// increment views counter
 	$iaCoupon->incrementViewsCounter($coupon['id']);
 
 	// get shop info
+	$iaItem = $iaCore->factory('item');
 	$iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
 	$shop = $coupon['shop_id'] ? $iaShop->getById($coupon['shop_id']) : [];

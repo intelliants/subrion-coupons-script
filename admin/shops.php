@@ -26,15 +26,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	protected function _setPageTitle(&$iaView, array $entryData, $action)
 	{
 		iaCore::ACTION_EDIT == $action
-			? $iaView->title(iaLanguage::getf('edit_shop', ['name' => $entryData['title']]))
+			? $iaView->title(iaLanguage::getf('edit_shop', ['name' => $entryData['title_' . $iaView->language]]))
 			: parent::_setPageTitle($iaView, $entryData, $action);
-	}
-
-	protected function _gridRead($params)
-	{
-		return (isset($this->_iaCore->requestPath[0]) && 'alias' == $this->_iaCore->requestPath[0])
-			? $this->_getAlias($_GET)
-			: parent::_gridRead($params);
 	}
 
 	protected function _entryAdd(array $entryData)
@@ -64,8 +57,9 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		]);
 
 		$columns = str_replace(':inner_sql', $innerSql, $this->_gridColumns);
+		$columns.= ', `title_' . $this->_iaCore->language['iso'] . '` `title`';
 
-		return iaDb::STMT_CALC_FOUND_ROWS . ' ' . $columns . ', 1 `update`, 1 `delete`';
+		return iaDb::STMT_CALC_FOUND_ROWS . $columns . ', 1 `update`, 1 `delete`';
 	}
 
 	protected function _modifyGridParams(&$conditions, &$values, array $params)
@@ -125,7 +119,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		}
 		else
 		{
-			$entry['title_alias'] = $entry['title'];
+			$entry['title_alias'] = $data['title'][$this->_iaCore->language['iso']];
 		}
 
 		$entry['title_alias'] = iaSanitize::alias($entry['title_alias']);
@@ -133,7 +127,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		return !$this->getMessages();
 	}
 
-	protected function _getAlias(array $params)
+	protected function _getJsonAlias(array $params)
 	{
 		$result = ['alias' => ''];
 

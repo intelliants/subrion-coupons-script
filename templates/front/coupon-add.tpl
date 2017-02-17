@@ -1,6 +1,6 @@
 <form action="{$smarty.const.IA_SELF}" method="post" enctype="multipart/form-data" class="ia-form" id="coupon_form">
 
-	{include file='plans.tpl' item=$item}
+	{include 'plans.tpl' item=$item}
 
 	{capture name='title' append='field_before'}
 		<div class="form-group">
@@ -32,14 +32,14 @@
 
 		{ia_hooker name='smartyListingSubmitBeforeFooter'}
 
-		{include file='captcha.tpl'}
+		{include 'captcha.tpl'}
 
 		<div class="fieldset__actions">
 			<input type="submit" name="data-coupon" class="btn btn-primary" value="{if iaCore::ACTION_ADD == $pageAction}{lang key='add_coupon'}{else}{lang key='save'}{/if}">
 		</div>
 	{/capture}
 
-	{include file='item-view-tabs.tpl'}
+	{include 'item-view-tabs.tpl'}
 </form>
 
 {ia_add_media files='tagsinput,datepicker,js:jquery/plugins/jquery.textcounter,js:_IA_URL_modules/coupons/js/front/manage'}

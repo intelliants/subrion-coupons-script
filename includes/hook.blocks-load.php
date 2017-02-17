@@ -41,7 +41,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
 	if ($iaView->blockExists('top_coupons'))
 	{
-		$couponBlocks['top'] = $iaCoupon->getCoupons($stmt, '`thumbs_num` DESC', $iaCore->get('top_coupons_block_num'));
+		$couponBlocks['top'] = $iaCoupon->get($stmt, '`thumbs_num` DESC', $iaCore->get('top_coupons_block_num'));
 	}
 
 	if ($iaView->blockExists('popular_shops'))
@@ -51,17 +51,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
 	if ($iaView->blockExists('featured_coupons'))
 	{
-		$couponBlocks['featured'] = $iaCoupon->getCoupons($stmt . ' AND t1.`featured` = 1 AND t1.`featured_end` > NOW()', 'RAND()', $iaCore->get('featured_coupons_block_num'));
+		$couponBlocks['featured'] = $iaCoupon->get($stmt . ' AND t1.`featured` = 1 AND t1.`featured_end` > NOW()', 'RAND()', $iaCore->get('featured_coupons_block_num'));
 	}
 
 	if ($iaView->blockExists('sponsored_coupons'))
 	{
-		$couponBlocks['sponsored'] = $iaCoupon->getCoupons($stmt . ' AND t1.`sponsored` = 1 AND t1.`sponsored_end` > NOW()', 'RAND()', $iaCore->get('sponsored_coupons_block_num'));
+		$couponBlocks['sponsored'] = $iaCoupon->get($stmt . ' AND t1.`sponsored` = 1 AND t1.`sponsored_end` > NOW()', 'RAND()', $iaCore->get('sponsored_coupons_block_num'));
 	}
 
 	if ($iaView->blockExists('new_coupons'))
 	{
-		$couponBlocks['new'] = $iaCoupon->getCoupons($stmt, '`date_added` DESC', $iaCore->get('new_coupons_block_num'));
+		$couponBlocks['new'] = $iaCoupon->get($stmt, '`date_added` DESC', $iaCore->get('new_coupons_block_num'));
 	}
 
 	if ($iaView->blockExists('deal_of_the_day'))

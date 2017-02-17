@@ -1,7 +1,7 @@
 {if isset($listings) && $listings}
 	<div class="ia-items ia-items--cards">
 		{foreach $listings as $listing}
-			{include file='extra:coupons/list-coupons'}
+			{include 'extra:coupons/list-coupons'}
 		{/foreach}
 	</div>
 {else}

@@ -2,8 +2,8 @@
 	<div class="ia-item-author">
 		<div class="ia-item-author__image">
 			{if $shop.shop_image}
-				<a href="{printImage imgfile=$shop.shop_image.path url=true type='full'}" rel="ia_lightbox">
-					{printImage imgfile=$shop.shop_image.path title=$shop.title|escape:'html' class='img-responsive center-block'}
+				<a href="{ia_image file=$shop.shop_image url=true type='large'}" rel="ia_lightbox">
+					{ia_image file=$shop.shop_image title=$shop.title type='thumbnail' class='img-responsive center-block'}
 				</a>
 			{else}
 				<a href="{$smarty.const.IA_URL}shop/{$shop.title_alias}.html">
@@ -13,7 +13,7 @@
 		</div>
 
 		<div class="ia-item-author__content">
-			<h4 class="ia-item__title"><a href="{$smarty.const.IA_URL}shop/{$shop.title_alias}.html">{$shop.title}</a></h4>
+			<h4 class="ia-item__title"><a href="{$smarty.const.IA_URL}shop/{$shop.title_alias}.html">{$shop.title|escape:'html'}</a></h4>
 
 			<div class="ia-item__additional">
 				<p>{lang key='coupons'}: {$shop.num_coupons|string_format:'%d'}</p>

@@ -39,19 +39,19 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				switch(true)
 				{
 					case !isset($_GET['sorting']) || 'all' == $_GET['sorting']:
-						$coupons = $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
-						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
+						$coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
+						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
 
 						$couponsNum = count($coupons) + count($couponsExpired);
 						break;
 
 					case ('active' == $_GET['sorting']):
-						$coupons = $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
+						$coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
 						$couponsNum = count($coupons);
 						break;
 
 					case ('expired' == $_GET['sorting']):
-						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->getCoupons("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
+						$couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
 						$couponsNum = count($couponsExpired);
 				}
 
@@ -74,7 +74,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			break;
 
 		case 'shop_add':
-
 		case 'shops':
 			$letters['all'] = iaUtil::getLetters();
 			$letters['active'] = (isset($iaCore->requestPath[0]) && in_array($iaCore->requestPath[0], $letters['all'])) ? $iaCore->requestPath[0] : false;
@@ -91,18 +90,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			// check for letters that have shops
 			$letters['existing'] = [];
-			$array = $iaDb->all('DISTINCT UPPER(SUBSTR(`title`, 1, 1)) `letter`', "`status` = 'active'", null, null, iaShop::getTable());
+			$array = $iaDb->all('DISTINCT UPPER(SUBSTR(`title_' . $iaView->language . '`, 1, 1)) `letter`',
+				"`status` = 'active'", null, null, iaShop::getTable());
 			if ($array)
 			{
 				foreach ($array as $item)
-				{
 					$letters['existing'][] = $item['letter'];
-				}
 			}
 			$iaView->assign('letters', $letters);
 
 			// get shops
-			$shops = $iaShop->getShops($cause);
+			$shops = $iaShop->get($cause);
 			$iaView->assign('shops', $shops);
 
 			$iaView->display('shops');

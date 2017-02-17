@@ -27,11 +27,13 @@ class iaCcat extends abstractCouponsModuleFront
 		return $this->getInfo('url') . $url;
 	}
 
-	public function getById($id)
+	public function getById($id, $decorate = true)
 	{
-		$categories = $this->getCategories(iaDb::convertIds($id));
+		$rows = $this->getCategories(iaDb::convertIds($id));
 
-		return $categories ? $categories[0] : [];
+		$decorate && $this->_processValues($rows);
+
+		return $rows ? $rows[0] : $rows;
 	}
 
 	public function getCategory($where = '', $start = 0, $limit = null)
@@ -43,10 +45,12 @@ class iaCcat extends abstractCouponsModuleFront
 
 	public function getCategories($where = '', $start = 0, $limit = null)
 	{
-		$fields = '*, `title_alias` `category_alias`, `num_all_coupons` `num` ';
-		$categories = $this->iaDb->all($fields, $where . ' ORDER BY `level` ASC, `title`', $start, $limit, self::getTable());
+		$rows = $this->iaDb->all('*, `title_alias` `category_alias`, `num_all_coupons` `num` ', $where
+			. ' ORDER BY `level` ASC, `title_' . $this->iaView->language . '`', $start, $limit, self::getTable());
 
-		return $this->_processValues($categories);
+		$this->_processValues($rows);
+
+		return $rows;
 	}
 
 	public function existsAlias($alias)
@@ -61,8 +65,9 @@ class iaCcat extends abstractCouponsModuleFront
 
 	public function getAllCategories($parent, &$categories)
 	{
-		$id = $parent['id'];
-		$cats = $this->iaDb->assoc(['id', 'parent_id', 'title', 'level'], "`parent_id` = '{$id}'" . ' ORDER BY `title`', self::getTable());
+		$id = (int)$parent['id'];
+		$cats = $this->iaDb->assoc(['id', 'parent_id', 'title' => 'title_' . $this->iaView->language, 'level'],
+			'`parent_id` = ' . $id . ' ORDER BY `title`', self::getTable());
 
 		if ($cats)
 		{
@@ -74,20 +79,5 @@ class iaCcat extends abstractCouponsModuleFront
 				$this->getAllCategories($category, $categories);
 			}
 		}
-	}
-
-	protected function _processValues(array &$rows)
-	{
-		foreach ($rows as &$row)
-		{
-			if (!is_array($row))
-			{
-				break;
-			}
-
-			!$row['icon'] || $row['icon'] = unserialize($row['icon']);
-		}
-
-		return $rows;
 	}
 }

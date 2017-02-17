@@ -13,9 +13,12 @@ if ($iaView->url)
 	if ($alias && $iaDb->exists('`title_alias` = :alias AND `status` = :status', ['alias' => $alias, 'status' => iaCore::STATUS_ACTIVE], 'coupons_categories'))
 	{
 		$pageName = 'coupons_home';
+
 		if ($pageUrl = $iaDb->one_bind('alias', '`name` = :page AND `status` = :status', ['page' => $pageName, 'status' => iaCore::STATUS_ACTIVE], 'pages'))
 		{
-			$pageUrl = array_shift(explode(IA_URL_DELIMITER, trim($pageUrl, IA_URL_DELIMITER)));
+			$pageUrl = explode(IA_URL_DELIMITER, trim($pageUrl, IA_URL_DELIMITER));
+			$pageUrl = array_shift($pageUrl);
+
 			$isHomepage = ($pageName == $iaCore->get('home_page'));
 
 			$iaView->name($isHomepage ? $pageName : $pageUrl);

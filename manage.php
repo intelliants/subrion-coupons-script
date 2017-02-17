@@ -6,11 +6,14 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType())
 {
 	if (isset($_GET['q']))
 	{
-		$where = "`title` LIKE '%{$_GET['q']}%' ";
-		$order = "ORDER BY `title` ASC ";
+		$fieldName = 'title_' . $iaView->language;
 
-		$shops['options'] = $iaDb->onefield('title', $where . $order, 0, 15, 'coupons_shops');
-		$iaView->assign($shops);
+		$where = "`{$fieldName}` LIKE '%{" . iaSanitize::sql($_GET['q']) . "}%' ";
+		$order = "ORDER BY `$fieldName` ASC ";
+
+		$shops = $iaDb->onefield($fieldName, $where . $order, 0, 15, 'coupons_shops');
+
+		$iaView->assign(array('options' => $shops));
 	}
 
 	if (isset($_GET['action']) && 'validate' == $_GET['action'] && !empty($_GET['shop']))
@@ -19,6 +22,7 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType())
 		$where = "`title` LIKE '%{$shop}%' ";
 
 		$out['data'] = $iaDb->one("`website`", $where, 'coupons_shops');
+
 		$iaView->assign($out);
 	}
 }
@@ -58,6 +62,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				else
 				{
 					$couponEntry = $iaCoupon->getById($couponId);
+
 					if (empty($couponEntry))
 					{
 						return iaView::errorPage(iaView::ERROR_NOT_FOUND);
@@ -166,15 +171,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 						$newShop = [
 							'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
-							'title' => $shopTitle,
-							'website' => iaUtil::checkPostParam('website'),
+							'website' => iaUtil::checkPostParam('website')
 						];
+
+						foreach ($iaCore->languages as $iso => $language)
+							$newShop['title_' . $iso] = $shopTitle;
 
 						$newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
 
 						if (empty($newShop['website']) || 'http://' == $newShop['website'])
 						{
-							$newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title'] ? $newShop['title'] : $shopTitle);
+							$newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title_' . $iaView->language] ? $newShop['title_' . $iaView->language] : $shopTitle);
 							unset($newShop['website']);
 						}
 						else

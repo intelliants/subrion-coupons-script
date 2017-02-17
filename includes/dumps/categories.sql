@@ -1,6 +1,6 @@
 TRUNCATE TABLE `{prefix}coupons_categories`;
-INSERT INTO `{prefix}coupons_categories` (`id`,`parent_id`,`title`,`title_alias`,`level`,`parents`,`child`) VALUES
-(1,-1,'ROOT','',0,0,'2,3,14,4,5,6,7,8,9,10,11,12,13,15,16'),
+INSERT INTO `{prefix}coupons_categories` (`id`,`parent_id`,`title_{lang}`,`title_alias`,`level`,`parents`,`child`) VALUES
+(1,0,'ROOT','',0,0,'2,3,14,4,5,6,7,8,9,10,11,12,13,15,16'),
 (2,1,'Accessories','Accessories',1,'2,1','2'),
 (3,1,'Business','Business',1,'3,1','3'),
 (4,1,'Clothing','Clothing',1,'4,1','4'),

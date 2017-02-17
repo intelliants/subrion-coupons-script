@@ -66,46 +66,46 @@ Ext.onReady(function()
 	}
 });
 
-intelli.titleCache = '';
-intelli.fillUrlBox = function()
-{
-	var alias = $("input[name='title_alias']").val(),
-		title = ('' == alias ? $("input[name='website']").val() : alias),
-		aliasType = 'website';
-
-	if ($("input[name='website']").length == 0 || '' == $("input[name='website']").val() || 'http://' == $("input[name='website']").val())
-	{
-		title = ('' == alias ? $("input[name='title']").val() : alias);
-		aliasType = 'title';
-	}
-
-	var cache = title;
-
-	if ('' != title && intelli.titleCache != cache)
-	{
-		var params = {title: title, type: aliasType, id: $('#input-id').val()};
-		if ('' != alias)
-		{
-			params.alias = 1;
-		}
-		$.get(intelli.config.admin_url + '/coupons/shops/alias.json', params, function(response)
-		{
-			if ('' != response.data)
-			{
-				$('#title_url').html(response.data + (response.exists ? ' <b style="color: #F00;">' + response.exists + '</b>' : ''));
-				$('#title_box').fadeIn();
-			}
-		});
-	}
-	intelli.titleCache = cache;
-};
-
 $(function()
 {
-	$('input[name="title"], input[name="website"]').keyup(function()
-	{
-		$('#field-title-alias').show();
-	});
+	var $alias = $('#field_title_alias'),
+		$title = $('#field_shops_title'),
+		$website = $('#field_shops_website');
 
-	$('input[name="website"], input[name="title"], input[name="title_alias"]').blur(intelli.fillUrlBox).blur();
+	intelli.titleCache = '';
+	intelli.fillUrlBox = function()
+	{
+		var alias = $alias.val(),
+			title = ('' == alias ? $website.val() : alias),
+			aliasType = 'website';
+
+		if ($website.length == 0 || '' == $website.val() || 'http://' == $website.val())
+		{
+			title = ('' == alias ? $title.val() : alias);
+			aliasType = 'title';
+		}
+
+		var cache = title;
+
+		if ('' != title && intelli.titleCache != cache)
+		{
+			var params = {title: title, type: aliasType, id: $('#input-id').val()};
+			if ('' != alias)
+			{
+				params.alias = 1;
+			}
+			$.get(intelli.config.admin_url + '/coupons/shops/alias.json', params, function(response)
+			{
+				if ('' != response.data)
+				{
+					$('#title_url').html(response.data + (response.exists ? ' <b style="color: #F00;">' + response.exists + '</b>' : ''));
+					$('#title_box').fadeIn();
+				}
+			});
+		}
+		intelli.titleCache = cache;
+	};
+
+	$('#field_shops_title, #field_shops_website').keyup(function(){$('#title_alias_fieldzone').show();});
+	$('#field_shops_website, #field_shops_title, #field_title_alias').blur(intelli.fillUrlBox).blur();
 });

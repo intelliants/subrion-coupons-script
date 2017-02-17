@@ -26,18 +26,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		$this->_root = $this->getHelper()->getRoot();
 	}
 
-	protected function _gridRead($params)
-	{
-		$action = empty($this->_iaCore->requestPath[0]) ? null : $this->_iaCore->requestPath[0];
-
-		switch ($action)
-		{
-			default: return parent::_gridRead($params);
-			case 'alias': return $this->_getAlias($_GET);
-			case 'tree': return $this->_getTree();
-		}
-	}
-
 	protected function _entryAdd(array $entryData)
 	{
 		$entryData['order'] = $this->_iaDb->getMaxOrder() + 1;
@@ -71,13 +59,13 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		parent::_preSaveEntry($entry, $data, $action);
 
-		$entry['parent_id'] = $data['parent_id'] ? (int)$data['parent_id'] : $this->_root['id'];
+		$entry['parent_id'] = empty($data['tree_id']) ? $this->_root['id'] : (int)$data['tree_id'];
 		$entry['locked'] = (int)$data['locked'];
 		$entry['status'] = $data['status'];
-		$entry['title_alias'] = iaSanitize::alias(empty($data['title_alias']) ? $data['title'] : $data['title_alias']);
+		$entry['title_alias'] = iaSanitize::alias(empty($data['title_alias']) ? $data['title'][$this->_iaCore->language['iso']] : $data['title_alias']);
 
 		// add parent alias
-		if ($data['parent_id'] != $this->_root['id'])
+		if ($entry['parent_id'] != $this->_root['id'])
 		{
 			$parent = $this->getHelper()->getById($entry['parent_id']);
 			$entry['title_alias'] = $parent['title_alias'] . IA_URL_DELIMITER . $entry['title_alias'];
@@ -95,7 +83,9 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		parent::_assignValues($iaView, $entryData);
 
-		$parent = $this->_iaDb->row(['id', 'title', 'parents', 'child'], iaDb::convertIds($entryData['parent_id']));
+		$parent = $this->_iaDb->row(['id', 'title' => 'title_' . $iaView->language, 'parents', 'child'],
+			iaDb::convertIds($entryData['parent_id']));
+
 		$iaView->assign('parent', $parent);
 	}
 
@@ -105,29 +95,11 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
 		if (iaCore::ACTION_EDIT == $action)
 		{
-			$iaView->title(iaLanguage::getf('edit_coupon_category', ['name' => $entryData['title']]));
+			$iaView->title(iaLanguage::getf('edit_coupon_category', ['name' => $entryData['title_' . $iaView->language]]));
 		}
 	}
 
-	protected function _getTree()
-	{
-		$nodeId = isset($_GET['id']) ? (int)$_GET['id'] : -1;
-		$rows = $this->_iaDb->all(['id', 'title', 'locked', 'child'], "`parent_id` = $nodeId ORDER BY `title`");
-		$nodes = [];
-
-		foreach ($rows as $entry)
-		{
-			$nodes[] = [
-				'id' => $entry['id'],
-				'text' => $entry['title'],
-				'children' => $entry['child'] && $entry['child'] != $entry['id']
-			];
-		}
-
-		return $nodes;
-	}
-
-	protected function _getAlias(array $params)
+	protected function _getJsonAlias(array $params)
 	{
 		$title = isset($params['title']) ? iaSanitize::alias($params['title']) : '';
 		$category = isset($params['category']) ? (int)$params['category'] : $this->getHelper()->getRootId();

@@ -18,7 +18,7 @@
 		</div>
 	{else}
 		<div class="text-center">
-			{printImage imgfile=$item.coupon_image.path type="source" class='img-responsive' title=$item.title|escape:'html'}
+			{ia_image file=$item.coupon_image class='img-responsive' title=$item.title}
 		</div>
 	{/if}
 
