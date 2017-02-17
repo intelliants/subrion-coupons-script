@@ -3,7 +3,7 @@
 {/if}
 
 {if !empty($shops)}
-	{$letter=''}
+	{$letter = ''}
 	<div class="shops-list">
 		{foreach $shops as $listing}
 			{if $letter|upper != $listing.title[0]|upper}
@@ -12,7 +12,7 @@
 				<hr>
 			{/if}
 			{include 'extra:coupons/list-shops'}
-			{assign var=letter value=$listing.title[0]}
+			{$letter = $listing.title[0]}
 		{/foreach}
 	</div>
 {else}

@@ -11,7 +11,7 @@ class iaCoupon extends abstractCouponsModuleFront
 	public $coreSearchEnabled = true;
 	public $coreSearchOptions = [
 		'tableAlias' => 't1',
-		'regularSearchStatements' => ["t1.`title` LIKE '%:query%' OR t1.`title_alias` LIKE '%:query%'"]
+		'regularSearchFields' => ['title', 'title_alias']
 	];
 
 	private $_foundRows = 0;
