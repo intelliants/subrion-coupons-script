@@ -120,7 +120,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 			$iaView->assign('categories', $categories);
 
 			// get neighbour categories & update page title
-			if (-1 != $category['parent_id'])
+			if ($category['parent_id'])
 			{
 				$neighbours = $iaCateg->getCategories("`parent_id` = '" . $category['parent_id'] . "'AND `id` <> '" . $category['id'] . "' AND `status` = 'active' ");
 				$iaView->assign('neighbours', $neighbours);
@@ -130,7 +130,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 				// generate breadcrumb
 				if (!empty($category['parents']) && !empty($category['level']))
 				{
-					if ($parents = $iaCateg->getCategories("`id` IN ({$category['parents']}) AND `parent_id` > -1"))
+					if ($parents = $iaCateg->getCategories("`id` IN ({$category['parents']}) AND `parent_id` > 0"))
 					{
 						foreach ($parents as $i => $p)
 						{

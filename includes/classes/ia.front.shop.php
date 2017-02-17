@@ -61,7 +61,7 @@ class iaShop extends abstractCouponsModuleFront
 	{
 		if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id'])
 		{
-			return [$this->url('edit', $params['item']), null];
+			return [$this->url(iaCore::ACTION_EDIT, $params['item']), null];
 		}
 
 		return false;

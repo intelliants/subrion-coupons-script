@@ -399,7 +399,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
 		<sql>
 			<![CDATA[
 INSERT INTO `{prefix}coupons_categories` (`parent_id`, `title`, `title_alias`, `level`, `status`) VALUES
-(-1, 'ROOT', '', 0, 'active');
+(1, 'ROOT', '', 0, 'active');
 			]]>
 		</sql>
 		<sql>

@@ -60,7 +60,7 @@ class iaCcat extends abstractCouponsModuleFront
 
 	public function getRoot()
 	{
-		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, '`parent_id` = -1', self::getTable());
+		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, '`parent_id` = 0', self::getTable());
 	}
 
 	public function getAllCategories($parent, &$categories)

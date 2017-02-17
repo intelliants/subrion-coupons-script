@@ -40,11 +40,11 @@ class iaCcat extends abstractCouponsModuleAdmin
 		$table_flat = $this->iaDb->prefix . 'coupons_categories_flat';
 		$table = self::getTable(true);
 
-		$insert_second = 'INSERT INTO ' . $table_flat . ' (`parent_id`, `category_id`) SELECT t . `parent_id`, t . `id` FROM ' . $table . ' t WHERE t . `parent_id` != -1';
-		$insert_first = 'INSERT INTO ' . $table_flat . ' (`parent_id`, `category_id`) SELECT t . `id`, t . `id` FROM ' . $table . ' t WHERE t . `parent_id` != -1';
-		$update_level = 'UPDATE ' . $table . ' s SET `level` = (SELECT COUNT(`category_id`)-1 FROM ' . $table_flat . ' f WHERE f . `category_id` = s . `id`) WHERE s . `parent_id` != -1;';
-		$update_child = 'UPDATE ' . $table . ' s SET `child` = (SELECT GROUP_CONCAT(`category_id`) FROM ' . $table_flat . ' f WHERE f . `parent_id` = s . `id`);';
-		$update_parent = 'UPDATE ' . $table . ' s SET `parents` = (SELECT GROUP_CONCAT(`parent_id`) FROM ' . $table_flat . ' f WHERE f . `category_id` = s . `id`);';
+		$insert_second = 'INSERT INTO ' . $table_flat . ' (`parent_id`, `category_id`) SELECT t.`parent_id`, t.`id` FROM ' . $table . ' t WHERE t.`parent_id` != 0';
+		$insert_first = 'INSERT INTO ' . $table_flat . ' (`parent_id`, `category_id`) SELECT t.`id`, t.`id` FROM ' . $table . ' t WHERE t.`parent_id` != 0';
+		$update_level = 'UPDATE ' . $table . ' s SET `level` = (SELECT COUNT(`category_id`)-1 FROM ' . $table_flat . ' f WHERE f.`category_id` = s.`id`) WHERE s.`parent_id` != 0;';
+		$update_child = 'UPDATE ' . $table . ' s SET `child` = (SELECT GROUP_CONCAT(`category_id`) FROM ' . $table_flat . ' f WHERE f.`parent_id` = s.`id`);';
+		$update_parent = 'UPDATE ' . $table . ' s SET `parents` = (SELECT GROUP_CONCAT(`parent_id`) FROM ' . $table_flat . ' f WHERE f.`category_id` = s.`id`);';
 
 		$num = 1;
 		$count = 0;
@@ -89,19 +89,19 @@ class iaCcat extends abstractCouponsModuleAdmin
 
 	public function getRoot()
 	{
-		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, '`parent_id` = -1', self::getTable());
+		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, '`parent_id` = 0', self::getTable());
 	}
 
 	public function getRootId()
 	{
-		return $this->iaDb->one(iaDb::ID_COLUMN_SELECTION, '`parent_id` = -1', self::getTable());
+		return $this->iaDb->one(iaDb::ID_COLUMN_SELECTION, '`parent_id` = 0', self::getTable());
 	}
 
 	public function getSitemapEntries()
 	{
 		$result = [];
 
-		$stmt = '`status` = :status AND `parent_id` != -1';
+		$stmt = '`status` = :status AND `parent_id` > 0';
 		$this->iaDb->bind($stmt, ['status' => iaCore::STATUS_ACTIVE]);
 		if ($rows = $this->iaDb->all(['title_alias'], $stmt, null, null, self::getTable()))
 		{
