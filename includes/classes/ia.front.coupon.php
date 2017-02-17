@@ -154,6 +154,7 @@ class iaCoupon extends abstractCouponsModuleFront
 
 	protected function _processValues(&$rows, $singleRow = false, $fieldNames = [])
 	{
+		$fieldNames = ['shop_image'];
 		parent::_processValues($rows, $singleRow, $fieldNames);
 
 		foreach ($rows as &$row)
