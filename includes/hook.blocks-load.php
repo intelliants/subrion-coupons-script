@@ -27,11 +27,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 			$currentCategory = $iaCcat->getCategory(iaDb::convertIds($categoryAlias, 'title_alias'));
 			$iaView->assign('current_category', $currentCategory);
 
-			$where = "`parent_id` = " . $currentCategory['id'];
+			$where = iaDb::convertIds($currentCategory['id'], iaCcat::COL_PARENT_ID);
 		}
 		else
 		{
-			$where = "`level` = 1";
+			$where = '`level` = 1';
 		}
 		$where .= " AND `status` = 'active' ";
 

@@ -1,9 +1,11 @@
 <?php
 //##copyright##
 
-class iaCcat extends abstractCouponsModuleFront
+class iaCcat extends iaAbstractFrontHelperCategoryHybrid
 {
 	protected static $_table = 'coupons_categories';
+
+    protected $_moduleName = 'coupons';
 
 	protected $_itemName = 'ccats';
 
@@ -20,7 +22,7 @@ class iaCcat extends abstractCouponsModuleFront
 			[
 				'action' => $action,
 				'alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
-				'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
+				'id' => isset($listingData['id']) ? $listingData['id'] : ''
 			]
 		);
 

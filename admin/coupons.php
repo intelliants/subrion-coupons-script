@@ -16,6 +16,13 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
 	protected $_activityLog = ['icon' => 'tag', 'item' => 'coupon'];
 
+	private $_iaCcat;
+
+
+	public function init()
+    {
+        $this->_iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
+    }
 
 	protected function _entryAdd(array $entryData)
 	{
@@ -75,12 +82,10 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
 	protected function _setDefaultValues(array &$entry)
 	{
-		$iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
-
 		$entry = [
 			'shop_id' => 0,
 			'member_id' => iaUsers::getIdentity()->id,
-			'category_id' => $iaCcat->getRootId(),
+			'category_id' => $this->_iaCcat->getRootId(),
 			'sponsored' => false,
 			'featured' => false,
 			'status' => iaCore::STATUS_ACTIVE,
@@ -126,10 +131,10 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 			? $this->_iaDb->one('title_' . $iaView->language, iaDb::convertIds($entryData['shop_id']), 'coupons_shops')
 			: $_POST['shop'];
 
-		$category = $this->_iaDb->row(['id', 'title' => 'title_' . $iaView->language, 'parent_id', 'parents'], iaDb::convertIds($entryData['category_id']), 'coupons_categories');
-		$entryData['parents'] = $category['parents'];
+		$category = $this->_iaCcat->getById($entryData['category_id']);
 
 		$iaView->assign('parent', $category);
+		$iaView->assign('treeParents', $category[iaCcat::COL_PARENTS]);
 		$iaView->assign('shopName', $shopName);
 		$iaView->assign('statuses', $this->getHelper()->getStatuses());
 	}

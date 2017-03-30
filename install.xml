@@ -371,16 +371,12 @@ if ('recount_coupons' == $_GET['type'])
 			<![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
 	`id` int(8) unsigned NOT NULL auto_increment,
-	`parent_id` int(8) unsigned NOT NULL,
 	`title_alias` varchar(150) NOT NULL,
 	`featured` tinyint(1) unsigned NOT NULL,
 	`featured_start` datetime,
 	`featured_end` datetime,
 	`status` enum('inactive','active') NOT NULL default 'inactive',
 	`order` int(8) NOT NULL,
-	`level` smallint(6) unsigned NOT NULL default 1,
-	`parents` tinytext NOT NULL,
-	`child` text NOT NULL,
 	`num_cols` tinyint(4) NOT NULL,
 	`num_neighbours` tinyint(4) NOT NULL,
 	`num_coupons` mediumint(8) NOT NULL,
@@ -388,25 +384,10 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
 	`no_follow` tinyint(1) unsigned NOT NULL,
 	`locked` tinyint(1) unsigned NOT NULL default 0,
 	`views_num` mediumint(8) unsigned NOT NULL,
+	`_pid` mediumint(8) unsigned NOT NULL default 0,
 	PRIMARY KEY (`id`),
-	UNIQUE `UNIQUE` (`parent_id`,`title_alias`),
+	UNIQUE `UNIQUE` (`_pid`,`title_alias`),
 	KEY `ORDER` (`order`)
-) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
-INSERT INTO `{prefix}coupons_categories` (`parent_id`, `title`, `title_alias`, `level`, `status`) VALUES
-(1, 'ROOT', '', 0, 'active');
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
-CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories_flat`(
-	`parent_id` int(8) unsigned NOT NULL,
-	`category_id` int(8) unsigned NOT NULL,
-	KEY `PARENT` (`parent_id`),
-	KEY `CATEGORY` (`category_id`)
 ) {mysql_version};
 			]]>
 		</sql>
@@ -443,7 +424,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_coupons`(
 		<sql>
 			<![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}thumbs_log`(
-	`id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+	`id` int(10) unsigned NOT NULL auto_increment,
 	`item_id` int(8) unsigned NOT NULL,
 	`ip` bigint(12) NOT NULL,
 	`date` date NOT NULL,
@@ -485,6 +466,11 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
 ) {mysql_version};
 			]]>
 		</sql>
+		<code>
+			<![CDATA[
+$iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
+			]]>
+		</code>
 	</install>
 
 	<uninstall>

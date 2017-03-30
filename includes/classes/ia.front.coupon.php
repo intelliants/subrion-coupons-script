@@ -88,7 +88,7 @@ class iaCoupon extends abstractCouponsModuleFront
 		$iaDb = &$this->iaDb;
 
 		$sql = 'SELECT :found_rows t1.*'
-				. ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+				. ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
 				. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
 				. ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
 			// count codes for each coupon
