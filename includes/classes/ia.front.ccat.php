@@ -60,25 +60,17 @@ class iaCcat extends iaAbstractFrontHelperCategoryHybrid
 		return $this->iaDb->exists('`title_alias` = :alias', ['alias' => $alias], 0, self::getTable());
 	}
 
-	public function getRoot()
+	public function getAllCategories($parentId, &$categories)
 	{
-		return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, '`parent_id` = 0', self::getTable());
-	}
-
-	public function getAllCategories($parent, &$categories)
-	{
-		$id = (int)$parent['id'];
-		$cats = $this->iaDb->assoc(['id', 'parent_id', 'title' => 'title_' . $this->iaView->language, 'level'],
-			'`parent_id` = ' . $id . ' ORDER BY `title`', self::getTable());
+		$cats = $this->iaDb->assoc(['id', self::COL_PARENT_ID, 'title' => 'title_' . $this->iaView->language,
+            self::COL_LEVEL], iaDb::convertIds($parentId, self::COL_PARENT_ID) . ' ORDER BY `title`', self::getTable());
 
 		if ($cats)
 		{
 			foreach ($cats as $id => $category)
 			{
-				$category['id'] = $id;
 				$categories[$id] = $category;
-
-				$this->getAllCategories($category, $categories);
+				$this->getAllCategories($id, $categories);
 			}
 		}
 	}

@@ -7,8 +7,8 @@
 			<label for="category_id">{lang key='coupon_category'}: <span class="required">*</span></label>
 			<select class="form-control" name="category_id" id="category_id">
 				<option>{lang key='_select_'}</option>
-				{foreach $coupon_categories as $category}
-					<option value="{$category.id}"{if isset($item.category_id) && $category.id == $item.category_id} selected="selected"{/if}>{section name='leveld' loop=$category.level - 1}--{/section}{$category.title}</option>
+				{foreach $coupon_categories as $cid => $category}
+					<option value="{$cid}"{if isset($item.category_id) && $cid == $item.category_id} selected{/if}>{section name='leveld' loop=$category.level - 1}--{/section}{$category.title|escape}</option>
 				{/foreach}
 			</select>
 		</div>

@@ -22,6 +22,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	public function init()
     {
         $this->_iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
+
+        $this->_treeSettings = ['parent_id' => iaCcat::COL_PARENT_ID, 'parents' => iaCcat::COL_PARENTS];
     }
 
 	protected function _entryAdd(array $entryData)
@@ -57,7 +59,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 	{
 		$prefix = $this->_iaDb->prefix;
 
-		$sqlCategory = 'SELECT `title` FROM `' . $prefix . 'coupons_categories` c WHERE c.`id` = `category_id`';
+		$sqlCategory = 'SELECT `title_' . $this->_iaCore->language['iso'] . '` FROM `' . $prefix . 'coupons_categories` c WHERE c.`id` = `category_id`';
 		$sqlMember = 'SELECT `username` FROM `' . $prefix . iaUsers::getTable() . '` m WHERE m.`id` = `member_id`';
 
 		$columns = parent::_unpackGridColumnsArray() . ', (:sql_category) `category`, (:sql_member) `member`';
@@ -131,13 +133,23 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 			? $this->_iaDb->one('title_' . $iaView->language, iaDb::convertIds($entryData['shop_id']), 'coupons_shops')
 			: $_POST['shop'];
 
-		$category = $this->_iaCcat->getById($entryData['category_id']);
-
-		$iaView->assign('parent', $category);
-		$iaView->assign('treeParents', $category[iaCcat::COL_PARENTS]);
 		$iaView->assign('shopName', $shopName);
 		$iaView->assign('statuses', $this->getHelper()->getStatuses());
 	}
+
+    protected function _getTreeVars(array $entryData)
+    {
+        $category = empty($entryData['category_id'])
+            ? $this->_iaCcat->getRoot()
+            : $this->_iaCcat->getById($entryData['category_id']);
+
+        return [
+            'url' => IA_ADMIN_URL . 'coupons/categories/tree.json?noroot',
+            'nodes' => $category[iaCcat::COL_PARENTS],
+            'id' => $category['id'],
+            'title' => $category['title']
+        ];
+    }
 
 	protected function _getJsonAlias(array $params)
 	{

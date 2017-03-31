@@ -88,7 +88,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType())
 
 			$categories = [];
 
-			$iaCateg->getAllCategories($iaCateg->getRoot(), $categories);
+			$iaCateg->getAllCategories($iaCateg->getRootId(), $categories);
 			$iaView->assign('coupon_categories', $categories);
 
 		if (isset($_POST['data-coupon']))

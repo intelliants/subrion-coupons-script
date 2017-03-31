@@ -24,6 +24,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		parent::__construct();
 
 		$this->_root = $this->getHelper()->getRoot();
+
+        $this->_treeSettings = ['parent_id' => iaCcat::COL_PARENT_ID, 'parents' => iaCcat::COL_PARENTS];
 	}
 
     protected function _entryAdd(array $entryData)
@@ -77,16 +79,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 		}
 
 		return !$this->getMessages();
-	}
-
-	protected function _assignValues(&$iaView, array &$entryData)
-	{
-		parent::_assignValues($iaView, $entryData);
-
-		$parent = $this->getHelper()->getById($entryData[iaCcat::COL_PARENT_ID]);
-
-		$iaView->assign('parent', $parent);
-		$iaView->assign('treeParents', $entryData[iaCcat::COL_PARENTS]);
 	}
 
 	protected function _setPageTitle(&$iaView, array $entryData, $action)
