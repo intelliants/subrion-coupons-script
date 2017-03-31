@@ -1,460 +1,460 @@
 <?xml version="1.0" encoding="utf-8"?>
 <module type="package" name="coupons">
-	<title>Coupons</title>
-	<summary>This package allows to build a powerful coupons sharing and deals website</summary>
-	<author>Intelliants LLC</author>
-	<contributor>Intelliants LLC</contributor>
-	<version>4.1.0</version>
-	<date>2017-02-14</date>
-	<compatibility>4.1.0</compatibility>
-	<url>coupons</url>
+    <title>Coupons</title>
+    <summary>This package allows to build a powerful coupons sharing and deals website</summary>
+    <author>Intelliants LLC</author>
+    <contributor>Intelliants LLC</contributor>
+    <version>4.1.0</version>
+    <date>2017-02-14</date>
+    <compatibility>4.1.0</compatibility>
+    <url>coupons</url>
 
-	<screenshots>
-		<screenshot type="preview" name="preview.jpg">Home page</screenshot>
-		<screenshot name="1.jpg">Coupons category</screenshot>
-		<screenshot name="2.jpg">View coupon</screenshot>
-		<screenshot name="3.jpg">Admin panel: Shops list</screenshot>
-		<screenshot name="4.jpg">Admin panel: Add Coupon</screenshot>
-	</screenshots>
+    <screenshots>
+        <screenshot type="preview" name="preview.jpg">Home page</screenshot>
+        <screenshot name="1.jpg">Coupons category</screenshot>
+        <screenshot name="2.jpg">View coupon</screenshot>
+        <screenshot name="3.jpg">Admin panel: Shops list</screenshot>
+        <screenshot name="4.jpg">Admin panel: Add Coupon</screenshot>
+    </screenshots>
 
-	<items>
-		<item table_name="coupons_coupons">coupons</item>
-		<item table_name="coupons_shops">shops</item>
-		<item table_name="coupons_categories" payable="0">ccats</item>
-	</items>
+    <items>
+        <item table_name="coupons_coupons">coupons</item>
+        <item table_name="coupons_shops">shops</item>
+        <item table_name="coupons_categories" payable="0">ccats</item>
+    </items>
 
-	<actions>
-		<action name="ccats" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit"><![CDATA[]]></action>
-		<action name="add_category" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit"><![CDATA[]]></action>
+    <actions>
+        <action name="ccats" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit"><![CDATA[]]></action>
+        <action name="add_category" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit"><![CDATA[]]></action>
 
-		<action name="shops" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit"><![CDATA[]]></action>
-		<action name="add_shop" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit"><![CDATA[]]></action>
+        <action name="shops" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit"><![CDATA[]]></action>
+        <action name="add_shop" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit"><![CDATA[]]></action>
 
-		<action name="coupons" url="coupons/coupons/" icon="list" pages="coupons_coupons:add,coupons_coupons:edit"><![CDATA[]]></action>
-		<action name="add_coupon" url="coupons/coupons/add/" icon="plus-alt" pages="coupons_coupons,coupons_coupons:edit"><![CDATA[]]></action>
-	</actions>
+        <action name="coupons" url="coupons/coupons/" icon="list" pages="coupons_coupons:add,coupons_coupons:edit"><![CDATA[]]></action>
+        <action name="add_coupon" url="coupons/coupons/add/" icon="plus-alt" pages="coupons_coupons,coupons_coupons:edit"><![CDATA[]]></action>
+    </actions>
 
-	<groups>
-		<group name="coupons">Coupons</group>
-	</groups>
+    <groups>
+        <group name="coupons">Coupons</group>
+    </groups>
 
-	<adminpages>
-		<page group="coupons" name="coupons_stats" filename="statistics" url="coupons/" menus="menu">Statistics</page>
-		<page group="coupons" menus="menu">Management</page>
-		<page group="coupons" name="coupons_categories" filename="categories" url="coupons/categories/" menus="menu">Categories</page>
-		<page group="coupons" name="coupons_shops" filename="shops" url="coupons/shops/" menus="menu">Shops</page>
-		<page group="coupons" name="coupons_coupons" filename="coupons" url="coupons/coupons/" menus="menu">Coupons</page>
-		<page group="coupons" menus="menu">Deals</page>
-		<page group="coupons" name="coupons_codes" filename="codes" url="coupons/codes/" menus="menu">Codes</page>
-	</adminpages>
+    <adminpages>
+        <page group="coupons" name="coupons_stats" filename="statistics" url="coupons/" menus="menu">Statistics</page>
+        <page group="coupons" menus="menu">Management</page>
+        <page group="coupons" name="coupons_categories" filename="categories" url="coupons/categories/" menus="menu">Categories</page>
+        <page group="coupons" name="coupons_shops" filename="shops" url="coupons/shops/" menus="menu">Shops</page>
+        <page group="coupons" name="coupons_coupons" filename="coupons" url="coupons/coupons/" menus="menu">Coupons</page>
+        <page group="coupons" menus="menu">Deals</page>
+        <page group="coupons" name="coupons_codes" filename="codes" url="coupons/codes/" menus="menu">Codes</page>
+    </adminpages>
 
-	<pages>
-		<page group="coupons" name="coupons_home" url="|PACKAGE|" menus="coupons">Coupons</page>
-		<page group="coupons" name="shops" url="|PACKAGE|shops/" filename="shops" menus="main,coupons">Shops</page>
-		<page group="coupons" name="shop_view" url="|PACKAGE|shop/" filename="shops" fields_item="shops">View Shop</page>
+    <pages>
+        <page group="coupons" name="coupons_home" url="|PACKAGE|" menus="coupons">Coupons</page>
+        <page group="coupons" name="shops" url="|PACKAGE|shops/" filename="shops" menus="main,coupons">Shops</page>
+        <page group="coupons" name="shop_view" url="|PACKAGE|shop/" filename="shops" fields_item="shops">View Shop</page>
 
-		<page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main,coupons">New Coupons</page>
-		<page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main,coupons">Popular Coupons</page>
-		<page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main,coupons">Deals</page>
-		<page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main,coupons">Coupon Codes</page>
-		<page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
-		<page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
-		<page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
-		<page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
-		<page group="coupons" name="coupon_delete" url="|PACKAGE|coupons/delete/" action="delete" parent="coupon_view" filename="manage" service="1">Delete Coupon</page>
-		<page group="coupons" name="coupon_view" url="|PACKAGE|coupon/" filename="view" nofollow="1" fields_item="coupons">View Coupon</page>
-		<page group="coupons" name="coupon_buy" url="|PACKAGE|coupon/buy/">Buy Coupon</page>
+        <page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main,coupons">New Coupons</page>
+        <page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main,coupons">Popular Coupons</page>
+        <page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main,coupons">Deals</page>
+        <page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main,coupons">Coupon Codes</page>
+        <page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
+        <page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
+        <page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
+        <page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
+        <page group="coupons" name="coupon_delete" url="|PACKAGE|coupons/delete/" action="delete" parent="coupon_view" filename="manage" service="1">Delete Coupon</page>
+        <page group="coupons" name="coupon_view" url="|PACKAGE|coupon/" filename="view" nofollow="1" fields_item="coupons">View Coupon</page>
+        <page group="coupons" name="coupon_buy" url="|PACKAGE|coupon/buy/">Buy Coupon</page>
 
-		<page group="coupons" name="codes" url="|PACKAGE|coupon/codes/" filename="codes">Codes</page>
-		<page group="coupons" name="search_coupons" url="search/coupons/" filename="search" fields_item="coupons">Search</page>
-	</pages>
+        <page group="coupons" name="codes" url="|PACKAGE|coupon/codes/" filename="codes">Codes</page>
+        <page group="coupons" name="search_coupons" url="search/coupons/" filename="search" fields_item="coupons">Search</page>
+    </pages>
 
-	<permissions>
-		<object id="shop_view" action="add" access="1">Add Shop</object>
-		<object id="shop_view" action="edit" access="1">Edit Shop</object>
-		<object id="coupon_view" action="add" access="1">Add Coupon</object>
-		<object id="coupon_view" action="edit" access="1">Edit Coupon</object>
-		<object id="coupon_view" action="delete" access="1">Delete Coupon</object>
-		<object id="my_coupons" access="0">View Own Listings</object>
+    <permissions>
+        <object id="shop_view" action="add" access="1">Add Shop</object>
+        <object id="shop_view" action="edit" access="1">Edit Shop</object>
+        <object id="coupon_view" action="add" access="1">Add Coupon</object>
+        <object id="coupon_view" action="edit" access="1">Edit Coupon</object>
+        <object id="coupon_view" action="delete" access="1">Delete Coupon</object>
+        <object id="my_coupons" access="0">View Own Listings</object>
 
-		<object meta_object="admin_page" id="coupons_coupons" access="1">View Coupons</object>
-		<object meta_object="admin_page" id="coupons_coupons" action="add">Add Coupon</object>
-		<object meta_object="admin_page" id="coupons_coupons" action="edit">Edit Coupon</object>
-		<object meta_object="admin_page" id="coupons_coupons" action="delete">Delete Coupon</object>
+        <object meta_object="admin_page" id="coupons_coupons" access="1">View Coupons</object>
+        <object meta_object="admin_page" id="coupons_coupons" action="add">Add Coupon</object>
+        <object meta_object="admin_page" id="coupons_coupons" action="edit">Edit Coupon</object>
+        <object meta_object="admin_page" id="coupons_coupons" action="delete">Delete Coupon</object>
 
-		<object meta_object="admin_page" id="coupons_shops" access="1">View Shops</object>
-		<object meta_object="admin_page" id="coupons_shops" action="add">Add Shop</object>
-		<object meta_object="admin_page" id="coupons_shops" action="edit">Edit Shop</object>
-		<object meta_object="admin_page" id="coupons_shops" action="delete">Delete Shop</object>
+        <object meta_object="admin_page" id="coupons_shops" access="1">View Shops</object>
+        <object meta_object="admin_page" id="coupons_shops" action="add">Add Shop</object>
+        <object meta_object="admin_page" id="coupons_shops" action="edit">Edit Shop</object>
+        <object meta_object="admin_page" id="coupons_shops" action="delete">Delete Shop</object>
 
-		<object meta_object="admin_page" id="coupons_categories" access="1">View Categories</object>
-		<object meta_object="admin_page" id="coupons_categories" action="add">Add Category</object>
-		<object meta_object="admin_page" id="coupons_categories" action="edit">Edit Category</object>
-		<object meta_object="admin_page" id="coupons_categories" action="delete">Delete Category</object>
+        <object meta_object="admin_page" id="coupons_categories" access="1">View Categories</object>
+        <object meta_object="admin_page" id="coupons_categories" action="add">Add Category</object>
+        <object meta_object="admin_page" id="coupons_categories" action="edit">Edit Category</object>
+        <object meta_object="admin_page" id="coupons_categories" action="delete">Delete Category</object>
 
-		<permission type="group" type_id="4" access="0">my_coupons</permission>
-		<permission type="group" type_id="4" access="0">codes</permission>
-	</permissions>
+        <permission type="group" type_id="4" access="0">my_coupons</permission>
+        <permission type="group" type_id="4" access="0">codes</permission>
+    </permissions>
 
-	<configgroup name="coupons">Coupons</configgroup>
-	<config group="coupons" type="divider" name="coupons_div1">General</config>
-	<config group="coupons" name="coupons_auto_approval" type="radio" values="1,0" description="Coupons auto approval">1</config>
-	<config group="coupons" name="coupon_add_guest" type="radio" values="1,0" description="Allow to add coupon for guest">1</config>
-	<config group="coupons" name="shop_submission" type="radio" values="1,0" description="Allow shop submission">1</config>
-	<config group="coupons" name="show_expired_coupons" type="radio" values="1,0" description="Show expired coupons">1</config>
-	<config group="coupons" type="radio" name="coupons_show_children" values="1,0" description="Show subcategories coupons in the parents">1</config>
-	<config group="coupons" name="badge_type" type="select" values="featured,hot" description="Featured badge type">featured</config>
-	<config group="coupons" name="coupons_per_page" type="text" description="Number of coupons per page">10</config>
+    <configgroup name="coupons">Coupons</configgroup>
+    <config group="coupons" type="divider" name="coupons_div1">General</config>
+    <config group="coupons" name="coupons_auto_approval" type="radio" values="1,0" description="Coupons auto approval">1</config>
+    <config group="coupons" name="coupon_add_guest" type="radio" values="1,0" description="Allow to add coupon for guest">1</config>
+    <config group="coupons" name="shop_submission" type="radio" values="1,0" description="Allow shop submission">1</config>
+    <config group="coupons" name="show_expired_coupons" type="radio" values="1,0" description="Show expired coupons">1</config>
+    <config group="coupons" type="radio" name="coupons_show_children" values="1,0" description="Show subcategories coupons in the parents">1</config>
+    <config group="coupons" name="badge_type" type="select" values="featured,hot" description="Featured badge type">featured</config>
+    <config group="coupons" name="coupons_per_page" type="text" description="Number of coupons per page">10</config>
 
-	<config group="coupons" type="divider" name="coupons_div2">Coupon Codes</config>
-	<config group="coupons" name="coupon_item_price_currency" type="text" description="Currency symbol">$</config>
+    <config group="coupons" type="divider" name="coupons_div2">Coupon Codes</config>
+    <config group="coupons" name="coupon_item_price_currency" type="text" description="Currency symbol">$</config>
 
-	<config group="coupons" type="divider" name="coupons_div3">Blocks</config>
-	<config group="coupons" name="popular_shops_max_items" type="text" description="Number of items in Popular Shops block">10</config>
-	<config group="coupons" name="top_coupons_block_num" type="text" description="Number of coupons in Top Coupons block">5</config>
-	<config group="coupons" name="new_coupons_block_num" type="text" description="Number of coupons in New Coupons block">5</config>
-	<config group="coupons" name="featured_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">5</config>
-	<config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Sponsored Coupons block">3</config>
-	<config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
-	<config group="coupons" name="coupons_listing_limit" type="text" description="Coupons limit for each member" show="0">10</config>
+    <config group="coupons" type="divider" name="coupons_div3">Blocks</config>
+    <config group="coupons" name="popular_shops_max_items" type="text" description="Number of items in Popular Shops block">10</config>
+    <config group="coupons" name="top_coupons_block_num" type="text" description="Number of coupons in Top Coupons block">5</config>
+    <config group="coupons" name="new_coupons_block_num" type="text" description="Number of coupons in New Coupons block">5</config>
+    <config group="coupons" name="featured_coupons_block_num" type="text" description="Number of listings in Featured Coupons block">5</config>
+    <config group="coupons" name="sponsored_coupons_block_num" type="text" description="Number of listings in Sponsored Coupons block">3</config>
+    <config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
+    <config group="coupons" name="coupons_listing_limit" type="text" description="Coupons limit for each member" show="0">10</config>
 
-	<config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
-	<!-- E-mail template for reported as problem coupone notification -->
-	<config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Link marked as problem">1</config>
-	<config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
-	<config group="email_templates" type="textarea" name="reported_as_problem_body">
-		<![CDATA[
+    <config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
+    <!-- E-mail template for reported as problem coupone notification -->
+    <config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Link marked as problem">1</config>
+    <config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
+    <config group="email_templates" type="textarea" name="reported_as_problem_body">
+        <![CDATA[
 <p>Greetings,</p>
 <p>Coupon "{%TITLE%}" marked as problem.</p>
 <p>Comments:</p>
 <p>{%COMMENTS%}</p>
-		]]>
-	</config>
+        ]]>
+    </config>
 
-	<fields_groups>
-		<group item="coupons" name="coupons" title="General">Please provide more information about your coupon.</group>
-		<group item="coupons" name="coupons_pricing" title="Pricing">Configure your coupon pricing details.</group>
-		<group item="shops" name="shops" title="General"><![CDATA[]]></group>
-		<group item="ccats" name="categories" title="General"><![CDATA[]]></group>
-	</fields_groups>
+    <fields_groups>
+        <group item="coupons" name="coupons" title="General">Please provide more information about your coupon.</group>
+        <group item="coupons" name="coupons_pricing" title="Pricing">Configure your coupon pricing details.</group>
+        <group item="shops" name="shops" title="General"><![CDATA[]]></group>
+        <group item="ccats" name="categories" title="General"><![CDATA[]]></group>
+    </fields_groups>
 
-	<fields>
-		<field item="ccats" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
-		<field item="ccats" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
-		<field item="ccats" name="icon" type="iconpicker" group="categories" default="fa-folder" adminonly="1" page="coupons_home">Icon</field>
-		<field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
-		<field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
+    <fields>
+        <field item="ccats" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
+        <field item="ccats" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
+        <field item="ccats" name="icon" type="iconpicker" group="categories" default="fa-folder" adminonly="1" page="coupons_home">Icon</field>
+        <field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
-		<field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
-		<field item="coupons" name="coupon_type" group="coupons" type="combo" required="1"
-			page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
-		<field item="coupons" name="coupon_code" group="coupons" type="text" length="70" required="1"
-			page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
-		<field item="coupons" name="coupon_image" group="coupons" type="image"
-			page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:printable">Coupon Image</field>
-		<field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
-		<field item="coupons" name="coupon_tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
-		<field item="coupons" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
-		<field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal" multilingual="1">Description</field>
-		<field item="coupons" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
-		<field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Affiliate Link</field>
-		<field item="coupons" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
-		<field item="coupons" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
-		<field item="coupons" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
-		<field item="coupons" name="cost" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
-		<field item="coupons" name="item_price" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
-		<field item="coupons" name="item_discount" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
-		<field item="coupons" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
+        <field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
+        <field item="coupons" name="coupon_type" group="coupons" type="combo" required="1"
+            page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
+        <field item="coupons" name="coupon_code" group="coupons" type="text" length="70" required="1"
+            page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
+        <field item="coupons" name="coupon_image" group="coupons" type="image"
+            page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:printable">Coupon Image</field>
+        <field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
+        <field item="coupons" name="coupon_tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
+        <field item="coupons" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
+        <field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal" multilingual="1">Description</field>
+        <field item="coupons" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
+        <field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Affiliate Link</field>
+        <field item="coupons" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="coupons" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
+        <field item="coupons" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
+        <field item="coupons" name="cost" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
+        <field item="coupons" name="item_price" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
+        <field item="coupons" name="item_discount" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
+        <field item="coupons" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
-		<field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0" multilingual="1">Title</field>
-		<field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Website</field>
-		<field name="description" group="shops" item="shops" type="textarea" editor="1" searchable="1" page="coupons_home,shop_add,shop_edit" multilingual="1">Description</field>
-		<field name="shop_image" group="shops" item="shops" type="image"
-			page="coupons_home,shop_add,shop_edit" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
-		<field name="affiliate_link" group="shops" item="shops" type="text" length="255" default="http://" page="shop_add,shop_edit" editable="0">Affiliate Link</field>
-		<field name="meta_description" group="shops" item="shops" type="textarea" length="255" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Description</field>
-		<field name="meta_keywords" group="shops" item="shops" type="text" length="150" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Keywords</field>
-	</fields>
+        <field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0" multilingual="1">Title</field>
+        <field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Website</field>
+        <field name="description" group="shops" item="shops" type="textarea" editor="1" searchable="1" page="coupons_home,shop_add,shop_edit" multilingual="1">Description</field>
+        <field name="shop_image" group="shops" item="shops" type="image"
+            page="coupons_home,shop_add,shop_edit" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
+        <field name="affiliate_link" group="shops" item="shops" type="text" length="255" default="http://" page="shop_add,shop_edit" editable="0">Affiliate Link</field>
+        <field name="meta_description" group="shops" item="shops" type="textarea" length="255" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Description</field>
+        <field name="meta_keywords" group="shops" item="shops" type="text" length="150" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Keywords</field>
+    </fields>
 
-	<phrases>
-		<phrase category="admin" key="add_category">Add Category</phrase>
-		<phrase category="admin" key="add_shop">Add Shop</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_shop">Are you sure you wish to delete selected shop?</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_shops">Are you sure you wish to delete selected shops?</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_coupon">Are you sure you wish to delete selected coupon?</phrase>
-		<phrase category="admin" key="are_you_sure_to_delete_selected_coupons">Are you sure you wish to delete selected coupons?</phrase>
-		<phrase category="admin" key="ccats">Coupon Categories</phrase>
-		<phrase category="admin" key="coupon_added">Coupon added.</phrase>
-		<phrase category="admin" key="coupon_category_added">Coupon category added.</phrase>
-		<phrase category="admin" key="coupon_category_deleted">Coupon category deleted.</phrase>
-		<phrase category="admin" key="coupon_category_already_exists">Coupon category with similar title alias exists in this category.</phrase>
-		<phrase category="admin" key="field_ccats_icon_annotation"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes.]]></phrase>
-		<phrase category="admin" key="coupon_shop_already_exists">Shop with similar title alias exists.</phrase>
-		<phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
-		<phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
-		<phrase category="admin" key="coupons_package">&quot;Coupons&quot; package</phrase>
-		<phrase category="admin" key="edit_coupon">Edit Coupon</phrase>
-		<phrase category="admin" key="edit_coupon_category">Edit Category ":name"</phrase>
-		<phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
-		<phrase category="admin" key="expired">expired</phrase>
-		<phrase category="admin" key="recount_coupons">Recount coupons</phrase>
-		<phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>
-		<phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
-		<phrase category="admin" key="reported_as_problem_comments">Problem report comments</phrase>
+    <phrases>
+        <phrase category="admin" key="add_category">Add Category</phrase>
+        <phrase category="admin" key="add_shop">Add Shop</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_shop">Are you sure you wish to delete selected shop?</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_shops">Are you sure you wish to delete selected shops?</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_coupon">Are you sure you wish to delete selected coupon?</phrase>
+        <phrase category="admin" key="are_you_sure_to_delete_selected_coupons">Are you sure you wish to delete selected coupons?</phrase>
+        <phrase category="admin" key="ccats">Coupon Categories</phrase>
+        <phrase category="admin" key="coupon_added">Coupon added.</phrase>
+        <phrase category="admin" key="coupon_category_added">Coupon category added.</phrase>
+        <phrase category="admin" key="coupon_category_deleted">Coupon category deleted.</phrase>
+        <phrase category="admin" key="coupon_category_already_exists">Coupon category with similar title alias exists in this category.</phrase>
+        <phrase category="admin" key="field_ccats_icon_annotation"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes.]]></phrase>
+        <phrase category="admin" key="coupon_shop_already_exists">Shop with similar title alias exists.</phrase>
+        <phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
+        <phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
+        <phrase category="admin" key="coupons_package">&quot;Coupons&quot; package</phrase>
+        <phrase category="admin" key="edit_coupon">Edit Coupon</phrase>
+        <phrase category="admin" key="edit_coupon_category">Edit Category ":name"</phrase>
+        <phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
+        <phrase category="admin" key="expired">expired</phrase>
+        <phrase category="admin" key="recount_coupons">Recount coupons</phrase>
+        <phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>
+        <phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
+        <phrase category="admin" key="reported_as_problem_comments">Problem report comments</phrase>
 
-		<phrase category="common" key="add_coupon">Add Coupon</phrase>
-		<phrase category="common" key="ccats">Categories</phrase>
-		<phrase category="common" key="coupon_category">Category</phrase>
-		<phrase category="common" key="shops">Shops</phrase>
-		<phrase category="common" key="shop">Shop</phrase>
-		<phrase category="common" key="shop_information">Shop Information</phrase>
-		<phrase category="common" key="shop_website">Shop website</phrase>
-		<phrase category="common" key="shop_added">Coupon shop added.</phrase>
-		<phrase category="common" key="coupons">Coupons</phrase>
-		<phrase category="common" key="coupon">Coupon</phrase>
-		<phrase category="common" key="coupon_title">Coupon title</phrase>
-		<phrase category="common" key="coupon_tags">Coupon tags</phrase>
-		<phrase category="common" key="coupon_type">Coupon type</phrase>
-		<phrase category="common" key="coupon_code">Coupon code</phrase>
-		<phrase category="common" key="field_activations_annotation">Number of possible activations</phrase>
-		<phrase category="common" key="field_cost_annotation">Coupon cost</phrase>
-		<phrase category="common" key="field_item_price_annotation">Real price of the product</phrase>
-		<phrase category="common" key="field_item_discount_annotation">Discount value</phrase>
-		<phrase category="common" key="simple_coupon">Coupon code</phrase>
-		<phrase category="common" key="printable_coupon">Printable coupon</phrase>
-		<phrase category="common" key="deal_coupon">Deal</phrase>
-		<phrase category="common" key="coupon_expire">Expires on</phrase>
-		<phrase category="common" key="coupon_image">Coupon image</phrase>
-		<phrase category="common" key="coupon_url">Coupon URL</phrase>
-		<phrase category="common" key="coupon_description">Description</phrase>
-		<phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
-		<phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupone as problem?</phrase>
+        <phrase category="common" key="add_coupon">Add Coupon</phrase>
+        <phrase category="common" key="ccats">Categories</phrase>
+        <phrase category="common" key="coupon_category">Category</phrase>
+        <phrase category="common" key="shops">Shops</phrase>
+        <phrase category="common" key="shop">Shop</phrase>
+        <phrase category="common" key="shop_information">Shop Information</phrase>
+        <phrase category="common" key="shop_website">Shop website</phrase>
+        <phrase category="common" key="shop_added">Coupon shop added.</phrase>
+        <phrase category="common" key="coupons">Coupons</phrase>
+        <phrase category="common" key="coupon">Coupon</phrase>
+        <phrase category="common" key="coupon_title">Coupon title</phrase>
+        <phrase category="common" key="coupon_tags">Coupon tags</phrase>
+        <phrase category="common" key="coupon_type">Coupon type</phrase>
+        <phrase category="common" key="coupon_code">Coupon code</phrase>
+        <phrase category="common" key="field_activations_annotation">Number of possible activations</phrase>
+        <phrase category="common" key="field_cost_annotation">Coupon cost</phrase>
+        <phrase category="common" key="field_item_price_annotation">Real price of the product</phrase>
+        <phrase category="common" key="field_item_discount_annotation">Discount value</phrase>
+        <phrase category="common" key="simple_coupon">Coupon code</phrase>
+        <phrase category="common" key="printable_coupon">Printable coupon</phrase>
+        <phrase category="common" key="deal_coupon">Deal</phrase>
+        <phrase category="common" key="coupon_expire">Expires on</phrase>
+        <phrase category="common" key="coupon_image">Coupon image</phrase>
+        <phrase category="common" key="coupon_url">Coupon URL</phrase>
+        <phrase category="common" key="coupon_description">Description</phrase>
+        <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
+        <phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupone as problem?</phrase>
 
-		<phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
-		<phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
-		<phrase category="frontend" key="coupon_add_no_auth">Guests are not allowed to add coupons. Only registered members can do that. Please &lt;a href=":base_urllogin/"&gt;sign in&lt;/a&gt; or &lt;a href=":base_urlregistration/"&gt;register&lt;/a&gt; in order to continue.</phrase>
-		<phrase category="frontend" key="coupon_added_inactive">Thanks. Your coupon will be active upon admin approval.</phrase>
-		<phrase category="frontend" key="coupon_copy_to_clipboard">Click to copy Code to clipboard.</phrase>
-		<phrase category="frontend" key="coupon_category_locked">Coupon category is locked. You may not submit coupons in it.</phrase>
-		<phrase category="frontend" key="coupon_category_empty">Please select the appropriate category for your coupon.</phrase>
-		<phrase category="frontend" key="delete_coupon">Delete Coupon</phrase>
-		<phrase category="frontend" key="delete_coupon_confirmation">Are you sure you wish to delete this coupon?</phrase>
-		<phrase category="frontend" key="down">down</phrase>
-		<phrase category="frontend" key="edit_coupon">Edit Coupon</phrase>
-		<phrase category="frontend" key="error_shop_incorrect">Please select correct shop.</phrase>
-		<phrase category="frontend" key="expired_coupons">Expired Coupons</phrase>
-		<phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
-		<phrase category="frontend" key="hot">Hot</phrase>
-		<phrase category="frontend" key="inactive">Inactive</phrase>
-		<phrase category="frontend" key="likes">likes</phrase>
-		<phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
-		<phrase category="frontend" key="more_info">More info</phrase>
-		<phrase category="frontend" key="no_coupons">No coupons added.</phrase>
-		<phrase category="frontend" key="no_coupons_for_shop">No coupons added for this shop.</phrase>
-		<phrase category="frontend" key="no_coupons_for_category">No coupons added for this category.</phrase>
-		<phrase category="frontend" key="no_coupon_tags">No tags added.</phrase>
-		<phrase category="frontend" key="no_my_coupons"><![CDATA[You have not added any coupon on this website. <a href="{%URL%}">Click here</a> to add it right now.]]></phrase>
-		<phrase category="frontend" key="no_shops">No shops added.</phrase>
-		<phrase category="frontend" key="popularity">popularity</phrase>
-		<phrase category="frontend" key="purchase_coupon_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
-		<phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
-		<phrase category="frontend" key="select_category">Select category</phrase>
-		<phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
-		<phrase category="frontend" key="shop_activity">Shop activity</phrase>
-		<phrase category="frontend" key="show_code">Show code</phrase>
-		<phrase category="frontend" key="print_coupon">Print coupon</phrase>
-		<phrase category="frontend" key="get_deal">Get deal</phrase>
-		<phrase category="frontend" key="tags">Tags</phrase>
-		<phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
-		<phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>
-		<phrase category="frontend" key="up">up</phrase>
-		<phrase category="frontend" key="used">Used</phrase>
-		<phrase category="frontend" key="views_since">views since</phrase>
-		<phrase category="frontend" key="share_your_love">Share your love</phrase>
-		<phrase category="frontend" key="show_all_coupons">Show all coupons</phrase>
-		<phrase category="frontend" key="show_active_coupons">Show active coupons</phrase>
-		<phrase category="frontend" key="show_expired_coupons">Show expired coupons</phrase>
-		<phrase category="frontend" key="website">Website</phrase>
-		<phrase category="frontend" key="you_save">You save</phrase>
-		<phrase category="frontend" key="redirect">Redirect</phrase>
-		<phrase category="frontend" key="report_coupon">Report Coupon</phrase>
-		<phrase category="frontend" key="you_sent_report">Thanks. A report has been sent to the site administrator.</phrase>
-		<phrase category="frontend" key="comment">Comment</phrase>
-		<phrase category="frontend" key="reported_problem">Problems reported</phrase>
-		<phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
-	</phrases>
+        <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
+        <phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
+        <phrase category="frontend" key="coupon_add_no_auth">Guests are not allowed to add coupons. Only registered members can do that. Please &lt;a href=":base_urllogin/"&gt;sign in&lt;/a&gt; or &lt;a href=":base_urlregistration/"&gt;register&lt;/a&gt; in order to continue.</phrase>
+        <phrase category="frontend" key="coupon_added_inactive">Thanks. Your coupon will be active upon admin approval.</phrase>
+        <phrase category="frontend" key="coupon_copy_to_clipboard">Click to copy Code to clipboard.</phrase>
+        <phrase category="frontend" key="coupon_category_locked">Coupon category is locked. You may not submit coupons in it.</phrase>
+        <phrase category="frontend" key="coupon_category_empty">Please select the appropriate category for your coupon.</phrase>
+        <phrase category="frontend" key="delete_coupon">Delete Coupon</phrase>
+        <phrase category="frontend" key="delete_coupon_confirmation">Are you sure you wish to delete this coupon?</phrase>
+        <phrase category="frontend" key="down">down</phrase>
+        <phrase category="frontend" key="edit_coupon">Edit Coupon</phrase>
+        <phrase category="frontend" key="error_shop_incorrect">Please select correct shop.</phrase>
+        <phrase category="frontend" key="expired_coupons">Expired Coupons</phrase>
+        <phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
+        <phrase category="frontend" key="hot">Hot</phrase>
+        <phrase category="frontend" key="inactive">Inactive</phrase>
+        <phrase category="frontend" key="likes">likes</phrase>
+        <phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
+        <phrase category="frontend" key="more_info">More info</phrase>
+        <phrase category="frontend" key="no_coupons">No coupons added.</phrase>
+        <phrase category="frontend" key="no_coupons_for_shop">No coupons added for this shop.</phrase>
+        <phrase category="frontend" key="no_coupons_for_category">No coupons added for this category.</phrase>
+        <phrase category="frontend" key="no_coupon_tags">No tags added.</phrase>
+        <phrase category="frontend" key="no_my_coupons"><![CDATA[You have not added any coupon on this website. <a href="{%URL%}">Click here</a> to add it right now.]]></phrase>
+        <phrase category="frontend" key="no_shops">No shops added.</phrase>
+        <phrase category="frontend" key="popularity">popularity</phrase>
+        <phrase category="frontend" key="purchase_coupon_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
+        <phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
+        <phrase category="frontend" key="select_category">Select category</phrase>
+        <phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
+        <phrase category="frontend" key="shop_activity">Shop activity</phrase>
+        <phrase category="frontend" key="show_code">Show code</phrase>
+        <phrase category="frontend" key="print_coupon">Print coupon</phrase>
+        <phrase category="frontend" key="get_deal">Get deal</phrase>
+        <phrase category="frontend" key="tags">Tags</phrase>
+        <phrase category="frontend" key="thumbs_vote_accepted">Thank you. Your vote accepted.</phrase>
+        <phrase category="frontend" key="thumbs_already_voted">You have rated this coupon.</phrase>
+        <phrase category="frontend" key="up">up</phrase>
+        <phrase category="frontend" key="used">Used</phrase>
+        <phrase category="frontend" key="views_since">views since</phrase>
+        <phrase category="frontend" key="share_your_love">Share your love</phrase>
+        <phrase category="frontend" key="show_all_coupons">Show all coupons</phrase>
+        <phrase category="frontend" key="show_active_coupons">Show active coupons</phrase>
+        <phrase category="frontend" key="show_expired_coupons">Show expired coupons</phrase>
+        <phrase category="frontend" key="website">Website</phrase>
+        <phrase category="frontend" key="you_save">You save</phrase>
+        <phrase category="frontend" key="redirect">Redirect</phrase>
+        <phrase category="frontend" key="report_coupon">Report Coupon</phrase>
+        <phrase category="frontend" key="you_sent_report">Thanks. A report has been sent to the site administrator.</phrase>
+        <phrase category="frontend" key="comment">Comment</phrase>
+        <phrase category="frontend" key="reported_problem">Problems reported</phrase>
+        <phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
+    </phrases>
 
-	<hooks>
-		<hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
-		<hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
-		<hook name="populateCommonStatisticsBlock" page_type="front">
-			<![CDATA[
+    <hooks>
+        <hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
+        <hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
+        <hook name="populateCommonStatisticsBlock" page_type="front">
+            <![CDATA[
 $stmt = "`status` = ':status'";
 
 $statistics['coupons'] = array(
-	array(
-		'title' => iaLanguage::get('shops'),
-		'value' => number_format((int)$iaDb->one(iaDb::STMT_COUNT_ROWS, iaDb::printf($stmt, array('status' => iaCore::STATUS_ACTIVE)), 'coupons_shops'))
-	),
-	array(
-		'title' => iaLanguage::get('coupons'),
-		'value' => number_format((int)$iaDb->one(iaDb::STMT_COUNT_ROWS, iaDb::printf($stmt, array('status' => iaCore::STATUS_ACTIVE)), 'coupons_coupons'))
-	)
+    array(
+        'title' => iaLanguage::get('shops'),
+        'value' => number_format((int)$iaDb->one(iaDb::STMT_COUNT_ROWS, iaDb::printf($stmt, array('status' => iaCore::STATUS_ACTIVE)), 'coupons_shops'))
+    ),
+    array(
+        'title' => iaLanguage::get('coupons'),
+        'value' => number_format((int)$iaDb->one(iaDb::STMT_COUNT_ROWS, iaDb::printf($stmt, array('status' => iaCore::STATUS_ACTIVE)), 'coupons_coupons'))
+    )
 );
-			]]>
-		</hook>
-		<hook name="adminDatabaseConsistency" type="smarty" page_type="admin">
-			<![CDATA[
+            ]]>
+        </hook>
+        <hook name="adminDatabaseConsistency" type="smarty" page_type="admin">
+            <![CDATA[
 <div class="row">
-	<label class="col col-lg-2 control-label">{lang key='recount_coupons'}</label>
-	<div class="col col-lg-4">
-		<button type="submit" class="btn btn-success btn-small" name="type" value="recount_coupons">{lang key='start'}</button>
-	</div>
+    <label class="col col-lg-2 control-label">{lang key='recount_coupons'}</label>
+    <div class="col col-lg-4">
+        <button type="submit" class="btn btn-success btn-small" name="type" value="recount_coupons">{lang key='start'}</button>
+    </div>
 </div>
-			]]>
-		</hook>
-		<hook name="phpAdminDatabaseConsistencyType" page_type="admin">
-			<![CDATA[
+            ]]>
+        </hook>
+        <hook name="phpAdminDatabaseConsistencyType" page_type="admin">
+            <![CDATA[
 if ('recount_coupons' == $_GET['type'])
 {
-	$iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters();
-	$iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
+    $iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters();
+    $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
 }
-			]]>
-		</hook>
+            ]]>
+        </hook>
 
-		<hook name="smartyViewCouponBeforeFooter" type="smarty" page_type="front" filename="hook.report-modal"><![CDATA[]]></hook>
-	</hooks>
+        <hook name="smartyViewCouponBeforeFooter" type="smarty" page_type="front" filename="hook.report-modal"><![CDATA[]]></hook>
+    </hooks>
 
-	<blocks>
-		<block name="coupons_search" title="Quick Search" position="verytop" sticky="0" pages="index" collapsible="0" type="smarty"
-			filename="block.quicksearch"><![CDATA[]]></block>
-		<block type="smarty" name="popular_shops" title="Popular Shops" header="0" position="top" sticky="0" pages="index,coupons_home" order="1" filename="block.popular-shops"><![CDATA[]]></block>
-		<block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons"><![CDATA[]]></block>
-		<block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons"><![CDATA[]]></block>
-		<block type="smarty" name="deal_of_the_day" title="Deal of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.deal-of-the-day"><![CDATA[]]></block>
-		<block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons" classname=""><![CDATA[]]></block>
-		<block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons" classname=""><![CDATA[]]></block>
-		<block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.categories"><![CDATA[]]></block>
-		<block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.top-categories"><![CDATA[]]></block>
-		<block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops"><![CDATA[]]></block>
-		<block type="smarty" name="neighbour_categories" title="Browse Neighbour Categories" position="bottom" sticky="0" collapsible="1" pages="index,coupons_home">
-		<![CDATA[
+    <blocks>
+        <block name="coupons_search" title="Quick Search" position="verytop" sticky="0" pages="index" collapsible="0" type="smarty"
+            filename="block.quicksearch"><![CDATA[]]></block>
+        <block type="smarty" name="popular_shops" title="Popular Shops" header="0" position="top" sticky="0" pages="index,coupons_home" order="1" filename="block.popular-shops"><![CDATA[]]></block>
+        <block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons"><![CDATA[]]></block>
+        <block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons"><![CDATA[]]></block>
+        <block type="smarty" name="deal_of_the_day" title="Deal of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.deal-of-the-day"><![CDATA[]]></block>
+        <block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons" classname=""><![CDATA[]]></block>
+        <block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons" classname=""><![CDATA[]]></block>
+        <block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.categories"><![CDATA[]]></block>
+        <block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.top-categories"><![CDATA[]]></block>
+        <block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops"><![CDATA[]]></block>
+        <block type="smarty" name="neighbour_categories" title="Browse Neighbour Categories" position="bottom" sticky="0" collapsible="1" pages="index,coupons_home">
+        <![CDATA[
 {if !empty($neighbours)}
-	{include 'ia-categories.tpl' categories=$neighbours num_columns=3 item='ccats' package='coupons'}
+    {include 'ia-categories.tpl' categories=$neighbours num_columns=3 item='ccats' package='coupons'}
 {/if}
-			]]>
-		</block>
-		<block type="html" name="why_submit" title="Why submit?" position="right" sticky="0" pages="coupon_add" order="1">
-			<![CDATA[
+            ]]>
+        </block>
+        <block type="html" name="why_submit" title="Why submit?" position="right" sticky="0" pages="coupon_add" order="1">
+            <![CDATA[
 <p>By harnessing "people power" our website becomes a one-stop shop for finding coupon codes.</p>
 <p>By sharing a coupon code you are encouraging others to do the same.</p>
 <p>Merchants can gain access to an untapped pool of shoppers by offering compelling bargains to our users.</p>
-			]]>
-		</block>
-		<block type="html" name="guidelines" title="Guidelines" position="right" sticky="0" pages="coupon_add" order="2">
-			<![CDATA[
+            ]]>
+        </block>
+        <block type="html" name="guidelines" title="Guidelines" position="right" sticky="0" pages="coupon_add" order="2">
+            <![CDATA[
 <p>Please only submit publicly available coupon codes and not private or internal company codes.
  If in doubt please obtain permission from the merchant first.</p>
 <p>Please include as much information about the discount as possible in the description.</p>
 <p>Thanks very much.</p>
-			]]>
-		</block>
-		<block type="smarty" name="share_coupon" title="Share Coupon" position="left" order="0" filename="block.share-coupon"><![CDATA[]]></block>
-		<block type="smarty" name="shop_info" title="Shop info" position="right" sticky="0" order="0" filename="block.shop-info" pages="coupon_view"><![CDATA[]]></block>
-	</blocks>
+            ]]>
+        </block>
+        <block type="smarty" name="share_coupon" title="Share Coupon" position="left" order="0" filename="block.share-coupon"><![CDATA[]]></block>
+        <block type="smarty" name="shop_info" title="Shop info" position="right" sticky="0" order="0" filename="block.shop-info" pages="coupon_view"><![CDATA[]]></block>
+    </blocks>
 
-	<install>
-		<sql>
-			<![CDATA[
+    <install>
+        <sql>
+            <![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
-	`id` int(8) unsigned NOT NULL auto_increment,
-	`title_alias` varchar(150) NOT NULL,
-	`featured` tinyint(1) unsigned NOT NULL,
-	`featured_start` datetime,
-	`featured_end` datetime,
-	`status` enum('inactive','active') NOT NULL default 'inactive',
-	`order` int(8) NOT NULL,
-	`num_cols` tinyint(4) NOT NULL,
-	`num_neighbours` tinyint(4) NOT NULL,
-	`num_coupons` mediumint(8) NOT NULL,
-	`num_all_coupons` mediumint(8) NOT NULL,
-	`no_follow` tinyint(1) unsigned NOT NULL,
-	`locked` tinyint(1) unsigned NOT NULL default 0,
-	`views_num` mediumint(8) unsigned NOT NULL,
-	`_pid` mediumint(8) unsigned NOT NULL default 0,
-	PRIMARY KEY (`id`),
-	UNIQUE `UNIQUE` (`_pid`,`title_alias`),
-	KEY `ORDER` (`order`)
+    `id` int(8) unsigned NOT NULL auto_increment,
+    `title_alias` varchar(150) NOT NULL,
+    `featured` tinyint(1) unsigned NOT NULL,
+    `featured_start` datetime,
+    `featured_end` datetime,
+    `status` enum('inactive','active') NOT NULL default 'inactive',
+    `order` int(8) NOT NULL,
+    `num_cols` tinyint(4) NOT NULL,
+    `num_neighbours` tinyint(4) NOT NULL,
+    `num_coupons` mediumint(8) NOT NULL,
+    `num_all_coupons` mediumint(8) NOT NULL,
+    `no_follow` tinyint(1) unsigned NOT NULL,
+    `locked` tinyint(1) unsigned NOT NULL default 0,
+    `views_num` mediumint(8) unsigned NOT NULL,
+    `_pid` mediumint(8) unsigned NOT NULL default 0,
+    PRIMARY KEY (`id`),
+    UNIQUE `UNIQUE` (`_pid`,`title_alias`),
+    KEY `ORDER` (`order`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_coupons`(
-	`id` int(8) unsigned NOT NULL auto_increment,
-	`member_id` int(11) unsigned NOT NULL,
-	`category_id` int(8) unsigned NOT NULL,
-	`shop_id` int(8) unsigned NOT NULL,
-	`title_alias` varchar(250) NOT NULL,
-	`status` enum('suspended','approval','expired','active') NOT NULL default 'approval',
-	`date_added` datetime NOT NULL,
-	`date_modified` datetime NOT NULL,
-	`featured` tinyint(1) unsigned NOT NULL,
-	`featured_start` datetime,
-	`featured_end` datetime,
-	`sponsored` tinyint(1) unsigned NOT NULL,
-	`sponsored_start` datetime NULL,
-	`sponsored_end` datetime NULL,
-	`sponsored_plan_id` smallint(5) unsigned NOT NULL,
-	`views_num` int(11) unsigned NOT NULL,
-	`thumbs_num` mediumint(7) NOT NULL,
-	`activations` mediumint(7) unsigned NOT NULL,
-	`cost` decimal(10,2) unsigned,
-	`item_price` decimal(10,2) unsigned,
-	`reported_as_problem` tinyint(1) unsigned NOT NULL default 0,
-	`reported_as_problem_comments` TEXT NOT NULL,
-	PRIMARY KEY (`id`),
-	KEY `SLUG` (`title_alias`)
+    `id` int(8) unsigned NOT NULL auto_increment,
+    `member_id` int(11) unsigned NOT NULL,
+    `category_id` int(8) unsigned NOT NULL,
+    `shop_id` int(8) unsigned NOT NULL,
+    `title_alias` varchar(250) NOT NULL,
+    `status` enum('suspended','approval','expired','active') NOT NULL default 'approval',
+    `date_added` datetime NOT NULL,
+    `date_modified` datetime NOT NULL,
+    `featured` tinyint(1) unsigned NOT NULL,
+    `featured_start` datetime,
+    `featured_end` datetime,
+    `sponsored` tinyint(1) unsigned NOT NULL,
+    `sponsored_start` datetime NULL,
+    `sponsored_end` datetime NULL,
+    `sponsored_plan_id` smallint(5) unsigned NOT NULL,
+    `views_num` int(11) unsigned NOT NULL,
+    `thumbs_num` mediumint(7) NOT NULL,
+    `activations` mediumint(7) unsigned NOT NULL,
+    `cost` decimal(10,2) unsigned,
+    `item_price` decimal(10,2) unsigned,
+    `reported_as_problem` tinyint(1) unsigned NOT NULL default 0,
+    `reported_as_problem_comments` TEXT NOT NULL,
+    PRIMARY KEY (`id`),
+    KEY `SLUG` (`title_alias`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}thumbs_log`(
-	`id` int(10) unsigned NOT NULL auto_increment,
-	`item_id` int(8) unsigned NOT NULL,
-	`ip` bigint(12) NOT NULL,
-	`date` date NOT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `UNIQUE` (`item_id`,`ip`,`date`)
+    `id` int(10) unsigned NOT NULL auto_increment,
+    `item_id` int(8) unsigned NOT NULL,
+    `ip` bigint(12) NOT NULL,
+    `date` date NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE KEY `UNIQUE` (`item_id`,`ip`,`date`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_shops`(
-	`id` int(8) unsigned NOT NULL auto_increment,
-	`member_id` int(11) unsigned NOT NULL,
-	`title_alias` varchar(250) NOT NULL,
-	`domain` varchar(100) NOT NULL,
-	`affiliate_link` tinytext NOT NULL,
-	`date_added` datetime NOT NULL,
-	`date_modified` datetime NOT NULL,
-	`featured` tinyint(1) unsigned NOT NULL,
-	`featured_start` datetime,
-	`featured_end` datetime,
-	`status` enum('suspended', 'approval', 'inactive', 'active') NOT NULL default 'active',
-	`views_num` int(11) unsigned NOT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE `SLUG` (`title_alias`)
+    `id` int(8) unsigned NOT NULL auto_increment,
+    `member_id` int(11) unsigned NOT NULL,
+    `title_alias` varchar(250) NOT NULL,
+    `domain` varchar(100) NOT NULL,
+    `affiliate_link` tinytext NOT NULL,
+    `date_added` datetime NOT NULL,
+    `date_modified` datetime NOT NULL,
+    `featured` tinyint(1) unsigned NOT NULL,
+    `featured_start` datetime,
+    `featured_end` datetime,
+    `status` enum('suspended', 'approval', 'inactive', 'active') NOT NULL default 'active',
+    `views_num` int(11) unsigned NOT NULL,
+    PRIMARY KEY (`id`),
+    UNIQUE `SLUG` (`title_alias`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<sql>
-			<![CDATA[
+            ]]>
+        </sql>
+        <sql>
+            <![CDATA[
 CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
   `id` int(10) unsigned NOT NULL auto_increment,
   `coupon_id` int(8) unsigned NOT NULL,
@@ -464,20 +464,20 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
   PRIMARY KEY (`id`),
   KEY `COUPON` (`coupon_id`)
 ) {mysql_version};
-			]]>
-		</sql>
-		<code>
-			<![CDATA[
+            ]]>
+        </sql>
+        <code>
+            <![CDATA[
 $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
-			]]>
-		</code>
-	</install>
+            ]]>
+        </code>
+    </install>
 
-	<uninstall>
-		<sql>
-			<![CDATA[
+    <uninstall>
+        <sql>
+            <![CDATA[
 DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`, `{prefix}coupons_codes`;
-			]]>
-		</sql>
-	</uninstall>
+            ]]>
+        </sql>
+    </uninstall>
 </module>

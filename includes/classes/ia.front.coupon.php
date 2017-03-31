@@ -1,367 +1,370 @@
 <?php
-//##copyright##
+/******************************************************************************
+ *
+ * Subrion Coupons & Deals Software
+ * Copyright (C) 2017 Intelliants, LLC <https://intelliants.com>
+ *
+ * This file is part of Subrion Coupons & Deals Software.
+ *
+ * This program is a commercial software and any kind of using it must agree
+ * to the license, see <https://subrion.pro/license.html>.
+ *
+ * This copyright notice may not be removed from the software source without
+ * the permission of Subrion respective owners.
+ *
+ *
+ * https://subrion.pro/product/coupons-script.html
+ *
+ ******************************************************************************/
 
 class iaCoupon extends abstractCouponsModuleFront
 {
-	const SORTING_SESSION_KEY = 'coupons_sorting';
+    const SORTING_SESSION_KEY = 'coupons_sorting';
 
-	protected static $_table = 'coupons_coupons';
-	protected $_itemName = 'coupons';
+    protected static $_table = 'coupons_coupons';
+    protected $_itemName = 'coupons';
 
-	public $coreSearchEnabled = true;
-	public $coreSearchOptions = [
-		'tableAlias' => 't1',
-		'regularSearchFields' => ['title', 'title_alias']
-	];
+    public $coreSearchEnabled = true;
+    public $coreSearchOptions = [
+        'tableAlias' => 't1',
+        'regularSearchFields' => ['title', 'title_alias']
+    ];
 
-	private $_foundRows = 0;
+    private $_foundRows = 0;
 
-	protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL];
-	protected $_codeStatuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_USED];
+    protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL];
+    protected $_codeStatuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_USED];
 
-	public function url($action, array $listingData)
-	{
-		$patterns = [
-			'default' => 'coupons/:action/:id/',
-			'view' => 'coupon/:shop_alias/:title_alias/:id.html',
-			'add' => 'coupons/add/',
-			'my' => 'profile/coupons/',
-			'buy' => 'coupons/buy/:id/'
-		];
-		$url = iaDb::printf(
-			isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
-			[
-				'action' => $action,
-				'shop_alias' => isset($listingData['shop_alias']) ? $listingData['shop_alias'] : '',
-				'title_alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
-				'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
-			]
-		);
+    public function url($action, array $listingData)
+    {
+        $patterns = [
+            'default' => 'coupons/:action/:id/',
+            'view' => 'coupon/:shop_alias/:title_alias/:id.html',
+            'add' => 'coupons/add/',
+            'my' => 'profile/coupons/',
+            'buy' => 'coupons/buy/:id/'
+        ];
+        $url = iaDb::printf(
+            isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
+            [
+                'action' => $action,
+                'shop_alias' => isset($listingData['shop_alias']) ? $listingData['shop_alias'] : '',
+                'title_alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
+                'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
+            ]
+        );
 
-		return $this->getInfo('url') . $url;
-	}
+        return $this->getInfo('url') . $url;
+    }
 
-	/**
-	 * Return title
-	 * @param array $data
-	 * @return string
-	 */
-	public function title(array $data)
-	{
-		$title = '';
-		if (isset($data['title']))
-		{
-			$title = $data['title'];
-		}
-		return $title;
-	}
+    /**
+     * Return title
+     * @param array $data
+     * @return string
+     */
+    public function title(array $data)
+    {
+        $title = '';
+        if (isset($data['title'])) {
+            $title = $data['title'];
+        }
+        return $title;
+    }
 
-	/**
-	 * Return two url for account actions (edit, update)
-	 * @param array $params
-	 * @return array|bool
-	 */
-	public function accountActions($params)
-	{
-		if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id'])
-		{
-			return [$this->url('edit', $params['item']), null];
-		}
+    /**
+     * Return two url for account actions (edit, update)
+     * @param array $params
+     * @return array|bool
+     */
+    public function accountActions($params)
+    {
+        if (iaUsers::hasIdentity() && iaUsers::getIdentity()->id == $params['item']['member_id']) {
+            return [$this->url('edit', $params['item']), null];
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	public function coreSearch($stmt, $start, $limit, $order)
-	{
-		$rows = $this->_getQuery($stmt, $order, $limit, $start, true);
+    public function coreSearch($stmt, $start, $limit, $order)
+    {
+        $rows = $this->_getQuery($stmt, $order, $limit, $start, true);
 
-		return [$this->foundRows(), $rows];
-	}
+        return [$this->foundRows(), $rows];
+    }
 
-	public function foundRows()
-	{
-		return $this->_foundRows;
-	}
+    public function foundRows()
+    {
+        return $this->_foundRows;
+    }
 
-	private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false)
-	{
-		$iaDb = &$this->iaDb;
+    private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false)
+    {
+        $iaDb = &$this->iaDb;
 
-		$sql = 'SELECT :found_rows t1.*'
-				. ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
-				. ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
-				. ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
-			// count codes for each coupon
-				. ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
-			. 'FROM `:table_coupons` t1 '
-			. ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
-				. 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
-				. 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
-				. 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
-			. 'WHERE :where '
-			. ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
-			. 'LIMIT :start, :limit';
+        $sql = 'SELECT :found_rows t1.*'
+                . ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+                . ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
+                . ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
+            // count codes for each coupon
+                . ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
+            . 'FROM `:table_coupons` t1 '
+            . ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
+                . 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
+                . 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
+                . 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
+            . 'WHERE :where '
+            . ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
+            . 'LIMIT :start, :limit';
 
-		$where = [
-			//"(t3.`status` = 'active' OR t3.`status` IS NULL) AND `t4`.`status` = 'active' ",
-			"(t3.`status` = 'active' OR t3.`status` IS NULL) ",
-		];
-		empty($aWhere) || $where[] = $aWhere;
-		$ignoreStatus || $where[] = "(t1.`status` = 'active') ";
+        $where = [
+            //"(t3.`status` = 'active' OR t3.`status` IS NULL) AND `t4`.`status` = 'active' ",
+            "(t3.`status` = 'active' OR t3.`status` IS NULL) ",
+        ];
+        empty($aWhere) || $where[] = $aWhere;
+        $ignoreStatus || $where[] = "(t1.`status` = 'active') ";
 
-		$data = [
-			'found_rows' => ($foundRows === true ? iaDb::STMT_CALC_FOUND_ROWS : ''),
-			'table_coupons' => self::getTable(true),
-			'table_codes' => $iaDb->prefix . 'coupons_codes',
-			'table_categs' => $iaDb->prefix . 'coupons_categories',
-			'table_shops' => $iaDb->prefix . 'coupons_shops',
-			'table_members' => iaUsers::getTable(true),
-			'table_transactions' => $iaDb->prefix . 'payment_transactions',
-			'lang' => $this->iaCore->language['iso'],
-			'where' => implode(' AND ', $where),
-			'passed' => 'passed',
-			'start' => $start,
-			'limit' => $limit
-		];
+        $data = [
+            'found_rows' => ($foundRows === true ? iaDb::STMT_CALC_FOUND_ROWS : ''),
+            'table_coupons' => self::getTable(true),
+            'table_codes' => $iaDb->prefix . 'coupons_codes',
+            'table_categs' => $iaDb->prefix . 'coupons_categories',
+            'table_shops' => $iaDb->prefix . 'coupons_shops',
+            'table_members' => iaUsers::getTable(true),
+            'table_transactions' => $iaDb->prefix . 'payment_transactions',
+            'lang' => $this->iaCore->language['iso'],
+            'where' => implode(' AND ', $where),
+            'passed' => 'passed',
+            'start' => $start,
+            'limit' => $limit
+        ];
 
-		$rows = $iaDb->getAll(iaDb::printf($sql, $data));
+        $rows = $iaDb->getAll(iaDb::printf($sql, $data));
 
-		if ($foundRows === true)
-		{
-			$this->_foundRows = $iaDb->foundRows();
-		}
-		elseif ($foundRows == 'count')
-		{
-			$data['fields'] = 'COUNT(*) `count`';
-			$data['limit'] = 1;
+        if ($foundRows === true) {
+            $this->_foundRows = $iaDb->foundRows();
+        } elseif ($foundRows == 'count') {
+            $data['fields'] = 'COUNT(*) `count`';
+            $data['limit'] = 1;
 
-			$this->_foundRows = $iaDb->getOne(iaDb::printf($sql, $data));
-		}
+            $this->_foundRows = $iaDb->getOne(iaDb::printf($sql, $data));
+        }
 
-		$this->_processValues($rows);
+        $this->_processValues($rows);
 
-		return $rows;
-	}
+        return $rows;
+    }
 
-	public function getById($id, $decorate = true)
-	{
-		$rows = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
+    public function getById($id, $decorate = true)
+    {
+        $rows = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
 
-		$decorate && $this->_processValues($rows);
+        $decorate && $this->_processValues($rows);
 
-		return $rows ? $rows[0] : [];
-	}
+        return $rows ? $rows[0] : [];
+    }
 
-	protected function _processValues(&$rows, $singleRow = false, $fieldNames = [])
-	{
-		$fieldNames = ['shop_image'];
-		parent::_processValues($rows, $singleRow, $fieldNames);
+    protected function _processValues(&$rows, $singleRow = false, $fieldNames = [])
+    {
+        $fieldNames = ['shop_image'];
+        parent::_processValues($rows, $singleRow, $fieldNames);
 
-		foreach ($rows as &$row)
-		{
-			$row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
+        foreach ($rows as &$row) {
+            $row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
-			// discount calculations
-			if ('fixed' == $row['item_discount_type'])
-			{
-				$row['discounted_price'] = $row['item_price'] - $row['item_discount'];
-				$row['discount_saving'] = $row['item_discount'];
-			}
-			else
-			{
-				$row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
-				$row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
-			}
-		}
-	}
+            // discount calculations
+            if ('fixed' == $row['item_discount_type']) {
+                $row['discounted_price'] = $row['item_price'] - $row['item_discount'];
+                $row['discount_saving'] = $row['item_discount'];
+            } else {
+                $row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
+                $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
+            }
+        }
+    }
 
-	/**
-	 * Get listings by custom condition
-	 *
-	 * @param string $where
-	 * @param string $order
-	 * @param int $limit
-	 * @param int $start
-	 * @param bool $foundRows
-	 *
-	 * @return array
-	 */
-	public function get($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
-	{
-		return $this->_getQuery($where, $order, $limit, $start, $foundRows, $ignoreStatus);
-	}
+    /**
+     * Get listings by custom condition
+     *
+     * @param string $where
+     * @param string $order
+     * @param int $limit
+     * @param int $start
+     * @param bool $foundRows
+     *
+     * @return array
+     */
+    public function get($where = '', $order = '', $limit = 5, $start = 0, $foundRows = false, $ignoreStatus = false)
+    {
+        return $this->_getQuery($where, $order, $limit, $start, $foundRows, $ignoreStatus);
+    }
 
-	/**
-	 * Get user's listings
-	 *
-	 * @param int $memberId
-	 * @param int $limit
-	 * @param int $start
-	 * @return array
-	 */
-	public function getByUser($memberId, $limit = 5, $start = 0)
-	{
-		return $this->_getQuery('t1.`member_id` = ' . (int)$memberId, 't1.`member_id` DESC', $limit, $start, true);
-	}
+    /**
+     * Get user's listings
+     *
+     * @param int $memberId
+     * @param int $limit
+     * @param int $start
+     * @return array
+     */
+    public function getByUser($memberId, $limit = 5, $start = 0)
+    {
+        return $this->_getQuery('t1.`member_id` = ' . (int)$memberId, 't1.`member_id` DESC', $limit, $start, true);
+    }
 
-	public function getFavorites($ids)
-	{
-		$stmt = iaDb::printf("`id` IN (:ids) AND `status` IN (':active', 'available')", ['ids' => implode(',', $ids), 'active' => iaCore::STATUS_ACTIVE]);
+    public function getFavorites($ids)
+    {
+        $stmt = iaDb::printf("`id` IN (:ids) AND `status` IN (':active', 'available')", ['ids' => implode(',', $ids), 'active' => iaCore::STATUS_ACTIVE]);
 
-		return $this->iaDb->all(iaDb::ALL_COLUMNS_SELECTION . ', (SELECT `title_alias` FROM `' . $this->iaDb->prefix . 'coupons_shops` `shops` WHERE `shops`.`id` = `shop_id`) `shop_alias`, 1 `favorite`', $stmt, null, null, self::getTable());
-	}
+        return $this->iaDb->all(iaDb::ALL_COLUMNS_SELECTION . ', (SELECT `title_alias` FROM `' . $this->iaDb->prefix . 'coupons_shops` `shops` WHERE `shops`.`id` = `shop_id`) `shop_alias`, 1 `favorite`', $stmt, null, null, self::getTable());
+    }
 
-	// called at the Member Details page
-	public function fetchMemberListings($memberId, $start, $limit)
-	{
-		return [
-			'items' => $this->getByUser($memberId, $limit, $start),
-			'total_number' => $this->foundRows()
-		];
-	}
+    // called at the Member Details page
+    public function fetchMemberListings($memberId, $start, $limit)
+    {
+        return [
+            'items' => $this->getByUser($memberId, $limit, $start),
+            'total_number' => $this->foundRows()
+        ];
+    }
 
-	/**
-	 * Get listings by Category ID
-	 *
-	 * @param string $aWhere
-	 * @param int $catId
-	 * @param int $aStart
-	 * @param int $aLimit
-	 * @param bool $aOrder
-	 *
-	 * @return array
-	 */
-	public function getByCategory($aWhere, $catId, $aStart = 0, $aLimit = 10, $aOrder = false)
-	{
-		empty($aWhere) || $aWhere .= ' AND ';
-		$aWhere .= is_array($catId)
-			? 't1.`category_id` IN(' . implode(',', $catId) . ')'
-			: 't1.`category_id` = ' . (int)$catId;
+    /**
+     * Get listings by Category ID
+     *
+     * @param string $aWhere
+     * @param int $catId
+     * @param int $aStart
+     * @param int $aLimit
+     * @param bool $aOrder
+     *
+     * @return array
+     */
+    public function getByCategory($aWhere, $catId, $aStart = 0, $aLimit = 10, $aOrder = false)
+    {
+        empty($aWhere) || $aWhere .= ' AND ';
+        $aWhere .= is_array($catId)
+            ? 't1.`category_id` IN(' . implode(',', $catId) . ')'
+            : 't1.`category_id` = ' . (int)$catId;
 
-		return $this->_getQuery($aWhere, $aOrder, $aLimit, $aStart, true);
-	}
+        return $this->_getQuery($aWhere, $aOrder, $aLimit, $aStart, true);
+    }
 
-	public function insert(array $entryData)
-	{
-		$entryData['date_added'] = date(iaDb::DATETIME_FORMAT);
-		$entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
-		$entryData['member_id'] = iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0;
+    public function insert(array $entryData)
+    {
+        $entryData['date_added'] = date(iaDb::DATETIME_FORMAT);
+        $entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
+        $entryData['member_id'] = iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0;
 
-		return parent::insert($entryData);
-	}
+        return parent::insert($entryData);
+    }
 
-	public function updateCounters($itemId, array $itemData, $action, $previousData = null)
-	{
-		$this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
+    public function updateCounters($itemId, array $itemData, $action, $previousData = null)
+    {
+        $this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
 
-		$sql =
-			'UPDATE `:prefixcoupons_categories` c SET ' .
-			'`num_all_coupons` = (' .
-				'SELECT COUNT(*) FROM `:table_coupons` l ' .
-				'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
-				'ON fs.`category_id` = l.`category_id` ' .
-				'WHERE fs.`parent_id` = c.`id` ' .
-				"AND l.`status` = ':status'" .
-			'),' .
-			'`num_coupons` = (' .
-				'SELECT COUNT(*) FROM `:table_coupons` ' .
-				'WHERE `category_id` = c.`id` ' .
-				"AND `status` = ':status'" .
-			') ' .
-			"WHERE c.`status` = ':status'";
+        $sql =
+            'UPDATE `:prefixcoupons_categories` c SET ' .
+            '`num_all_coupons` = (' .
+                'SELECT COUNT(*) FROM `:table_coupons` l ' .
+                'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
+                'ON fs.`category_id` = l.`category_id` ' .
+                'WHERE fs.`parent_id` = c.`id` ' .
+                "AND l.`status` = ':status'" .
+            '),' .
+            '`num_coupons` = (' .
+                'SELECT COUNT(*) FROM `:table_coupons` ' .
+                'WHERE `category_id` = c.`id` ' .
+                "AND `status` = ':status'" .
+            ') ' .
+            "WHERE c.`status` = ':status'";
 
-		$sql = iaDb::printf($sql, [
-			'prefix' => $this->iaDb->prefix,
-			'table_coupons' => self::getTable(true),
-			'status' => iaCore::STATUS_ACTIVE
-		]);
+        $sql = iaDb::printf($sql, [
+            'prefix' => $this->iaDb->prefix,
+            'table_coupons' => self::getTable(true),
+            'status' => iaCore::STATUS_ACTIVE
+        ]);
 
-		return $this->iaDb->query($sql);
-	}
+        return $this->iaDb->query($sql);
+    }
 
-	public function incrementThumbsCounter($itemId, $trigger, $columnName = 'thumbs_num')
-	{
-		$viewsTable = 'thumbs_log';
-		$sign = ('up' == $trigger) ? '+' : '-';
+    public function incrementThumbsCounter($itemId, $trigger, $columnName = 'thumbs_num')
+    {
+        $viewsTable = 'thumbs_log';
+        $sign = ('up' == $trigger) ? '+' : '-';
 
-		$ipAddress = $this->iaCore->factory('util')->getIp(true);
-		$date = date(iaDb::DATE_FORMAT);
+        $ipAddress = $this->iaCore->factory('util')->getIp(true);
+        $date = date(iaDb::DATE_FORMAT);
 
-		if ($this->iaDb->exists('`item_id` = :id AND `ip` = :ip AND `date` = :date', ['id' => $itemId, 'ip' => $ipAddress, 'date' => $date], $viewsTable))
-		{
-			return false;
-		}
+        if ($this->iaDb->exists('`item_id` = :id AND `ip` = :ip AND `date` = :date', ['id' => $itemId, 'ip' => $ipAddress, 'date' => $date], $viewsTable)) {
+            return false;
+        }
 
-		$this->iaDb->insert(['item_id' => $itemId, 'ip' => $ipAddress, 'date' => $date], null, $viewsTable);
-		$result = $this->iaDb->update(null, iaDb::convertIds($itemId), [$columnName => '`' . $columnName . '` ' . $sign . ' 1'], self::getTable());
+        $this->iaDb->insert(['item_id' => $itemId, 'ip' => $ipAddress, 'date' => $date], null, $viewsTable);
+        $result = $this->iaDb->update(null, iaDb::convertIds($itemId), [$columnName => '`' . $columnName . '` ' . $sign . ' 1'], self::getTable());
 
-		return (bool)$result;
-	}
+        return (bool)$result;
+    }
 
-	public function getThumbsNum($id)
-	{
-		return $this->iaDb->one('thumbs_num', iaDb::convertIds($id), self::getTable());
-	}
+    public function getThumbsNum($id)
+    {
+        return $this->iaDb->one('thumbs_num', iaDb::convertIds($id), self::getTable());
+    }
 
-	public function getSorting(&$storage, &$params)
-	{
-		$field = 'date_added';
-		$direction = iaDb::ORDER_DESC;
+    public function getSorting(&$storage, &$params)
+    {
+        $field = 'date_added';
+        $direction = iaDb::ORDER_DESC;
 
-		$validFields = [
-			'date' => 'date_added',
-			'likes' => 'thumbs_num',
-			'popularity' => 'views_num'
-		];
-		$validDirections = [
-			'up' => iaDb::ORDER_ASC,
-			'down' => iaDb::ORDER_DESC
-		];
+        $validFields = [
+            'date' => 'date_added',
+            'likes' => 'thumbs_num',
+            'popularity' => 'views_num'
+        ];
+        $validDirections = [
+            'up' => iaDb::ORDER_ASC,
+            'down' => iaDb::ORDER_DESC
+        ];
 
-		empty($storage[self::SORTING_SESSION_KEY][0]) || $field = $storage[self::SORTING_SESSION_KEY][0];
-		empty($storage[self::SORTING_SESSION_KEY][1]) || $direction = $storage[self::SORTING_SESSION_KEY][1];
+        empty($storage[self::SORTING_SESSION_KEY][0]) || $field = $storage[self::SORTING_SESSION_KEY][0];
+        empty($storage[self::SORTING_SESSION_KEY][1]) || $direction = $storage[self::SORTING_SESSION_KEY][1];
 
-		if (isset($params['sort']) && in_array($params['sort'], array_keys($validFields)))
-		{
-			$field = $validFields[$params['sort']];
+        if (isset($params['sort']) && in_array($params['sort'], array_keys($validFields))) {
+            $field = $validFields[$params['sort']];
 
-			isset($storage[self::SORTING_SESSION_KEY]) || $storage[self::SORTING_SESSION_KEY] = [];
-			$storage[self::SORTING_SESSION_KEY][0] = $field;
-		}
-		if (isset($params['order']) && in_array($params['order'], array_keys($validDirections)))
-		{
-			$direction = $validDirections[$params['order']];
+            isset($storage[self::SORTING_SESSION_KEY]) || $storage[self::SORTING_SESSION_KEY] = [];
+            $storage[self::SORTING_SESSION_KEY][0] = $field;
+        }
+        if (isset($params['order']) && in_array($params['order'], array_keys($validDirections))) {
+            $direction = $validDirections[$params['order']];
 
-			isset($storage[self::SORTING_SESSION_KEY]) || $storage[self::SORTING_SESSION_KEY] = [];
-			$storage[self::SORTING_SESSION_KEY][1] = $direction;
-		}
+            isset($storage[self::SORTING_SESSION_KEY]) || $storage[self::SORTING_SESSION_KEY] = [];
+            $storage[self::SORTING_SESSION_KEY][1] = $direction;
+        }
 
-		return [$field, $direction];
-	}
+        return [$field, $direction];
+    }
 
-	public function isSubmissionAllowed($memberId)
-	{
-		$result = true;
-		if (iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id)
-		{
-			$couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member', ['member' => $memberId], self::getTable());
+    public function isSubmissionAllowed($memberId)
+    {
+        $result = true;
+        if (iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id) {
+            $couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member', ['member' => $memberId], self::getTable());
 
-			$result = ($couponCount < $this->iaCore->get('coupons_listing_limit'));
-		}
+            $result = ($couponCount < $this->iaCore->get('coupons_listing_limit'));
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns list of purchased coupons codes
-	 *
-	 * @param int $id coupon id
-	 *
-	 * return array
-	 */
-	public function getCodes($id, $limit = 5, $start = 0)
-	{
-		$sql = <<<SQL
+    /**
+     * Returns list of purchased coupons codes
+     *
+     * @param int $id coupon id
+     *
+     * return array
+     */
+    public function getCodes($id, $limit = 5, $start = 0)
+    {
+        $sql = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status` FROM `{$this->iaDb->prefix}coupons_codes` `cc`
 LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt`
 	ON `pt`.`id` = `cc`.`transaction_id`
@@ -369,19 +372,19 @@ WHERE `coupon_id` = {$id}
 LIMIT {$start}, {$limit}
 SQL;
 
-		return $this->iaDb->getAll($sql);
-	}
+        return $this->iaDb->getAll($sql);
+    }
 
-	public function getCodeStatuses()
-	{
-		return $this->_codeStatuses;
-	}
+    public function getCodeStatuses()
+    {
+        return $this->_codeStatuses;
+    }
 
-	public function getDealOfTheDay()
-	{
-		$where = "`coupon_type` = 'deal' && `t1`.`status` = 'active' ";
-		$deals = $this->get($where, '`views_num` DESC', 1);
+    public function getDealOfTheDay()
+    {
+        $where = "`coupon_type` = 'deal' && `t1`.`status` = 'active' ";
+        $deals = $this->get($where, '`views_num` DESC', 1);
 
-		return $deals ? $deals[0] : [];
-	}
+        return $deals ? $deals[0] : [];
+    }
 }
