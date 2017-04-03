@@ -1,8 +1,8 @@
 <div class="ia-item ia-item--border {if $listing.featured} ia-item--featured{/if}{if $listing.sponsored} ia-item--sponsored{/if}" data-affiliate-link="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{/if}" id="coupon-list-{$listing.id}">
     <div class="ia-item__image">
         {if $listing.coupon_image}
-            <a href="{ia_image file=$imgthumb url=true type='large'}" rel="ia_lightbox">
-                {ia_image file=$imgthumb type='thumbnail' title=$listing.title class='img-responsive'}
+            <a href="{ia_image file=$listing.coupon_image url=true type='large'}" rel="ia_lightbox">
+                {ia_image file=$listing.coupon_image type='thumbnail' title=$listing.title class='img-responsive'}
             </a>
         {elseif $listing.shop_image}
             <a href="{ia_image file=$listing.shop_image url=true type='large'}" rel="ia_lightbox">
