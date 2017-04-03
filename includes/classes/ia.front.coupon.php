@@ -158,11 +158,9 @@ class iaCoupon extends abstractCouponsModuleFront
         return $rows;
     }
 
-    public function getById($id, $decorate = true)
+    public function getById($id, $decorate = false)
     {
         $rows = $this->_getQuery("t1.`id` = '{$id}'", '', 1, 0, false, true);
-
-        $decorate && $this->_processValues($rows);
 
         return $rows ? $rows[0] : [];
     }
