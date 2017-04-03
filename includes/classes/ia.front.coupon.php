@@ -59,7 +59,9 @@ class iaCoupon extends abstractCouponsModuleFront
 
     /**
      * Return title
+     *
      * @param array $data
+     *
      * @return string
      */
     public function title(array $data)
@@ -68,12 +70,15 @@ class iaCoupon extends abstractCouponsModuleFront
         if (isset($data['title'])) {
             $title = $data['title'];
         }
+
         return $title;
     }
 
     /**
      * Return two url for account actions (edit, update)
+     *
      * @param array $params
+     *
      * @return array|bool
      */
     public function accountActions($params)
@@ -97,21 +102,28 @@ class iaCoupon extends abstractCouponsModuleFront
         return $this->_foundRows;
     }
 
-    private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false)
-    {
+    private function _getQuery(
+        $aWhere = '',
+        $aOrder = '',
+        $limit = 1,
+        $start = 0,
+        $foundRows = false,
+        $ignoreStatus = false,
+        $ignoreIndex = false
+    ) {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT :found_rows t1.*'
-                . ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
-                . ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
-                . ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
+            . ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+            . ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
+            . ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
             // count codes for each coupon
-                . ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
+            . ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
             . 'FROM `:table_coupons` t1 '
             . ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
-                . 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
-                . 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
-                . 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
+            . 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
+            . 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
+            . 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
             . 'WHERE :where '
             . ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
             . 'LIMIT :start, :limit';
@@ -204,6 +216,7 @@ class iaCoupon extends abstractCouponsModuleFront
      * @param int $memberId
      * @param int $limit
      * @param int $start
+     *
      * @return array
      */
     public function getByUser($memberId, $limit = 5, $start = 0)
@@ -213,9 +226,11 @@ class iaCoupon extends abstractCouponsModuleFront
 
     public function getFavorites($ids)
     {
-        $stmt = iaDb::printf("`id` IN (:ids) AND `status` IN (':active', 'available')", ['ids' => implode(',', $ids), 'active' => iaCore::STATUS_ACTIVE]);
+        $stmt = iaDb::printf("`id` IN (:ids) AND `status` IN (':active', 'available')",
+            ['ids' => implode(',', $ids), 'active' => iaCore::STATUS_ACTIVE]);
 
-        return $this->iaDb->all(iaDb::ALL_COLUMNS_SELECTION . ', (SELECT `title_alias` FROM `' . $this->iaDb->prefix . 'coupons_shops` `shops` WHERE `shops`.`id` = `shop_id`) `shop_alias`, 1 `favorite`', $stmt, null, null, self::getTable());
+        return $this->iaDb->all(iaDb::ALL_COLUMNS_SELECTION . ', (SELECT `title_alias` FROM `' . $this->iaDb->prefix . 'coupons_shops` `shops` WHERE `shops`.`id` = `shop_id`) `shop_alias`, 1 `favorite`',
+            $stmt, null, null, self::getTable());
     }
 
     // called at the Member Details page
@@ -264,16 +279,16 @@ class iaCoupon extends abstractCouponsModuleFront
         $sql =
             'UPDATE `:prefixcoupons_categories` c SET ' .
             '`num_all_coupons` = (' .
-                'SELECT COUNT(*) FROM `:table_coupons` l ' .
-                'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
-                'ON fs.`category_id` = l.`category_id` ' .
-                'WHERE fs.`parent_id` = c.`id` ' .
-                "AND l.`status` = ':status'" .
+            'SELECT COUNT(*) FROM `:table_coupons` l ' .
+            'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
+            'ON fs.`category_id` = l.`category_id` ' .
+            'WHERE fs.`parent_id` = c.`id` ' .
+            "AND l.`status` = ':status'" .
             '),' .
             '`num_coupons` = (' .
-                'SELECT COUNT(*) FROM `:table_coupons` ' .
-                'WHERE `category_id` = c.`id` ' .
-                "AND `status` = ':status'" .
+            'SELECT COUNT(*) FROM `:table_coupons` ' .
+            'WHERE `category_id` = c.`id` ' .
+            "AND `status` = ':status'" .
             ') ' .
             "WHERE c.`status` = ':status'";
 
@@ -294,12 +309,15 @@ class iaCoupon extends abstractCouponsModuleFront
         $ipAddress = $this->iaCore->factory('util')->getIp(true);
         $date = date(iaDb::DATE_FORMAT);
 
-        if ($this->iaDb->exists('`item_id` = :id AND `ip` = :ip AND `date` = :date', ['id' => $itemId, 'ip' => $ipAddress, 'date' => $date], $viewsTable)) {
+        if ($this->iaDb->exists('`item_id` = :id AND `ip` = :ip AND `date` = :date',
+            ['id' => $itemId, 'ip' => $ipAddress, 'date' => $date], $viewsTable)
+        ) {
             return false;
         }
 
         $this->iaDb->insert(['item_id' => $itemId, 'ip' => $ipAddress, 'date' => $date], null, $viewsTable);
-        $result = $this->iaDb->update(null, iaDb::convertIds($itemId), [$columnName => '`' . $columnName . '` ' . $sign . ' 1'], self::getTable());
+        $result = $this->iaDb->update(null, iaDb::convertIds($itemId),
+            [$columnName => '`' . $columnName . '` ' . $sign . ' 1'], self::getTable());
 
         return (bool)$result;
     }
@@ -347,7 +365,8 @@ class iaCoupon extends abstractCouponsModuleFront
     {
         $result = true;
         if (iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id) {
-            $couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member', ['member' => $memberId], self::getTable());
+            $couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member',
+                ['member' => $memberId], self::getTable());
 
             $result = ($couponCount < $this->iaCore->get('coupons_listing_limit'));
         }

@@ -31,7 +31,12 @@ class iaShop extends abstractCouponsModuleFront
 
     private $_foundRows = 0;
 
-    protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED];
+    protected $_statuses = [
+        iaCore::STATUS_ACTIVE,
+        iaCore::STATUS_INACTIVE,
+        iaCore::STATUS_APPROVAL,
+        self::STATUS_SUSPENDED
+    ];
 
     private $_patterns = [
         'default' => ':action/:id/',
@@ -52,8 +57,10 @@ class iaShop extends abstractCouponsModuleFront
 
     /**
      * Method return url for some pages
+     *
      * @param string $action
      * @param array $data
+     *
      * @return string
      */
     public function url($action, array $data)
@@ -70,7 +77,9 @@ class iaShop extends abstractCouponsModuleFront
 
     /**
      * Return two url for account actions (edit, update)
+     *
      * @param array $params
+     *
      * @return array|bool
      */
     public function accountActions($params)
@@ -94,13 +103,12 @@ class iaShop extends abstractCouponsModuleFront
         return $this->_foundRows;
     }
 
-    private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreIndex = false)
-    {
+    private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreIndex = false) {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT t1.*, '
-                . 't2.`fullname` `account`, t2.`username` `account_username`, '
-                . '(SELECT COUNT(*) FROM `:table_coupons` coupons WHERE `coupons`.`shop_id` = t1.`id`) `num_coupons` '
+            . 't2.`fullname` `account`, t2.`username` `account_username`, '
+            . '(SELECT COUNT(*) FROM `:table_coupons` coupons WHERE `coupons`.`shop_id` = t1.`id`) `num_coupons` '
             . 'FROM :table_shops as `t1` '
             . ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
             . 'LEFT JOIN `:table_members` t2 ON (t2.`id` = t1.`member_id`) '
@@ -155,6 +163,7 @@ class iaShop extends abstractCouponsModuleFront
 
     /**
      * Get popular listings with limit
+     *
      * @param string $where
      * @param int $limit
      * @param int $start
@@ -175,6 +184,7 @@ class iaShop extends abstractCouponsModuleFront
 
     public function getFeatured($limit)
     {
-        return $this->_getQuery('t1.`featured` = 1 AND t1.`featured_end` > NOW()', '`title_' . $this->iaView->language . '`', $limit);
+        return $this->_getQuery('t1.`featured` = 1 AND t1.`featured_end` > NOW()',
+            '`title_' . $this->iaView->language . '`', $limit);
     }
 }

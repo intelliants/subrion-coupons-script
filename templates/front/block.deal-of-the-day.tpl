@@ -2,7 +2,7 @@
     <div class="ia-item">
         <div class="m-b">
             {if $coupon_blocks.oftheday.gallery}
-                <a href="{ia_url type='url' item='coupons' data=$coupon_blocks.oftheday}" class="center-block">
+                <a href="{$coupon_blocks.oftheday.link}" class="center-block">
                     {ia_image file=$coupon_blocks.oftheday.gallery[0] type='thumbnail' title=$coupon_blocks.oftheday.title class='img-responsive'}
                 </a>
             {elseif $coupon_blocks.oftheday.shop_image}

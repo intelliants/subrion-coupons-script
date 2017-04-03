@@ -22,8 +22,8 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
     if (isset($_GET['q'])) {
         $fieldName = 'title_' . $iaView->language;
 
-        $where = "`{$fieldName}` LIKE '%{" . iaSanitize::sql($_GET['q']) . "}%' ";
-        $order = "ORDER BY `$fieldName` ASC ";
+        $where = "`{$fieldName}` LIKE '%" . iaSanitize::sql($_GET['q']) . "%' ";
+        $order = "ORDER BY `{$fieldName}` ASC ";
 
         $shops = $iaDb->onefield($fieldName, $where . $order, 0, 15, 'coupons_shops');
 
