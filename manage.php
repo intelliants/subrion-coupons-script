@@ -110,6 +110,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             $item['ip'] = $iaUtil->getIp();
             $item['member_id'] = 0;
+
             if (iaUsers::hasIdentity()) {
                 $item['member_id'] = iaUsers::getIdentity()->id;
             } elseif ($iaCore->get('listing_tie_to_member')) {
@@ -147,21 +148,20 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             // assign shop value
             if (!empty($_POST['shop']) && !$error) {
-                $shopTitle = $_POST['shop'];
+                $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
-                $shopData = $iaDb->row(iaDB::ALL_COLUMNS_SELECTION, "`title` = '{$shopTitle}'", 'coupons_shops');
-                if (empty($shopData)) {
+                if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
+                    $data['shop_id'] = $shopData['id'];
+                } else {
                     if ($iaCore->get('shop_submission')) {
                         // add shop here
-                        $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
-
                         $newShop = [
                             'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
                             'website' => iaUtil::checkPostParam('website')
                         ];
 
                         foreach ($iaCore->languages as $iso => $language) {
-                            $newShop['title_' . $iso] = $shopTitle;
+                            $newShop['title_' . $iso] = $_POST['shop'];
                         }
 
                         $newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
@@ -180,8 +180,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                         $error = true;
                         $messages[] = iaLanguage::get('error_shop_incorrect');
                     }
-                } else {
-                    $data['shop_id'] = $shopData['id'];
                 }
             } else {
                 $error = true;

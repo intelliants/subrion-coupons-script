@@ -159,6 +159,11 @@ class iaShop extends abstractCouponsModuleFront
         return ($listing ? $listing[0] : false);
     }
 
+    public function getByTitle($title)
+    {
+        return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, iaDb::convertIds($title, 'title_' . $this->iaView->language), self::getTable());
+    }
+
     /**
      * Get popular listings with limit
      *
