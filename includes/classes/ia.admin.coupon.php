@@ -63,11 +63,18 @@ class iaCoupon extends abstractCouponsModuleAdmin
 
     public function getById($id, $process = true)
     {
-        $sql = 'SELECT t1.*, IF(acc.`fullname` != \'\', acc.`fullname`, acc.`username`) `account`, t3.`title` `shop` '
-            . 'FROM `' . self::getTable(true) . '` t1 '
-            . 'LEFT JOIN `' . $this->iaDb->prefix . 'members` acc ON t1.`member_id` = acc.`id` '
-            . 'LEFT JOIN `' . $this->iaDb->prefix . 'coupons_shops` t3 ON t1.`shop_id` = t3.`id` '
-            . 'WHERE t1.`id` = ' . intval($id);
+        $sql = <<<SQL
+SELECT t1.*, IF(acc.`fullname` != '', acc.`fullname`, acc.`username`) `account`, t3.`title` `shop` 
+  FROM `:table_coupons` t1 
+LEFT JOIN `:prefixmembers` acc ON t1.`member_id` = acc.`id` 
+LEFT JOIN `:prefixcoupons_shops` t3 ON t1.`shop_id` = t3.`id` 
+WHERE t1.`id` = :id
+SQL;
+        $sql = iaDb::printf($sql, [
+            'prefix' => $this->iaDb->prefix,
+            'table_coupons' => self::getTable(true),
+            'id' => intval($id),
+        ]);
 
         return $this->iaDb->getRow($sql);
     }
@@ -105,18 +112,16 @@ class iaCoupon extends abstractCouponsModuleAdmin
 
     protected function _get()
     {
-        $sql =
-            'SELECT coupon.`id`, coupon.`title_alias`, ' .
-                'shop.`title_alias` `shop_alias` ' .
-            'FROM `:prefix:table_coupons` coupon ' .
-            'LEFT JOIN `:prefix:table_shops` shop ' .
-                'ON (coupon.`shop_id` = shop.`id`)' .
-            "WHERE coupon.`status` = ':status'";
+        $sql = <<<SQL
+SELECT coupon.`id`, coupon.`title_alias`, shop.`title_alias` `shop_alias` 
+  FROM `:table_coupons` coupon 
+LEFT JOIN `:prefixcoupons_shops` shop ON (coupon.`shop_id` = shop.`id`)
+WHERE coupon.`status` = ':status'
+SQL;
         $sql = iaDb::printf($sql, [
             'prefix' => $this->iaDb->prefix,
-            'table_coupons' => self::getTable(),
-            'table_shops' => 'coupons_shops',
-            'status' => iaCore::STATUS_ACTIVE
+            'table_coupons' => self::getTable(true),
+            'status' => iaCore::STATUS_ACTIVE,
         ]);
 
         return $this->iaDb->getAll($sql);

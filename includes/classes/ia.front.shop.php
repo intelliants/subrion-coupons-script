@@ -103,7 +103,7 @@ class iaShop extends abstractCouponsModuleFront
         return $this->_foundRows;
     }
 
-    private function _getQuery($aWhere = '', $aOrder = '', $limit = 1, $start = 0, $foundRows = false, $ignoreIndex = false) {
+    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreIndex = false) {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT t1.*, '
@@ -113,19 +113,19 @@ class iaShop extends abstractCouponsModuleFront
             . ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
             . 'LEFT JOIN `:table_members` t2 ON (t2.`id` = t1.`member_id`) '
             . 'WHERE :where '
-            . ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
+            . ($order ? 'ORDER BY ' . $order . ' ' : '')
             . 'LIMIT :start, :limit ';
 
-        $where = ["(t2.`status` = 'active' OR t2.`status` IS NULL)"];
-        empty($aWhere) || $where[] = $aWhere;
-        $where[] = "t1.`status` = 'active' ";
+        $stmt = ["(t2.`status` = 'active' OR t2.`status` IS NULL)"];
+        empty($where) || $stmt[] = $where;
+        $stmt[] = "t1.`status` = 'active' ";
 
         $data = [
             'found_rows' => ($foundRows === true ? 'SQL_CALC_FOUND_ROWS' : ''),
             'table_shops' => self::getTable(true),
             'table_members' => iaUsers::getTable(true),
             'table_coupons' => $iaDb->prefix . 'coupons_coupons',
-            'where' => implode(' AND ', $where),
+            'where' => implode(' AND ', $stmt),
             'start' => $start,
             'limit' => $limit,
         ];
@@ -148,8 +148,6 @@ class iaShop extends abstractCouponsModuleFront
     public function getById($id, $decorate = true)
     {
         $rows = $this->_getQuery('t1.`id` = ' . (int)$id);
-
-        $decorate && $this->_processValues($rows);
 
         return $rows ? $rows[0] : $rows;
     }

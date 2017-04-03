@@ -102,15 +102,7 @@ class iaCoupon extends abstractCouponsModuleFront
         return $this->_foundRows;
     }
 
-    private function _getQuery(
-        $aWhere = '',
-        $aOrder = '',
-        $limit = 1,
-        $start = 0,
-        $foundRows = false,
-        $ignoreStatus = false,
-        $ignoreIndex = false
-    ) {
+    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false ) {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT :found_rows t1.*'
@@ -125,15 +117,15 @@ class iaCoupon extends abstractCouponsModuleFront
             . 'LEFT JOIN `:table_members` t3 ON(t3.`id` = t1.`member_id`) '
             . 'LEFT JOIN `:table_shops` t4 ON(t4.`id` = t1.`shop_id`) '
             . 'WHERE :where '
-            . ($aOrder ? 'ORDER BY ' . $aOrder . ' ' : '')
+            . ($order ? 'ORDER BY ' . $order . ' ' : '')
             . 'LIMIT :start, :limit';
 
-        $where = [
+        $stmt = [
             //"(t3.`status` = 'active' OR t3.`status` IS NULL) AND `t4`.`status` = 'active' ",
             "(t3.`status` = 'active' OR t3.`status` IS NULL) ",
         ];
-        empty($aWhere) || $where[] = $aWhere;
-        $ignoreStatus || $where[] = "(t1.`status` = 'active') ";
+        empty($where) || $stmt[] = $where;
+        $ignoreStatus || $stmt[] = "(t1.`status` = 'active') ";
 
         $data = [
             'found_rows' => ($foundRows === true ? iaDb::STMT_CALC_FOUND_ROWS : ''),
@@ -144,7 +136,7 @@ class iaCoupon extends abstractCouponsModuleFront
             'table_members' => iaUsers::getTable(true),
             'table_transactions' => $iaDb->prefix . 'payment_transactions',
             'lang' => $this->iaCore->language['iso'],
-            'where' => implode(' AND ', $where),
+            'where' => implode(' AND ', $stmt),
             'passed' => 'passed',
             'start' => $start,
             'limit' => $limit
@@ -245,22 +237,22 @@ class iaCoupon extends abstractCouponsModuleFront
     /**
      * Get listings by Category ID
      *
-     * @param string $aWhere
+     * @param string $where
      * @param int $catId
-     * @param int $aStart
-     * @param int $aLimit
-     * @param bool $aOrder
+     * @param int $start
+     * @param int $limit
+     * @param bool $order
      *
      * @return array
      */
-    public function getByCategory($aWhere, $catId, $aStart = 0, $aLimit = 10, $aOrder = false)
+    public function getByCategory($where, $catId, $start = 0, $limit = 10, $order = false)
     {
-        empty($aWhere) || $aWhere .= ' AND ';
-        $aWhere .= is_array($catId)
+        empty($where) || $where .= ' AND ';
+        $where .= is_array($catId)
             ? 't1.`category_id` IN(' . implode(',', $catId) . ')'
             : 't1.`category_id` = ' . (int)$catId;
 
-        return $this->_getQuery($aWhere, $aOrder, $aLimit, $aStart, true);
+        return $this->_getQuery($where, $order, $limit, $start, true);
     }
 
     public function insert(array $entryData)
@@ -276,22 +268,14 @@ class iaCoupon extends abstractCouponsModuleFront
     {
         $this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
 
-        $sql =
-            'UPDATE `:prefixcoupons_categories` c SET ' .
-            '`num_all_coupons` = (' .
-            'SELECT COUNT(*) FROM `:table_coupons` l ' .
-            'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
-            'ON fs.`category_id` = l.`category_id` ' .
-            'WHERE fs.`parent_id` = c.`id` ' .
-            "AND l.`status` = ':status'" .
-            '),' .
-            '`num_coupons` = (' .
-            'SELECT COUNT(*) FROM `:table_coupons` ' .
-            'WHERE `category_id` = c.`id` ' .
-            "AND `status` = ':status'" .
-            ') ' .
-            "WHERE c.`status` = ':status'";
-
+        $sql = <<<SQL
+UPDATE `:prefixcoupons_categories` c SET `num_all_coupons` = (
+  SELECT COUNT(*) FROM `:table_coupons` l 
+    LEFT JOIN `:prefixcoupons_categories_flat` fs ON fs.`category_id` = l.`category_id` 
+  WHERE fs.`parent_id` = c.`id` AND l.`status` = ':status'), `num_coupons` = (
+  SELECT COUNT(*) FROM `:table_coupons` WHERE `category_id` = c.`id` AND `status` = ':status') 
+WHERE c.`status` = ':status'
+SQL;
         $sql = iaDb::printf($sql, [
             'prefix' => $this->iaDb->prefix,
             'table_coupons' => self::getTable(true),
@@ -384,9 +368,9 @@ class iaCoupon extends abstractCouponsModuleFront
     public function getCodes($id, $limit = 5, $start = 0)
     {
         $sql = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status` FROM `{$this->iaDb->prefix}coupons_codes` `cc`
-LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt`
-	ON `pt`.`id` = `cc`.`transaction_id`
+SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status`
+  FROM `{$this->iaDb->prefix}coupons_codes` `cc`
+LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt` ON `pt`.`id` = `cc`.`transaction_id`
 WHERE `coupon_id` = {$id}
 LIMIT {$start}, {$limit}
 SQL;
