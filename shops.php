@@ -89,7 +89,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             $cause = '';
             if ($letters['active']) {
-                $cause = ('0-9' == $letters['active']) ?  "(`title` REGEXP '^[0-9]') " : "(`title` LIKE '{$letters['active']}%') ";
+                $cause = ('0-9' == $letters['active']) ?  "(`title_{$iaView->language}` REGEXP '^[0-9]') " : "(`title_{$iaView->language}` LIKE '{$letters['active']}%') ";
 
                 // breadcrumb formation
                 iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');

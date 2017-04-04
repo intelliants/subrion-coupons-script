@@ -1,4 +1,4 @@
-<div class="ia-item ia-item--border {if $listing.featured} ia-item---featured{/if}{if $listing.sponsored} ia-item--sponsored{/if} has-panel" data-affiliate-link="{if $listing.affiliate_link && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link}{/if}" id="coupon-list-{$listing.id}">
+<div class="ia-item ia-item--border {if $listing.featured} ia-item---featured{/if}{if $listing.sponsored} ia-item--sponsored{/if} has-panel" data-affiliate-link="{if !empty($listing.affiliate_link) && 'http://' != $listing.affiliate_link}{$listing.affiliate_link}{elseif $listing.shop_affiliate_link && 'http://' != $listing.shop_affiliate_link}{$listing.shop_affiliate_link|escape}{/if}" id="coupon-list-{$listing.id}">
     <div class="ia-item__image">
         {if $listing.coupon_image}
             <a href="{ia_image file=$listing.coupon_image url=true type='large'}" rel="ia_lightbox">
@@ -64,7 +64,7 @@
 
         {if $listing.category_parent_id > 0 && !empty($category) && $category._pid > 1}
             <span class="ia-item__panel__item pull-left">
-                <span class="fa fa-folder-o"></span> <a href="{$category.link}">{$listing.category_title}</a>
+                <span class="fa fa-folder-o"></span> <a href="{$category.link}">{$listing.category_title|escape}</a>
             </span>
         {/if}
 
