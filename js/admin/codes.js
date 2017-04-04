@@ -8,7 +8,7 @@ Ext.onReady(function () {
                     {name: 'member', title: _t('member'), width: 160},
                     {name: 'code', title: _t('coupon_code'), width: 120},
                     {name: 'reference_id', title: _t('transaction'), width: 150},
-                    {name: 'date_paid', title: _t('date_paid'), width: 170, editor: 'date'},
+                    {name: 'date_paid', title: _t('field_transactions_date_paid'), width: 170, editor: 'date'},
                     'status',
                     'update',
                     'delete'

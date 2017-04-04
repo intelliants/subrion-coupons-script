@@ -197,7 +197,7 @@
         <phrase category="admin" key="coupons_package">&quot;Coupons&quot; package</phrase>
         <phrase category="admin" key="edit_coupon_category">Edit Category ":name"</phrase>
         <phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
-        <phrase category="admin" key="expired">expired</phrase>
+        <phrase category="admin" key="expired">Expired</phrase>
         <phrase category="admin" key="recount_coupons">Recount coupons</phrase>
         <phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>
         <phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
