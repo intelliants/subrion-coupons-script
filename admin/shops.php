@@ -81,13 +81,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     protected function _modifyGridParams(&$conditions, &$values, array $params)
     {
         if (!empty($params['member'])) {
-            $memberId = $this->_iaDb->one_bind(iaDb::ID_COLUMN_SELECTION,
-                '`username` LIKE :member OR `fullname` LIKE :member',
-                ['member' => $params['member']], iaUsers::getTable());
-
-            $memberId = $memberId ? (int)$memberId : -1; // -1 or other invalid value
-
-            $conditions[] = '`member_id` = ' . (int)$memberId;
+            $conditions[] = iaDb::convertIds($params['member'], 'member_id');
         }
     }
 
