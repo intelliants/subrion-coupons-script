@@ -17,9 +17,15 @@
             </div>
         </div>
     {else}
-        <div class="text-center">
-            {ia_image file=$item.coupon_image class='img-responsive' title=$item.title}
-        </div>
+        {if $item.coupon_image}
+            <div class="text-center">
+                {ia_image file=$item.coupon_image class='img-responsive' title=$item.title}
+            </div>
+        {elseif $item.shop_image}
+            <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
+                {ia_image file=$item.shop_image type='thumbnail' title=$item.shop_title class='img-responsive'}
+            </a>
+        {/if}
     {/if}
 
     {if $item.item_price && '0.00' != $item.item_price}
