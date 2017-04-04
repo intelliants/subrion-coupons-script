@@ -24,9 +24,9 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected $_helperName = 'coupon';
 
-    protected $_gridColumns = ['title', 'title_alias', 'expire_date', 'date_added', 'coupon_type', 'short_description', 'status', 'reported_as_problem', 'reported_as_problem_comments'];
-    //protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `coupon_type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
-    protected $_gridFilters = ['status' => self::EQUAL, 'coupon_type' => self::EQUAL, 'title' => self::LIKE];
+    protected $_gridColumns = ['title', 'title_alias', 'expire_date', 'date_added', 'type', 'short_description', 'status', 'reported_as_problem', 'reported_as_problem_comments'];
+    //protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
+    protected $_gridFilters = ['status' => self::EQUAL, 'type' => self::EQUAL, 'title' => self::LIKE];
 
     protected $_phraseAddSuccess = 'coupon_added';
 

@@ -27,7 +27,7 @@ class iaCoupon extends abstractCouponsModuleFront
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
         'tableAlias' => 't1',
-        'regularSearchFields' => ['title', 'title_alias']
+        'regularSearchFields' => ['title', 'title_alias', 'tags']
     ];
 
     private $_foundRows = 0;
@@ -383,7 +383,7 @@ SQL;
 
     public function getDealOfTheDay()
     {
-        $where = "`coupon_type` = 'deal' && `t1`.`status` = 'active' ";
+        $where = "`type` = 'deal' && `t1`.`status` = 'active' ";
         $deals = $this->get($where, '`views_num` DESC', 1);
 
         return $deals ? $deals[0] : [];

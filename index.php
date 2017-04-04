@@ -78,11 +78,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
         case 'printable_coupons':
         case 'deals':
-        case 'coupon_codes':
-            $typesMap = ['printable_coupons' => 'printable', 'deals' => 'deal', 'coupon_codes' => 'simple'];
+        case 'codes':
+            $typesMap = ['printable_coupons' => 'printable', 'deals' => 'deal', 'codes' => 'simple'];
 
             // get coupons
-            $coupons = $iaCoupon->get(iaDb::convertIds($typesMap[$iaView->name()], 'coupon_type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
+            $coupons = $iaCoupon->get(iaDb::convertIds($typesMap[$iaView->name()], 'type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
             $iaView->assign('coupons', $coupons);
 
             $pagination['total'] = $iaCoupon->foundRows();

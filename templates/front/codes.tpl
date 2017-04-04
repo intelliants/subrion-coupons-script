@@ -23,8 +23,8 @@
                     <span class="label label-warning">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
                 {/if}
 
-                {if $core.config.purchase_coupon_codes}
-                    {coupon_code coupon=$item}
+                {if $core.config.purchase_codes}
+                    {code coupon=$item}
                 {/if}
             </div>
         {/if}
@@ -40,10 +40,10 @@
 
         <p class="coupon-tags text-fade-50">
             <span class="fa fa-tags"></span>
-            {if $item.coupon_tags}
-                {lang key='coupon_tags'}: {$item.coupon_tags|replace:',':', '}
+            {if $item.tags}
+                {lang key='tags'}: {$item.tags|replace:',':', '}
             {else}
-                {lang key='no_coupon_tags'}
+                {lang key='no_tags'}
             {/if}
         </p>
     </div>

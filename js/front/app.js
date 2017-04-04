@@ -24,7 +24,7 @@ $(function () {
             .on('finish.countdown', function (e) {
                 $this.html(_t('expired_offer'));
             });
-    })
+    });
 
     $('#action-delete').on('click', function (e) {
         e.preventDefault
@@ -70,5 +70,11 @@ $(function () {
                     response.error || $('#thumb_result_' + params.id).text(response.rating);
                 }
             });
+    });
+
+    // hide pricing options for non deals
+    $('#field_coupons_type').on('change', function () {
+        var $o = $('#fieldgroup_coupons_pricing');
+        'deal' == $(this).val() ? $o.show() : $o.hide();
     });
 });

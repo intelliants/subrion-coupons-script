@@ -9,17 +9,17 @@
         <p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format:$core.config.date_format}</span></p>
     </div>
 
-    {if 'simple' == $item.coupon_type && $item.coupon_code}
+    {if 'simple' == $item.type && $item.code}
         <div class="code clearfix">
             <div class="coupon-code">
-                {$item.coupon_code}
-                <div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
+                {$item.code}
+                <div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
             </div>
         </div>
     {else}
-        {if $item.coupon_image}
+        {if $item.image}
             <div class="text-center">
-                {ia_image file=$item.coupon_image class='img-responsive' title=$item.title}
+                {ia_image file=$item.image class='img-responsive' title=$item.title}
             </div>
         {elseif $item.shop_image}
             <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
@@ -75,15 +75,15 @@
         {/if}
     </div>
 
-    {if $item.coupon_tags}
+    {if $item.tags}
         <p class="text-fade-50">
             <span class="fa fa-tags"></span> {lang key='tags'}:
-            {if $item.coupon_tags}
-                {foreach explode(',', $item.coupon_tags) as $tag}
+            {if $item.tags}
+                {foreach explode(',', $item.tags) as $tag}
                     <a href="{$tag}" class="tag">{$tag}</a>{if !$tag@last}, {/if}
                 {/foreach}
             {else}
-                {lang key='no_coupon_tags'}
+                {lang key='no_tags'}
             {/if}
         </p>
     {/if}

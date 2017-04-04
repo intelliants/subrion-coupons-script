@@ -9,8 +9,8 @@ Ext.onReady(function () {
                     {name: 'title_alias', title: _t('title_alias'), width: 200},
                     {name: 'category', title: _t('category'), width: 120},
                     {
-                        name: 'coupon_type', title: _t('coupon_type'), width: 120, renderer: function (value) {
-                        return _t('field_coupons_coupon_type+' + value, value);
+                        name: 'type', title: _t('type'), width: 120, renderer: function (value) {
+                        return _t('field_coupons_type+' + value, value);
                     }
                     },
                     {name: 'member', title: _t('member'), width: 120},
@@ -54,16 +54,16 @@ Ext.onReady(function () {
                     listeners: intelli.gridHelper.listener.specialKey,
                     valueField: 'value'
                 }), {
-                    emptyText: _t('coupon_type'),
+                    emptyText: _t('type'),
                     xtype: 'combo',
                     typeAhead: true,
                     editable: false,
                     id: 'fltType',
-                    name: 'coupon_type',
+                    name: 'type',
                     store: new Ext.data.SimpleStore(
                         {
                             fields: ['value', 'title'],
-                            data: [['simple', _t('field_coupons_coupon_type+simple')], ['printable', _t('field_coupons_coupon_type+printable')], ['deal', _t('field_coupons_coupon_type+deal')]]
+                            data: [['simple', _t('field_coupons_type+simple')], ['printable', _t('field_coupons_type+printable')], ['deal', _t('field_coupons_type+deal')]]
                         }),
                     displayField: 'title',
                     valueField: 'value'
@@ -137,25 +137,24 @@ $(function () {
     $('#field_coupons_title, #input-alias').blur(intelli.fillUrlBox).blur();
 
     // get shops autocomplete
-    $('#input-shop').typeahead(
-        {
-            source: function (query, process) {
-                return $.ajax(
-                    {
-                        url: intelli.config.admin_url + '/coupons/coupons/shops.json',
-                        dataType: 'json',
-                        data: {q: query},
-                        success: function (data) {
-                            return 'undefined' === typeof data.options ? false : process(data.options);
-                        }
-                    });
-            }
-        });
+    $('#input-shop').typeahead({
+        source: function (query, process) {
+            return $.ajax(
+                {
+                    url: intelli.config.admin_url + '/coupons/coupons/shops.json',
+                    dataType: 'json',
+                    data: {q: query},
+                    success: function (data) {
+                        return 'undefined' === typeof data.options ? false : process(data.options);
+                    }
+                });
+        }
+    });
 
-    $('#field_coupons_coupon_tags').tagsInput({width: '100%', height: 'auto'});
+    $('#field_coupons_tags').tagsInput({width: '100%', height: 'auto'});
 
     // hide pricing options for non deals
-    $('#field_coupons_coupon_type').on('change', function () {
+    $('#field_coupons_type').on('change', function () {
         var $o = $('#coupons_pricing');
         'deal' == $(this).val() ? $o.show() : $o.hide();
     });

@@ -55,9 +55,9 @@
 
         <page group="coupons" name="new_coupons" url="|PACKAGE|coupons/new/" menus="main,coupons">New Coupons</page>
         <page group="coupons" name="popular_coupons" url="|PACKAGE|coupons/popular/" menus="main,coupons">Popular Coupons</page>
-        <page group="coupons" name="deals" url="search/coupons/coupon_type:deals/" menus="main,coupons">Deals</page>
-        <page group="coupons" name="coupon_codes" url="search/coupons/coupon_type:simple/" menus="main,coupons">Coupon Codes</page>
-        <page group="coupons" name="printable_coupons" url="search/coupons/coupon_type:printable/" menus="main,coupons">Printable coupons</page>
+        <page group="coupons" name="deals" url="search/coupons/type:deals/" menus="main,coupons">Deals</page>
+        <page group="coupons" name="codes" url="search/coupons/type:simple/" menus="main,coupons">Coupon Codes</page>
+        <page group="coupons" name="printable_coupons" url="search/coupons/type:printable/" menus="main,coupons">Printable coupons</page>
         <page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
         <page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupons">Add Coupon</page>
         <page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupons">Edit Coupon</page>
@@ -146,18 +146,18 @@
         <field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
         <field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Title</field>
-        <field item="coupons" name="coupon_type" group="coupons" type="combo" required="1"
+        <field item="coupons" name="type" group="coupons" type="combo" required="1"
             page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
-        <field item="coupons" name="coupon_code" group="coupons" type="text" length="70" required="1"
-            page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Coupon Code</field>
-        <field item="coupons" name="coupon_image" group="coupons" type="image"
-            page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="coupon_type:printable">Coupon Image</field>
-        <field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="coupon_type:deal">Deal images</field>
-        <field item="coupons" name="coupon_tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
+        <field item="coupons" name="code" group="coupons" type="text" length="70" required="1"
+            page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:simple">Coupon Code</field>
+        <field item="coupons" name="image" group="coupons" type="image"
+            page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="type:printable">Coupon Image</field>
+        <field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="type:deal">Deal images</field>
+        <field item="coupons" name="tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
         <field item="coupons" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
-        <field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="coupon_type:deal" multilingual="1">Description</field>
+        <field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:deal" multilingual="1">Description</field>
         <field item="coupons" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
-        <field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="coupon_type:simple">Affiliate Link</field>
+        <field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="type:simple">Affiliate Link</field>
         <field item="coupons" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
         <field item="coupons" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
         <field item="coupons" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
@@ -215,22 +215,21 @@
         <phrase category="common" key="coupons">Coupons</phrase>
         <phrase category="common" key="coupon">Coupon</phrase>
         <phrase category="common" key="coupon_title">Coupon title</phrase>
-        <phrase category="common" key="coupon_tags">Coupon tags</phrase>
-        <phrase category="common" key="coupon_type">Coupon type</phrase>
-        <phrase category="common" key="coupon_code">Coupon code</phrase>
+        <phrase category="common" key="tags">Coupon tags</phrase>
+        <phrase category="common" key="type">Coupon type</phrase>
+        <phrase category="common" key="code">Coupon code</phrase>
         <phrase category="common" key="field_tooltip_coupons_activations">Number of possible activations</phrase>
-        <phrase category="common" key="field_tooltip_coupons_cost">Coupon cost</phrase>
+        <phrase category="common" key="field_tooltip_coupons_cost">Coupon cost to be paid to get the deal</phrase>
         <phrase category="common" key="field_tooltip_coupons_item_price">Real price of the product or service</phrase>
         <phrase category="common" key="field_tooltip_coupons_item_discount">Discount value</phrase>
         <phrase category="common" key="simple_coupon">Coupon code</phrase>
         <phrase category="common" key="printable_coupon">Printable coupon</phrase>
         <phrase category="common" key="deal_coupon">Deal</phrase>
         <phrase category="common" key="coupon_expire">Expires on</phrase>
-        <phrase category="common" key="coupon_image">Coupon image</phrase>
+        <phrase category="common" key="image">Coupon image</phrase>
         <phrase category="common" key="coupon_url">Coupon URL</phrase>
         <phrase category="common" key="coupon_description">Description</phrase>
         <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
-        <phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupon as problem?</phrase>
 
         <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
         <phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
@@ -242,6 +241,7 @@
         <phrase category="frontend" key="delete_coupon">Delete Coupon</phrase>
         <phrase category="frontend" key="delete_coupon_confirmation">Are you sure you wish to delete this coupon?</phrase>
         <phrase category="frontend" key="down">down</phrase>
+        <phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupon as problem?</phrase>
         <phrase category="frontend" key="error_shop_incorrect">Please select correct shop.</phrase>
         <phrase category="frontend" key="expired_coupons">Expired Coupons</phrase>
         <phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
@@ -253,14 +253,14 @@
         <phrase category="frontend" key="no_coupons">No coupons added.</phrase>
         <phrase category="frontend" key="no_coupons_for_shop">No coupons added for this shop.</phrase>
         <phrase category="frontend" key="no_coupons_for_category">No coupons added for this category.</phrase>
-        <phrase category="frontend" key="no_coupon_tags">No tags added.</phrase>
+        <phrase category="frontend" key="no_tags">No tags added.</phrase>
         <phrase category="frontend" key="no_my_coupons"><![CDATA[You have not added any coupon on this website. <a href="{%URL%}">Click here</a> to add it right now.]]></phrase>
         <phrase category="frontend" key="no_shops">No shops added.</phrase>
         <phrase category="frontend" key="popularity">popularity</phrase>
-        <phrase category="frontend" key="purchase_coupon_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
+        <phrase category="frontend" key="purchase_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
         <phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
         <phrase category="frontend" key="select_category">Select category</phrase>
-        <phrase category="frontend" key="select_coupon_type"> - select coupon type - </phrase>
+        <phrase category="frontend" key="select_type"> - select coupon type - </phrase>
         <phrase category="frontend" key="shop_activity">Shop activity</phrase>
         <phrase category="frontend" key="show_code">Show code</phrase>
         <phrase category="frontend" key="print_coupon">Print coupon</phrase>

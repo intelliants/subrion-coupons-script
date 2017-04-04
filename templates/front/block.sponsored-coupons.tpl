@@ -25,10 +25,10 @@
                 <div class="ia-item-body">{$coupon.short_description|strip_tags|truncate:150:'...'}</div>
                 <div class="coupon-tags">
                     <i class="icon-tags"></i>
-                    {if $coupon.coupon_tags}
-                        {lang key='coupon_tags'}: {$coupon.coupon_tags|replace:',':', '}
+                    {if $coupon.tags}
+                        {lang key='tags'}: {$coupon.tags|replace:',':', '}
                     {else}
-                        {lang key='no_coupon_tags'}
+                        {lang key='no_tags'}
                     {/if}
                 </div>
             </div>

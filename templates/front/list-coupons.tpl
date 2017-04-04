@@ -1,1 +1,1 @@
-{include "extra:coupons/coupon-list-{$listing.coupon_type}"}
+{include "extra:coupons/coupon-list-{$listing.type}"}

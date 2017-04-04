@@ -6,7 +6,7 @@ Ext.onReady(function () {
                     'selection',
                     {name: 'title', title: _t('coupon'), width: 1, editor: 'text'},
                     {name: 'member', title: _t('member'), width: 160},
-                    {name: 'code', title: _t('coupon_code'), width: 120},
+                    {name: 'code', title: _t('code'), width: 120},
                     {name: 'reference_id', title: _t('transaction'), width: 150},
                     {name: 'date_paid', title: _t('field_transactions_date_paid'), width: 170, editor: 'date'},
                     'status',
@@ -21,7 +21,7 @@ Ext.onReady(function () {
         grid.toolbar = Ext.create('Ext.Toolbar', {
             items: [
                 {
-                    emptyText: _t('coupon_code'),
+                    emptyText: _t('code'),
                     xtype: 'textfield',
                     id: 'fltTitle',
                     name: 'title',

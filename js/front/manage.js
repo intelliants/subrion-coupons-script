@@ -10,7 +10,7 @@ $(function () {
     });
 
     // tags implementation
-    $('#field_coupons_coupon_tags').tagsInput({width: '100%', height: 'auto'});
+    $('#field_coupons_tags').tagsInput({width: '100%', height: 'auto'});
 
     // validate shop
     $('#shop')
@@ -44,7 +44,7 @@ $(function () {
             }
         });
 
-    $('#field_coupons_coupon_type').on('change', function () {
+    $('#field_coupons_type').on('change', function () {
         var $o = $('#fieldgroup_coupons_pricing');
         'deal' == $(this).val() ? $o.show() : $o.hide();
     });

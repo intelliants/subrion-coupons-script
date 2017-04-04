@@ -41,8 +41,8 @@
         ">
             <span class="btn-coupon__cover">{lang key='show_code'}</span>
             <span class="btn-coupon__code">
-                <span class="btn-coupon__code__copy js-copy" data-clipboard-text="{$listing.coupon_code}" title="{lang key='coupon_copy_to_clipboard'}"><span class="fa fa-scissors"></span></span>
-                {$listing.coupon_code}
+                <span class="btn-coupon__code__copy js-copy" data-clipboard-text="{$listing.code}" title="{lang key='coupon_copy_to_clipboard'}"><span class="fa fa-scissors"></span></span>
+                {$listing.code}
             </span>
         </div>
 
@@ -57,10 +57,10 @@
 
         <p class="coupon-tags text-fade-50">
             <span class="fa fa-tags"></span>
-            {if $listing.coupon_tags}
-                {lang key='coupon_tags'}: {$listing.coupon_tags|replace:',':', '}
+            {if $listing.tags}
+                {lang key='tags'}: {$listing.tags|replace:',':', '}
             {else}
-                {lang key='no_coupon_tags'}
+                {lang key='no_tags'}
             {/if}
         </p>
     </div>
