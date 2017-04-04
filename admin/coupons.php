@@ -68,6 +68,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
                 'old' => $previousData
             ]);
         }
+
+        $this->getHelper()->updateCounters($entryId, $entryData, $action, $previousData);
     }
 
     protected function _unpackGridColumnsArray()

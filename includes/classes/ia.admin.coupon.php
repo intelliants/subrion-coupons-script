@@ -36,16 +36,6 @@ class iaCoupon extends abstractCouponsModuleAdmin
     public $dashboardStatistics = ['icon' => 'tag'];
 
 
-    public function gridRead($params, $columns, array $filterParams = [], array $persistentConditions = [])
-    {
-        $columns = '*, ';
-        $columns .= "(SELECT `title` FROM `{$this->_iaDb->prefix}coupons_categories` `cats` WHERE `cats`.`id` = `category_id`) `category_title`, ";
-        $columns .= "(SELECT `username` FROM `{$this->_iaDb->prefix}members` `members` WHERE `members`.`id` = `member_id`) `member`, ";
-        $columns .= "1 `update`, 1 `delete` ";
-
-        return parent::gridRead($params, $columns, $filterParams);
-    }
-
     public function url($action, $data = [])
     {
         $data['action'] = $action;
