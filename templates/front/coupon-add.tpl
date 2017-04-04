@@ -1,4 +1,4 @@
-<form action="{$smarty.const.IA_SELF}" method="post" enctype="multipart/form-data" class="ia-form" id="coupon_form">
+<form method="post" enctype="multipart/form-data" class="ia-form" id="coupon_form">
 
     {include 'plans.tpl' item=$item}
 
@@ -20,12 +20,12 @@
             <div class="fieldset__content">
                 <div class="form-group">
                     <label for="shop">{lang key='shop'}: <span class="required">*</span></label>
-                    <input class="form-control" type="text" name="shop" id="shop" value="{if isset($item.shop_title)}{$item.shop_title}{elseif isset($smarty.post.shop)}{$smarty.post.shop}{/if}" size="50" autocomplete="off">
+                    <input class="form-control" type="text" name="shop" id="shop" value="{if isset($item.shop_title)}{$item.shop_title|escape}{elseif isset($smarty.post.shop)}{$smarty.post.shop|escape}{/if}" size="50" autocomplete="off">
                 </div>
 
                 <div class="form-group" id="shop_website">
                     <label for="website">{lang key='shop_website'}:</label>
-                    <input class="form-control" type="text" name="website" id="website" value="{if isset($item.shop_website)}{$item.shop_website}{elseif isset($smarty.post.website)}{$smarty.post.website}{/if}" size="50" placeholder="http://"{if 'edit' == $pageAction} disabled="disabled"{/if}>
+                    <input class="form-control" type="text" name="website" id="website" value="{if isset($item.shop_website)}{$item.shop_website|escape}{elseif isset($smarty.post.website)}{$smarty.post.website|escape}{/if}" size="50" placeholder="http://"{if 'edit' == $pageAction} disabled="disabled"{/if}>
                 </div>
             </div>
         </div>

@@ -38,9 +38,14 @@ $(function () {
                         dataType: 'json',
                         data: {q: query},
                         success: function (data) {
-                            return typeof data.options == 'undefined' ? false : process(data.options);
+                            return 'undefined' === typeof data.options ? false : process(data.options);
                         }
                     });
             }
-        })
+        });
+
+    $('#field_coupons_coupon_type').on('change', function () {
+        var $o = $('#fieldgroup_coupons_pricing');
+        'deal' == $(this).val() ? $o.show() : $o.hide();
+    });
 });

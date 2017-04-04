@@ -13,7 +13,7 @@
     {/capture}
 
     {capture name='coupons' append='fieldset_before'}
-        {include 'tree.tpl' url="{$smarty.const.IA_ADMIN_URL}coupons/categories/tree.json?noroot"}
+        {include 'tree.tpl'}
 
         <div class="row">
             <label class="col col-lg-2 control-label" for="input-shop">{lang key='shop'} <span class="required">*</span></label>

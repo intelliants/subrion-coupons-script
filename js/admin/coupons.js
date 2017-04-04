@@ -146,7 +146,7 @@ $(function () {
                         dataType: 'json',
                         data: {q: query},
                         success: function (data) {
-                            return typeof data.options == 'undefined' ? false : process(data.options);
+                            return 'undefined' === typeof data.options ? false : process(data.options);
                         }
                     });
             }

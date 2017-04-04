@@ -119,7 +119,7 @@
     <config group="coupons" name="coupons_listing_limit" type="text" description="Coupons limit for each member" show="0">10</config>
 
     <config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
-    <!-- E-mail template for reported as problem coupone notification -->
+    <!-- E-mail template for reported as problem coupon notification -->
     <config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Coupon marked as problem">1</config>
     <config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
     <config group="email_templates" type="textarea" name="reported_as_problem_body">
@@ -230,7 +230,7 @@
         <phrase category="common" key="coupon_url">Coupon URL</phrase>
         <phrase category="common" key="coupon_description">Description</phrase>
         <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
-        <phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupone as problem?</phrase>
+        <phrase category="frontend" key="do_you_want_report_problem">Do you want to report this coupon as problem?</phrase>
 
         <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
         <phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
