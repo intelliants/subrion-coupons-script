@@ -112,7 +112,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         $entry['category_id'] = (int)$data['tree_id'];
         $entry['shop_id'] = 0;
 
-        $entry['title_alias'] = empty($data['title_alias']) ? $data['title'] : $data['title_alias'];
+        $entry['title_alias'] = empty($data['title_alias']) ? $data['title'][$this->_iaCore->language['iso']] : $data['title_alias'];
         $entry['title_alias'] = iaSanitize::alias($entry['title_alias']);
 
         // validate chosen shop
