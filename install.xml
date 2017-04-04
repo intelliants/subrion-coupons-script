@@ -285,6 +285,14 @@
         <phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
     </phrases>
 
+    <tooltips>
+        <tooltip key="coupons_auto_approval">Coupon becomes visible to site visitor immediately after submission.</tooltip>
+        <tooltip key="coupon_add_guest">Guests are allowed to list coupons on the website without registration.</tooltip>
+        <tooltip key="shop_submission">Frontend visitors are allowed to create new shop listings.</tooltip>
+        <tooltip key="show_expired_coupons">Expired coupons can be still visible for site visitors.</tooltip>
+        <tooltip key="coupons_show_children">Expired coupons can be still visible for site visitors.</tooltip>
+    </tooltips>
+
     <hooks>
         <hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
         <hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
