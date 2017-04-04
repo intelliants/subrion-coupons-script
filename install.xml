@@ -102,7 +102,7 @@
     <config group="coupons" name="coupon_add_guest" type="radio" values="1,0" description="Allow to add coupon for guest">1</config>
     <config group="coupons" name="shop_submission" type="radio" values="1,0" description="Allow shop submission">1</config>
     <config group="coupons" name="show_expired_coupons" type="radio" values="1,0" description="Show expired coupons">1</config>
-    <config group="coupons" type="radio" name="coupons_show_children" values="1,0" description="Show subcategories coupons in the parents">1</config>
+    <config group="coupons" name="coupons_show_children" type="radio" values="1,0" description="Show subcategories coupons in the parents">1</config>
     <config group="coupons" name="badge_type" type="select" values="featured,hot" description="Featured badge type">featured</config>
     <config group="coupons" name="coupons_per_page" type="text" description="Number of coupons per page">10</config>
 
@@ -120,7 +120,7 @@
 
     <config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
     <!-- E-mail template for reported as problem coupone notification -->
-    <config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Link marked as problem">1</config>
+    <config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Coupon marked as problem">1</config>
     <config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
     <config group="email_templates" type="textarea" name="reported_as_problem_body">
         <![CDATA[
@@ -145,7 +145,7 @@
         <field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
         <field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
-        <field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit">Title</field>
+        <field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Title</field>
         <field item="coupons" name="coupon_type" group="coupons" type="combo" required="1"
             page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
         <field item="coupons" name="coupon_code" group="coupons" type="text" length="70" required="1"
