@@ -40,9 +40,9 @@
                     </div>
                 {/if}
 
-                {if $coupon.category_parent_id > 0 && (!isset($category) || $category.parent_id > 1)}
+                {if $coupon.category_parent_id > 0 && !empty($category) && $category._pid > 1}
                     <div class="coupon-category pull-left">
-                        <i class="icon-folder-close"></i> <a href="{$core.packages.coupons.url}{$coupon.category_alias}/">{$coupon.category_title}</a>
+                        <i class="icon-folder-close"></i> <a href="{$category.link}">{$coupon.category_title}</a>
                     </div>
                 {/if}
 

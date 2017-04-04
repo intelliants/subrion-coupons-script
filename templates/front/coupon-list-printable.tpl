@@ -62,9 +62,9 @@
             </span>
         {/if}
 
-        {if $listing.category_parent_id > 0 && (!isset($category) || $category.parent_id > 1)}
+        {if $listing.category_parent_id > 0 && !empty($category) && $category._pid > 1}
             <span class="ia-item__panel__item pull-left">
-                <span class="fa fa-folder-o"></span> <a href="{$core.packages.coupons.url}{$listing.category_alias}/">{$listing.category_title}</a>
+                <span class="fa fa-folder-o"></span> <a href="{$category.link}">{$listing.category_title}</a>
             </span>
         {/if}
 
