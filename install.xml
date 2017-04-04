@@ -190,7 +190,7 @@
         <phrase category="admin" key="coupon_category_added">Coupon category added.</phrase>
         <phrase category="admin" key="coupon_category_deleted">Coupon category deleted.</phrase>
         <phrase category="admin" key="coupon_category_already_exists">Coupon category with similar title alias exists in this category.</phrase>
-        <phrase category="admin" key="field_ccats_icon_tooltip"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes.]]></phrase>
+        <phrase category="admin" key="field_tooltip_ccats_icon"><![CDATA[Please visit <a href="http://fontawesome.io/cheatsheet/">FontAwesome cheatsheet page</a> for available icon classes.]]></phrase>
         <phrase category="admin" key="coupon_shop_already_exists">Shop with similar title alias exists.</phrase>
         <phrase category="admin" key="coupon_shop_empty">Shop cannot be empty.</phrase>
         <phrase category="admin" key="coupon_shop_incorrect">Please select correct coupon shop from the list.</phrase>
@@ -218,10 +218,10 @@
         <phrase category="common" key="coupon_tags">Coupon tags</phrase>
         <phrase category="common" key="coupon_type">Coupon type</phrase>
         <phrase category="common" key="coupon_code">Coupon code</phrase>
-        <phrase category="common" key="field_coupons_activations_tooltip">Number of possible activations</phrase>
-        <phrase category="common" key="field_coupons_cost_tooltip">Coupon cost</phrase>
-        <phrase category="common" key="field_coupons_item_price_tooltip">Real price of the product</phrase>
-        <phrase category="common" key="field_coupons_item_discount_tooltip">Discount value</phrase>
+        <phrase category="common" key="field_tooltip_coupons_activations">Number of possible activations</phrase>
+        <phrase category="common" key="field_tooltip_coupons_cost">Coupon cost</phrase>
+        <phrase category="common" key="field_tooltip_coupons_item_price">Real price of the product or service</phrase>
+        <phrase category="common" key="field_tooltip_coupons_item_discount">Discount value</phrase>
         <phrase category="common" key="simple_coupon">Coupon code</phrase>
         <phrase category="common" key="printable_coupon">Printable coupon</phrase>
         <phrase category="common" key="deal_coupon">Deal</phrase>
