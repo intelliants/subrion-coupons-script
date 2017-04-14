@@ -18,9 +18,9 @@
     </screenshots>
 
     <items>
-        <item table_name="coupons_coupons">coupons</item>
-        <item table_name="coupons_shops">shops</item>
-        <item table_name="coupons_categories" payable="0">ccats</item>
+        <item table_name="coupons_coupons" pages="coupons_home,new_coupons,popular_coupons">coupons</item>
+        <item table_name="coupons_shops" pages="shops,shop_view">shops</item>
+        <item table_name="coupons_categories" payable="0" pages="coupons_home">ccats</item>
     </items>
 
     <actions>
@@ -199,6 +199,7 @@
         <phrase category="admin" key="edit_shop">Edit Shop ":name"</phrase>
         <phrase category="admin" key="expired">Expired</phrase>
         <phrase category="admin" key="recount_coupons">Recount coupons</phrase>
+        <phrase category="admin" key="repair_coupon_categories">Repair coupon categories</phrase>
         <phrase category="admin" key="shop_incorrect">{SHOP INCORRECT}</phrase>
         <phrase category="admin" key="reported_as_problem">Reported as Problem</phrase>
         <phrase category="admin" key="reported_as_problem_comments">Problem report comments</phrase>
@@ -315,23 +316,33 @@ $statistics['coupons'] = array(
         <hook name="adminDatabaseConsistency" type="smarty" page_type="admin">
             <![CDATA[
 <div class="row">
+    <label class="col col-lg-2 control-label">{lang key='repair_coupon_categories'}</label>
+    <div class="col col-lg-1">
+        <button class="btn btn-success btn-small" name="type" value="repair_coupon_categories">{lang key='start'}</button>
+    </div>
+</div>
+<div class="row">
     <label class="col col-lg-2 control-label">{lang key='recount_coupons'}</label>
     <div class="col col-lg-4">
-        <button type="submit" class="btn btn-success btn-small" name="type" value="recount_coupons">{lang key='start'}</button>
+        <button class="btn btn-success btn-small" name="type" value="recount_coupons">{lang key='start'}</button>
     </div>
 </div>
             ]]>
         </hook>
         <hook name="phpAdminDatabaseConsistencyType" page_type="admin">
             <![CDATA[
-if ('recount_coupons' == $_GET['type'])
-{
-    $iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters();
-    $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
+switch ($_GET['type']) {
+    case 'repair_coupon_categories':
+        $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->rebuild();
+        $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
+        break;
+
+    case 'recount_coupons':
+        $iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters(null, [], null);
+        $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
 }
             ]]>
         </hook>
-
         <hook name="smartyViewCouponBeforeFooter" type="smarty" page_type="front" filename="hook.report-modal"><![CDATA[]]></hook>
     </hooks>
 
@@ -386,14 +397,12 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_categories`(
     `order` int(8) NOT NULL,
     `num_cols` tinyint(4) NOT NULL,
     `num_neighbours` tinyint(4) NOT NULL,
-    `num_coupons` mediumint(8) NOT NULL,
-    `num_all_coupons` mediumint(8) NOT NULL,
     `no_follow` tinyint(1) unsigned NOT NULL,
     `locked` tinyint(1) unsigned NOT NULL default 0,
     `views_num` mediumint(8) unsigned NOT NULL,
-    `_pid` mediumint(8) unsigned NOT NULL default 0,
+    `parent_id` mediumint(8) unsigned NOT NULL default 0,
     PRIMARY KEY (`id`),
-    UNIQUE `UNIQUE` (`_pid`,`title_alias`),
+    UNIQUE `UNIQUE` (`parent_id`,`title_alias`),
     KEY `ORDER` (`order`)
 ) {mysql_version};
             ]]>

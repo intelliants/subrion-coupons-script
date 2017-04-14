@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-class iaCcat extends iaAbstractHelperCategoryHybrid
+class iaCcat extends iaAbstractHelperCategoryFlat
 {
     protected static $_table = 'coupons_categories';
 
@@ -27,7 +27,10 @@ class iaCcat extends iaAbstractHelperCategoryHybrid
 
     protected $_moduleUrl = 'coupons/categories/';
 
-    protected $_flatStructureEnabled = true;
+    protected $_recountOptions = [
+        'columnCounter' => 'num_coupons',
+        'columnTotalCounter' => 'num_all_coupons'
+    ];
 
     private $patterns = [
         'default' => ':location_alias:title_alias/',

@@ -93,142 +93,142 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $iaCateg->getAllCategories($iaCateg->getRootId(), $categories);
             $iaView->assign('coupon_categories', $categories);
 
-        if (isset($_POST['data-coupon'])) {
-            $error = false;
-            $messages = [];
-            $item = false;
-            $data = [];
+            if (isset($_POST['data-coupon'])) {
+                $error = false;
+                $messages = [];
+                $item = false;
+                $data = [];
 
-            $iaUtil = $iaCore->factory('util');
+                $iaUtil = $iaCore->factory('util');
 
-            list($data, $error, $messages) = $iaField->parsePost($iaCoupon->getItemName(), $couponEntry);
+                list($data, $error, $messages) = $iaField->parsePost($iaCoupon->getItemName(), $couponEntry);
 
-            if (!iaUsers::hasIdentity() && !iaValidate::isCaptchaValid()) {
-                $error = true;
-                $messages[] = iaLanguage::get('confirmation_code_incorrect');
-            }
-
-            $item['ip'] = $iaUtil->getIp();
-            $item['member_id'] = 0;
-
-            if (iaUsers::hasIdentity()) {
-                $item['member_id'] = iaUsers::getIdentity()->id;
-            } elseif ($iaCore->get('listing_tie_to_member')) {
-                $iaUsers = $iaCore->factory('users');
-                if ($member = $iaUsers->getInfo($data['email'], 'email')) {
-                    $item['member_id'] = $member['id'];
-                }
-            }
-
-            // assign category value
-            if (isset($_POST['category_id']) && $_POST['category_id']) {
-                $category = $iaCateg->getById((int)$_POST['category_id']);
-                if ($category && empty($category['locked'])) {
-                    $data['category_id'] = $category['id'];
-                } elseif ($category && !empty($category['locked'])) {
+                if (!iaUsers::hasIdentity() && !iaValidate::isCaptchaValid()) {
                     $error = true;
-                    $messages[] = iaLanguage::get('coupon_category_locked');
+                    $messages[] = iaLanguage::get('confirmation_code_incorrect');
+                }
+
+                $item['ip'] = $iaUtil->getIp();
+                $item['member_id'] = 0;
+
+                if (iaUsers::hasIdentity()) {
+                    $item['member_id'] = iaUsers::getIdentity()->id;
+                } elseif ($iaCore->get('listing_tie_to_member')) {
+                    $iaUsers = $iaCore->factory('users');
+                    if ($member = $iaUsers->getInfo($data['email'], 'email')) {
+                        $item['member_id'] = $member['id'];
+                    }
+                }
+
+                // assign category value
+                if (isset($_POST['category_id']) && $_POST['category_id']) {
+                    $category = $iaCateg->getById((int)$_POST['category_id']);
+                    if ($category && empty($category['locked'])) {
+                        $data['category_id'] = $category['id'];
+                    } elseif ($category && !empty($category['locked'])) {
+                        $error = true;
+                        $messages[] = iaLanguage::get('coupon_category_locked');
+                    } else {
+                        $error = true;
+                        $messages[] = iaLanguage::get('coupon_category_empty');
+                    }
                 } else {
                     $error = true;
                     $messages[] = iaLanguage::get('coupon_category_empty');
                 }
-            } else {
-                $error = true;
-                $messages[] = iaLanguage::get('coupon_category_empty');
-            }
 
-            // assign title alias
-            $data['title_alias'] = iaSanitize::alias($data['title']);
+                // assign title alias
+                $data['title_alias'] = iaSanitize::alias($data['title_' . $iaView->language]);
 
-            // assign item status
-            $data['status'] = $iaCore->get('coupons_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_APPROVAL;
+                // assign item status
+                $data['status'] = $iaCore->get('coupons_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_APPROVAL;
 
-            // assign expire date
-            $data['expire_date'] = $data['expire_date'] ? date(iaDb::DATETIME_FORMAT, strtotime($_POST['expire_date'])): '';
+                // assign expire date
+                $data['expire_date'] = $data['expire_date'] ? date(iaDb::DATETIME_FORMAT, strtotime($_POST['expire_date'])): '';
 
-            // assign shop value
-            if (!empty($_POST['shop']) && !$error) {
-                $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
+                // assign shop value
+                if (!empty($_POST['shop']) && !$error) {
+                    $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
-                if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
-                    $data['shop_id'] = $shopData['id'];
-                } else {
-                    if ($iaCore->get('shop_submission')) {
-                        // add shop here
-                        $newShop = [
-                            'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
-                            'website' => iaUtil::checkPostParam('website')
-                        ];
-
-                        foreach ($iaCore->languages as $iso => $language) {
-                            $newShop['title_' . $iso] = $_POST['shop'];
-                        }
-
-                        $newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
-
-                        if (empty($newShop['website']) || 'http://' == $newShop['website']) {
-                            $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title_' . $iaView->language] ? $newShop['title_' . $iaView->language] : $shopTitle);
-                            unset($newShop['website']);
-                        } else {
-                            $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['domain'] ? $newShop['domain'] : $shopTitle);
-                        }
-
-                        $data['shop_id'] = $iaShop->insert($newShop);
-
-                        $messages[] = iaLanguage::get('shop_added');
+                    if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
+                        $data['shop_id'] = $shopData['id'];
                     } else {
-                        $error = true;
-                        $messages[] = iaLanguage::get('error_shop_incorrect');
-                    }
-                }
-            } else {
-                $error = true;
-                $messages[] = iaLanguage::get('error_shop_incorrect');
-            }
+                        if ($iaCore->get('shop_submission')) {
+                            // add shop here
+                            $newShop = [
+                                'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
+                                'website' => iaUtil::checkPostParam('website')
+                            ];
 
-            if (!$iaCoupon->isSubmissionAllowed($item['member_id'])) {
-                $error = true;
-                $messages[] = iaLanguage::get('limit_is_exceeded');
-            }
+                            foreach ($iaCore->languages as $iso => $language) {
+                                $newShop['title_' . $iso] = $_POST['shop'];
+                            }
 
-            if (!$error) {
-                if (iaCore::ACTION_ADD == $pageAction) {
-                    // insert coupon
-                    $data['id'] = $iaCoupon->insert($data);
-                } elseif (iaCore::ACTION_EDIT == $pageAction) {
-                    $iaCoupon->update($data, $couponId);
-                    $data['id'] = $couponId;
-                }
+                            $newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
 
-                // implement common hook
-                $iaCore->startHook('phpAddItemAfterAll', [
-                    'type' => 'front',
-                    'listing' => $data['id'],
-                    'item' => $iaCoupon->getItemName(),
-                    'data' => $data,
-                    'old' => $couponEntry
-                ]);
+                            if (empty($newShop['website']) || 'http://' == $newShop['website']) {
+                                $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title_' . $iaView->language] ? $newShop['title_' . $iaView->language] : $shopTitle);
+                                unset($newShop['website']);
+                            } else {
+                                $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['domain'] ? $newShop['domain'] : $shopTitle);
+                            }
 
-                // redirect
-                $couponEntry['id'] = $data['id'];
-                $data['shop_alias'] = $shopData['title_alias'];
+                            $data['shop_id'] = $iaShop->insert($newShop);
 
-                if (isset($_POST['plan_id']) && $_POST['plan_id']) {
-                    $plan = $iaPlan->getById($_POST['plan_id']);
-                    if ($plan['cost'] > 0) {
-                        $url = $iaPlan->prePayment($iaCoupon->getItemName(), $couponEntry, $plan['id'], $iaCoupon->url('view', $data));
-
-                        iaUtil::redirect(iaLanguage::get('redirect'), $messages, $url);
+                            $messages[] = iaLanguage::get('shop_added');
+                        } else {
+                            $error = true;
+                            $messages[] = iaLanguage::get('error_shop_incorrect');
+                        }
                     }
                 } else {
-                    iaUtil::go_to($iaCoupon->url('view', $data));
+                    $error = true;
+                    $messages[] = iaLanguage::get('error_shop_incorrect');
                 }
-            } else {
-                $iaView->setMessages($messages, iaView::ERROR);
-            }
 
-            $couponEntry = $data;
-        }
+                if (!$iaCoupon->isSubmissionAllowed($item['member_id'])) {
+                    $error = true;
+                    $messages[] = iaLanguage::get('limit_is_exceeded');
+                }
+
+                if (!$error) {
+                    if (iaCore::ACTION_ADD == $pageAction) {
+                        // insert coupon
+                        $data['id'] = $iaCoupon->insert($data);
+                    } elseif (iaCore::ACTION_EDIT == $pageAction) {
+                        $iaCoupon->update($data, $couponId);
+                        $data['id'] = $couponId;
+                    }
+
+                    // implement common hook
+                    $iaCore->startHook('phpAddItemAfterAll', [
+                        'type' => 'front',
+                        'listing' => $data['id'],
+                        'item' => $iaCoupon->getItemName(),
+                        'data' => $data,
+                        'old' => $couponEntry
+                    ]);
+
+                    // redirect
+                    $couponEntry['id'] = $data['id'];
+                    $data['shop_alias'] = $shopData['title_alias'];
+
+                    if (isset($_POST['plan_id']) && $_POST['plan_id']) {
+                        $plan = $iaPlan->getById($_POST['plan_id']);
+                        if ($plan['cost'] > 0) {
+                            $url = $iaPlan->prePayment($iaCoupon->getItemName(), $couponEntry, $plan['id'], $iaCoupon->url('view', $data));
+
+                            iaUtil::redirect(iaLanguage::get('redirect'), $messages, $url);
+                        }
+                    } else {
+                        iaUtil::go_to($iaCoupon->url('view', $data));
+                    }
+                } else {
+                    $iaView->setMessages($messages, iaView::ERROR);
+                }
+
+                $couponEntry = $data;
+            }
 
             $iaView->assign('item', $couponEntry);
 

@@ -39,7 +39,7 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
 }
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
-    $iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
+    $iaCcat = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
     iaLanguage::set('no_my_coupons', str_replace('{%URL%}', IA_MODULE_URL . 'coupons/add/', iaLanguage::get('no_my_coupons')));
 
@@ -109,7 +109,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $categoryAlias = implode(IA_URL_DELIMITER, $iaCore->requestPath);
             }
 
-            $category = $iaCateg->getCategory(iaDb::convertIds($categoryAlias, 'title_alias'));
+            $category = $iaCcat->getCategory(iaDb::convertIds($categoryAlias, 'title_alias'));
             $iaView->assign('category', $category);
 
             // requested category not found
@@ -119,29 +119,24 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $iaView->assign('current_category', $category);
 
             // increment views counter
-            $iaCateg->incrementViewsCounter($category['id']);
+            $iaCcat->incrementViewsCounter($category['id']);
 
             // get categories
-            $categories    = $iaCateg->getCategories("`_pid` = '" . $category['id'] . "' AND `status` = 'active' ");
+            $categories = $iaCcat->getCategories("`parent_id` = '" . $category['id'] . "' AND `status` = 'active' ");
             $iaView->assign('categories', $categories);
 
             // get neighbour categories & update page title
-            if ($category[iaCcat::COL_PARENT_ID]) {
-                $neighbours = $iaCateg->getCategories("`_pid` = '" . $category[iaCcat::COL_PARENT_ID] . "'AND `id` <> '" . $category['id'] . "' AND `status` = 'active' ");
-                $iaView->assign('neighbours', $neighbours);
+            $neighbours = $iaCcat->getCategories("`parent_id` = '" . $category[iaCcat::COL_PARENT_ID] . "'AND `id` <> '" . $category['id'] . "' AND `status` = 'active' ");
+            $iaView->assign('neighbours', $neighbours);
 
-                $iaView->title($category['title'] . ' ' . iaLanguage::get('coupons'));
+            $iaView->title($category['title'] . ' ' . iaLanguage::get('coupons'));
 
-                // generate breadcrumb
-                if (!empty($category['parents']) && !empty($category['level'])) {
-                    if ($parents = $iaCateg->getCategories("`id` IN ({$category['parents']}) AND `_pid` > 0")) {
-                        foreach ($parents as $i => $p) {
-                            isset($parents[++$i])
-                                ? iaBreadcrumb::add($p['title'], $iaCateg->url('view', $p))
-                                : iaBreadcrumb::replaceEnd($p['title'], $iaCateg->url('view', $p));
-                        }
-                    }
-                }
+            // generate breadcrumb
+            $parents = $iaCcat->getParents($category['id']);
+            foreach ($parents as $i => $p) {
+                isset($parents[++$i])
+                    ? iaBreadcrumb::add($p['title'], $iaCcat->url('view', $p))
+                    : iaBreadcrumb::replaceEnd($p['title'], $iaCcat->url('view', $p));
             }
 
             $sorting = $iaCoupon->getSorting($_SESSION, $_GET);

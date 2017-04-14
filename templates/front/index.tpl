@@ -54,7 +54,7 @@
 
         {navigation aTotal=$pagination.total aTemplate=$pagination.url aItemsPerPage=$pagination.limit aNumPageItems=5 aTruncateParam=1}
     </div>
-{elseif isset($category) && $category._pid != 0}
+{elseif isset($category) && $category.parent_id != 0}
     <div class="alert alert-info">{lang key='no_coupons_for_category'}</div>
 {elseif !isset($category)}
     <div class="alert alert-info">{lang key='no_my_coupons'}</div>

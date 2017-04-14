@@ -38,38 +38,21 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     public function init()
     {
         $this->_iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
-
-        $this->_treeSettings = ['parent_id' => iaCcat::COL_PARENT_ID, 'parents' => iaCcat::COL_PARENTS];
     }
 
     protected function _entryAdd(array $entryData)
     {
-        $entryData['date_added'] = date(iaDb::DATETIME_FORMAT);
-        $entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
-
-        return parent::_entryAdd($entryData);
+        return $this->getHelper()->insert($entryData);
     }
 
     protected function _entryUpdate(array $entryData, $entryId)
     {
-        $entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
-
-        return parent::_entryUpdate($entryData, $entryId);
+        return $this->getHelper()->update($entryData, $entryId);
     }
 
-    public function updateCounters($entryId, array $entryData, $action, $previousData = null)
+    protected function _entryDelete($entryId)
     {
-        if (in_array($action, iaCore::ACTION_ADD, iaCore::ACTION_EDIT)) {
-            $this->_iaCore->startHook('phpAddItemAfterAll', [
-                'type' => iaCore::ADMIN,
-                'listing' => $entryId,
-                'item' => $this->getItemName(),
-                'data' => $entryData,
-                'old' => $previousData
-            ]);
-        }
-
-        $this->getHelper()->updateCounters($entryId, $entryData, $action, $previousData);
+        return $this->getHelper()->delete($entryId);
     }
 
     protected function _unpackGridColumnsArray()
@@ -139,6 +122,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
         $iaView->assign('shopName', $shopName);
         $iaView->assign('statuses', $this->getHelper()->getStatuses());
+        $iaView->assign('tree', $this->getHelper()->getTreeVars($entryData));
     }
 
     protected function _getTreeVars(array $entryData)

@@ -17,13 +17,18 @@
  *
  ******************************************************************************/
 
-class iaCcat extends iaAbstractFrontHelperCategoryHybrid
+class iaCcat extends iaAbstractFrontHelperCategoryFlat
 {
     protected static $_table = 'coupons_categories';
 
     protected $_moduleName = 'coupons';
 
     protected $_itemName = 'ccats';
+
+    protected $_recountOptions = [
+        'columnCounter' => 'num_coupons',
+        'columnTotalCounter' => 'num_all_coupons'
+    ];
 
 
     public function url($action, array $listingData)

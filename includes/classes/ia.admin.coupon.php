@@ -51,6 +51,21 @@ class iaCoupon extends abstractCouponsModuleAdmin
         return $this->getInfo('url') . iaDb::printf($this->_urlPatterns[$action], $data);
     }
 
+    public function insert(array $itemData)
+    {
+        $itemData['date_added'] = date(iaDb::DATETIME_FORMAT);
+        $itemData['date_modified'] = date(iaDb::DATETIME_FORMAT);
+
+        return parent::insert($itemData);
+    }
+
+    public function update(array $itemData, $id)
+    {
+        $itemData['date_modified'] = date(iaDb::DATETIME_FORMAT);
+
+        return parent::update($itemData, $id);
+    }
+
     public function getById($id, $process = true)
     {
         $sql = <<<SQL
@@ -128,5 +143,28 @@ SQL;
         }
 
         return $result;
+    }
+
+
+    public function getTreeVars(array $entryData)
+    {
+        $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
+
+        $category = empty($entryData['category_id'])
+            ? $iaCcat->getRoot()
+            : $iaCcat->getById($entryData['category_id']);
+
+        $nodes = [];
+        if ($parents = $iaCcat->getParents($category['id'])) {
+            foreach ($parents as $entry)
+                $nodes[] = $entry['id'];
+        }
+
+        return [
+            'url' => IA_ADMIN_URL . 'coupons/categories/tree.json?noroot',
+            'nodes' => implode(',', $nodes),
+            'id' => $category['id'],
+            'title' => $category['title']
+        ];
     }
 }

@@ -106,7 +106,7 @@ class iaCoupon extends abstractCouponsModuleFront
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT :found_rows t1.*'
-            . ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`_pid` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
+            . ', t2.`title_alias` `category_alias`, t2.`title_:lang` `category_title`, t2.`parent_id` `category_parent_id`, t2.`no_follow`, t2.`num_coupons` `num` '
             . ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
             . ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
             // count codes for each coupon
@@ -167,8 +167,7 @@ class iaCoupon extends abstractCouponsModuleFront
 
     protected function _processValues(&$rows, $singleRow = false, $fieldNames = [])
     {
-        $fieldNames = ['shop_image'];
-        parent::_processValues($rows, $singleRow, $fieldNames);
+        parent::_processValues($rows, $singleRow, ['shop_image']);
 
         foreach ($rows as &$row) {
             $row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
@@ -269,7 +268,7 @@ class iaCoupon extends abstractCouponsModuleFront
         $sql = <<<SQL
 UPDATE `:prefixcoupons_categories` c SET `num_all_coupons` = (
   SELECT COUNT(*) FROM `:table_coupons` l 
-    LEFT JOIN `:prefixcoupons_categories_flat` fs ON fs.`category_id` = l.`category_id` 
+    LEFT JOIN `:prefixcoupons_categories_flat` fs ON (fs.`category_id` = l.`category_id`) 
   WHERE fs.`parent_id` = c.`id` AND l.`status` = ':status'), `num_coupons` = (
   SELECT COUNT(*) FROM `:table_coupons` WHERE `category_id` = c.`id` AND `status` = ':status') 
 WHERE c.`status` = ':status'

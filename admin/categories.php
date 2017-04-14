@@ -38,7 +38,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     public function init()
     {
         $this->_root = $this->getHelper()->getRoot();
-        $this->_treeSettings = ['parent_id' => iaCcat::COL_PARENT_ID, 'parents' => iaCcat::COL_PARENTS];
     }
 
     protected function _setPageTitle(&$iaView, array $entryData, $action)
@@ -61,6 +60,11 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         return $this->getHelper()->update($entryData, $entryId);
     }
 
+    protected function _entryDelete($entryId)
+    {
+        return $this->getHelper()->delete($entryId);
+    }
+
     protected function _modifyGridParams(&$conditions, &$values, array $params)
     {
         $conditions[] = iaDb::convertIds(iaCcat::ROOT_PARENT_ID, iaCcat::COL_PARENT_ID, false);
@@ -69,14 +73,13 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     protected function _setDefaultValues(array &$entry)
     {
         $entry = [
-            iaCcat::COL_PARENT_ID => $this->_root['id'],
-            iaCcat::COL_PARENTS => '',
-
             'locked' => false,
             'featured' => false,
             'icon' => false,
             'status' => iaCore::STATUS_ACTIVE,
-            'title_alias' => ''
+            'title_alias' => '',
+
+            iaCcat::COL_PARENT_ID => $this->_root['id']
         ];
     }
 
@@ -108,6 +111,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
         $array = explode(IA_URL_DELIMITER, trim($entryData['title_alias'], IA_URL_DELIMITER));
         $entryData['title_alias'] = end($array);
+
+        $iaView->assign('tree', $this->getHelper()->getTreeVars($this->getEntryId(), $entryData, $this->getPath()));
     }
 
     protected function _getJsonAlias(array $params)
