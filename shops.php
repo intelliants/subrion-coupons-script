@@ -50,19 +50,19 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $coupons = $couponsExpired = [];
                 switch (true) {
                     case !isset($_GET['sorting']) || 'all' == $_GET['sorting']:
-                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
-                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
+                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` IS NULL OR `expire_date` >= NOW())", '`expire_date` ASC', 100);
+                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND `expire_date` IS NOT NULL AND `expire_date` < NOW()", '`expire_date` ASC', 100) : [];
 
                         $couponsNum = count($coupons) + count($couponsExpired);
                         break;
 
                     case ('active' == $_GET['sorting']):
-                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` >= NOW() OR `expire_date` = 1)", '`expire_date` ASC', 100);
+                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` IS NULL OR `expire_date` >= NOW())", '`expire_date` ASC', 100);
                         $couponsNum = count($coupons);
                         break;
 
                     case ('expired' == $_GET['sorting']):
-                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` < NOW() AND `expire_date` != 0)", '`expire_date` ASC', 100) : [];
+                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date IS NOT NULL AND `expire_date` < NOW())", '`expire_date` ASC', 100) : [];
                         $couponsNum = count($couponsExpired);
                 }
 

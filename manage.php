@@ -143,8 +143,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 // assign item status
                 $data['status'] = $iaCore->get('coupons_auto_approval') ? iaCore::STATUS_ACTIVE : iaCore::STATUS_APPROVAL;
 
-                // assign expire date
-                $data['expire_date'] = $data['expire_date'] ? date(iaDb::DATETIME_FORMAT, strtotime($_POST['expire_date'])): '';
+                // correctly handle NULL value
+                // TODO: remove in 4.1.4 version of the core script
+                if (isset($data['expire_date']) && (empty($data['expire_date']) || '0000-00-00 00:00:00' == $data['expire_date'])) {
+                    $data['expire_date'] = null;
+                }
 
                 // assign shop value
                 if (!empty($_POST['shop']) && !$error) {
