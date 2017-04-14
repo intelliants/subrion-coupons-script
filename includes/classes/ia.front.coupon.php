@@ -217,11 +217,9 @@ class iaCoupon extends abstractCouponsModuleFront
 
     public function getFavorites($ids)
     {
-        $stmt = iaDb::printf("`id` IN (:ids) AND `status` IN (':active', 'available')",
-            ['ids' => implode(',', $ids), 'active' => iaCore::STATUS_ACTIVE]);
+        $where = 't1.`id` IN (' . implode(',', $ids) . ')';
 
-        return $this->iaDb->all(iaDb::ALL_COLUMNS_SELECTION . ', (SELECT `title_alias` FROM `' . $this->iaDb->prefix . 'coupons_shops` `shops` WHERE `shops`.`id` = `shop_id`) `shop_alias`, 1 `favorite`',
-            $stmt, null, null, self::getTable());
+        return $this->_getQuery($where);
     }
 
     // called at the Member Details page
