@@ -30,10 +30,11 @@ class iaCoupon extends abstractCouponsModuleFront
         'regularSearchFields' => ['title', 'title_alias', 'tags']
     ];
 
-    private $_foundRows = 0;
-
     protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL];
     protected $_codeStatuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_USED];
+
+    private $_foundRows = 0;
+
 
     public function url($action, array $listingData)
     {
@@ -44,6 +45,7 @@ class iaCoupon extends abstractCouponsModuleFront
             'my' => 'profile/coupons/',
             'buy' => 'coupons/buy/:id/'
         ];
+
         $url = iaDb::printf(
             isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
             [
@@ -144,7 +146,7 @@ class iaCoupon extends abstractCouponsModuleFront
 
         $rows = $iaDb->getAll(iaDb::printf($sql, $data));
 
-        if ($foundRows === true) {
+        if (true == $foundRows) {
             $this->_foundRows = $iaDb->foundRows();
         } elseif ($foundRows == 'count') {
             $data['fields'] = 'COUNT(*) `count`';
@@ -242,12 +244,18 @@ class iaCoupon extends abstractCouponsModuleFront
      *
      * @return array
      */
-    public function getByCategory($where, $catId, $start = 0, $limit = 10, $order = false)
+    public function getByCategory($where, $categoryId, $start = 0, $limit = 10, $order = false)
     {
         empty($where) || $where .= ' AND ';
-        $where .= is_array($catId)
-            ? 't1.`category_id` IN(' . implode(',', $catId) . ')'
-            : 't1.`category_id` = ' . (int)$catId;
+
+        if ($this->iaCore->get('coupons_show_children')) {
+            $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
+
+            $where .= sprintf('t1.`category_id` IN (SELECT `category_id` FROM `%s` WHERE `parent_id` = %d)',
+                $iaCcat->getTableFlat(true), $categoryId);
+        } else {
+            $where .= 't1.`category_id` = ' . (int)$categoryId;
+        }
 
         return $this->_getQuery($where, $order, $limit, $start, true);
     }
@@ -305,7 +313,7 @@ SQL;
 
     public function getThumbsNum($id)
     {
-        return $this->iaDb->one('thumbs_num', iaDb::convertIds($id), self::getTable());
+        return (int)$this->iaDb->one('thumbs_num', iaDb::convertIds($id), self::getTable());
     }
 
     public function getSorting(&$storage, &$params)

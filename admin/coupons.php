@@ -125,20 +125,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         $iaView->assign('tree', $this->getHelper()->getTreeVars($entryData));
     }
 
-    protected function _getTreeVars(array $entryData)
-    {
-        $category = empty($entryData['category_id'])
-            ? $this->_iaCcat->getRoot()
-            : $this->_iaCcat->getById($entryData['category_id']);
-
-        return [
-            'url' => IA_ADMIN_URL . 'coupons/categories/tree.json?noroot',
-            'nodes' => $category[iaCcat::COL_PARENTS],
-            'id' => $category['id'],
-            'title' => $category['title']
-        ];
-    }
-
     protected function _getJsonAlias(array $params)
     {
         $title = isset($params['title']) ? $params['title'] : '';

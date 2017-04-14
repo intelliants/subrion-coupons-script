@@ -55,11 +55,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
     $template = iaView::DEFAULT_ACTION;
 
-    $stmt = $iaCore->get('show_expired_coupons') ? '' : 't1.`expire_date` >= NOW() OR t1.`expire_date` = 0';
+    $stmt = $iaCore->get('show_expired_coupons') ? '' : 't1.`expire_date` >= NOW()';
 
     switch ($iaView->name()) {
         case 'new_coupons':
-            // get new coupons
             $coupons = $iaCoupon->get($stmt, 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
             $iaView->assign('coupons', $coupons);
 
@@ -126,7 +125,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $iaView->assign('categories', $categories);
 
             // get neighbour categories & update page title
-            $neighbours = $iaCcat->getCategories("`parent_id` = '" . $category[iaCcat::COL_PARENT_ID] . "'AND `id` <> '" . $category['id'] . "' AND `status` = 'active' ");
+            $neighbours = $iaCcat->getCategories("`parent_id` = '" . $category[iaCcat::COL_PARENT_ID] . "'AND `id` != '" . $category['id'] . "' AND `status` = 'active' ");
             $iaView->assign('neighbours', $neighbours);
 
             $iaView->title($category['title'] . ' ' . iaLanguage::get('coupons'));
@@ -143,9 +142,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $sortingStmt = 't1.`' . $sorting[0] . '` ' . $sorting[1];
 
             // get coupons
-            $children = (!empty($category['child']) && $iaCore->get('coupons_show_children')) ? explode(',', $category['child']) : $category['id'];
-
-            $coupons = $iaCoupon->getByCategory($stmt, $children, $pagination['start'], $pagination['limit'], $sortingStmt);
+            $coupons = $iaCoupon->getByCategory($stmt, $category['id'], $pagination['start'], $pagination['limit'], $sortingStmt);
             $iaView->assign('coupons', $coupons);
 
             $pagination['total'] = $iaCoupon->foundRows();
@@ -179,10 +176,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         default:
             return iaView::errorPage(iaView::ERROR_NOT_FOUND);
     }
-    $iaView->assign('pagination', $pagination);
 
-    $iaPage = $iaCore->factory('page', iaCore::FRONT);
     if ($iaAcl->isAccessible('coupon_add', iaCore::ACTION_ADD)) {
+        $iaPage = $iaCore->factory('page', iaCore::FRONT);
+
         $pageActions[] = [
             'icon' => 'plus-square',
             'title' => iaLanguage::get('page_title_coupon_add'),
@@ -191,6 +188,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         ];
         $iaView->set('actions', $pageActions);
     }
+
+    $iaView->assign('pagination', $pagination);
 
     $iaView->display($template);
 }
