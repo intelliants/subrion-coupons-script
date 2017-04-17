@@ -5,7 +5,7 @@
                 <select class="form-control" name="category">
                     <option value="">{lang key='select_category'}</option>
                     {foreach $coupon_blocks.top_categories as $cat}
-                        <option value="{$cat.id}">{$cat.title}</option>
+                        <option value="{$cat.id}">{$cat.title|escape}</option>
                     {/foreach}
                 </select>
             </div>

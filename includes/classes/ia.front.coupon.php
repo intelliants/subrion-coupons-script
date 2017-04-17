@@ -27,7 +27,8 @@ class iaCoupon extends abstractCouponsModuleFront
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
         'tableAlias' => 't1',
-        'regularSearchFields' => ['title', 'title_alias', 'tags']
+        'regularSearchFields' => ['title', 'title_alias', 'tags', 'description'],
+        'customColumns' => ['category', 'keywords']
     ];
 
     protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL];
@@ -97,6 +98,38 @@ class iaCoupon extends abstractCouponsModuleFront
         $rows = $this->_getQuery($stmt, $order, $limit, $start, true);
 
         return [$this->foundRows(), $rows];
+    }
+
+    public function coreSearchTranslateColumn($column, $value)
+    {
+        switch ($column) {
+            case 'keywords':
+                $iaField = $this->iaCore->factory('field');
+
+                $fieldsList = ['title', 'short_description', 'description', 'tags', 'meta_description', 'meta_keywords'];
+
+                $multilingualFields = $iaField->getMultilingualFields($this->getItemName());
+                $value = "'%" . iaSanitize::sql($value) . "%'";
+
+                $cond = [];
+                foreach ($fieldsList as $fieldName) {
+                    $fieldName = in_array($fieldName, $multilingualFields)
+                        ? $fieldName . '_' . $this->iaView->language
+                        : $fieldName;
+
+                    $cond[] = ['col' => ':column', 'cond' => 'LIKE', 'val' => $value, 'field' => $fieldName];
+                }
+
+                return $cond;
+
+            case 'category':
+                $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
+
+                $sqlSubquery = sprintf('(SELECT `category_id` FROM `%s` WHERE `parent_id` = %d)',
+                    $iaCcat->getTableFlat(true), $value);
+
+                return ['col' => ':column', 'cond' => 'IN', 'val' => $sqlSubquery, 'field' => 'category_id'];
+        }
     }
 
     public function foundRows()
