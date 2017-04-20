@@ -24,7 +24,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected $_helperName = 'ccat';
 
-    protected $_gridColumns = ['title', 'title_alias', 'order', 'locked', 'status'];
+    protected $_gridColumns = ['title', 'title_alias', 'num_coupons', 'num_all_coupons', 'order', 'locked', 'status'];
     protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];
 
     protected $_activityLog = ['item' => 'category'];
@@ -32,13 +32,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     protected $_phraseAddSuccess = 'coupon_category_added';
     protected $_phraseGridEntryDeleted = 'coupon_category_deleted';
 
-    private $_root;
-
-
-    public function init()
-    {
-        $this->_root = $this->getHelper()->getRoot();
-    }
 
     protected function _setPageTitle(&$iaView, array $entryData, $action)
     {
@@ -79,7 +72,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
             'status' => iaCore::STATUS_ACTIVE,
             'title_alias' => '',
 
-            iaCcat::COL_PARENT_ID => $this->_root['id']
+            iaCcat::COL_PARENT_ID => $this->getHelper()->getRootId()
         ];
     }
 
@@ -87,13 +80,13 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     {
         parent::_preSaveEntry($entry, $data, $action);
 
-        $entry[iaCcat::COL_PARENT_ID] = empty($data['tree_id']) ? $this->_root['id'] : (int)$data['tree_id'];
+        $entry[iaCcat::COL_PARENT_ID] = empty($data['tree_id']) ? $this->getHelper()->getRootId() : (int)$data['tree_id'];
         $entry['locked'] = (int)$data['locked'];
         $entry['status'] = $data['status'];
         $entry['title_alias'] = iaSanitize::alias(empty($data['title_alias']) ? $data['title'][$this->_iaCore->language['iso']] : $data['title_alias']);
 
         // add parent alias
-        if ($entry[iaCcat::COL_PARENT_ID] != $this->_root['id']) {
+        if ($entry[iaCcat::COL_PARENT_ID] != $this->getHelper()->getRootId()) {
             $parent = $this->getHelper()->getById($entry[iaCcat::COL_PARENT_ID]);
             $entry['title_alias'] = $parent['title_alias'] . IA_URL_DELIMITER . $entry['title_alias'];
         }
@@ -115,18 +108,18 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         $iaView->assign('tree', $this->getHelper()->getTreeVars($this->getEntryId(), $entryData, $this->getPath()));
     }
 
-    protected function _getJsonAlias(array $params)
+    protected function _getJsonSlug(array $params)
     {
         $title = isset($params['title']) ? iaSanitize::alias($params['title']) : '';
+
         $category = isset($params['category']) ? (int)$params['category'] : $this->getHelper()->getRootId();
-        $categoryAlias = false;
-        if ($category > 0) {
-            $categoryAlias = $this->_iaDb->one('title_alias', iaDb::convertIds($category));
-        }
+        $categorySlug = $category != $this->getHelper()->getRootId()
+            ? $this->_iaDb->one('title_alias', iaDb::convertIds($category))
+            : '';
 
         $data = [
-            'id' => (isset($params['id']) && (int)$params['id'] > $this->getHelper()->getRootId() ? (int)$params['id'] : '{id}'),
-            'title_alias' => ($categoryAlias ? $categoryAlias . IA_URL_DELIMITER : '') . $title,
+            'id' => (isset($params['id']) && (int)$params['id'] != $this->getHelper()->getRootId() ? (int)$params['id'] : '{id}'),
+            'title_alias' => ($categorySlug ? $categorySlug . IA_URL_DELIMITER : '') . $title,
         ];
         /*
         if ($iaCateg->existsAlias($data['title_alias']))
@@ -134,8 +127,9 @@ class iaBackendController extends iaAbstractControllerModuleBackend
             $output['exists'] = iaLanguage::get('coupon_category_already_exists');
         }
         */
-        $alias = $this->getHelper()->url('view', $data);
 
-        return ['data' => $alias];
+        $slug = $this->getHelper()->url('view', $data);
+
+        return ['data' => $slug];
     }
 }

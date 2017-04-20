@@ -22,6 +22,8 @@ class iaCoupon extends abstractCouponsModuleFront
     const SORTING_SESSION_KEY = 'coupons_sorting';
 
     protected static $_table = 'coupons_coupons';
+    protected static $_tableCodes = 'coupons_codes';
+
     protected $_itemName = 'coupons';
 
     public $coreSearchEnabled = true;
@@ -207,6 +209,10 @@ class iaCoupon extends abstractCouponsModuleFront
         foreach ($rows as &$row) {
             $row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
+            if ('deal' == $row['type']) {
+                $this->_assignCouponCodeVars($row);
+            }
+
             // discount calculations
             if ('fixed' == $row['item_discount_type']) {
                 $row['discounted_price'] = $row['item_price'] - $row['item_discount'];
@@ -216,6 +222,28 @@ class iaCoupon extends abstractCouponsModuleFront
                 $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
             }
         }
+    }
+
+    protected function _assignCouponCodeVars(&$row)
+    {
+        if (iaUsers::hasIdentity()) {
+            $this->iaCore->factory('transaction');
+
+            $transaction = $this->iaDb->row_bind(iaDb::ALL_COLUMNS_SELECTION,
+                'member_id = :member && `item` = :item && `item_id` = :id AND `amount` >= :price',
+                ['member' => iaUsers::getIdentity()->id, 'item' => 'coupons', 'id' => $row['id'], 'price' => $row['cost']], iaTransaction::getTable());
+
+            if (isset($transaction['status']) && iaTransaction::PASSED == $transaction['status']) {
+                $couponCode = $this->getCode($transaction['id']);
+                $row['coupon_code'] = $couponCode
+                    ? $couponCode['code']
+                    : iaLanguage::get('error');
+            }
+        }
+
+        $row['buy_code_link'] = isset($transaction) && $transaction
+            ? IA_URL . 'pay/' . $transaction['sec_key'] . IA_URL_DELIMITER
+            : $this->getInfo('url') . 'coupon/buy/' . $row['id'] . IA_URL_DELIMITER;_d($row);
     }
 
     /**
@@ -404,9 +432,9 @@ SQL;
     public function getCodes($id, $limit = 5, $start = 0)
     {
         $sql = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, `cc`.`status`
-  FROM `{$this->iaDb->prefix}coupons_codes` `cc`
-LEFT JOIN `{$this->iaDb->prefix}payment_transactions` `pt` ON `pt`.`id` = `cc`.`transaction_id`
+SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, cc.`status`
+  FROM `{$this->iaDb->prefix}coupons_codes` cc
+LEFT JOIN `{$this->iaDb->prefix}payment_transactions` pt ON (pt.`id` = cc.`transaction_id`)
 WHERE `coupon_id` = {$id}
 LIMIT {$start}, {$limit}
 SQL;
@@ -425,5 +453,32 @@ SQL;
         $deals = $this->get($where, '`views_num` DESC', 1);
 
         return $deals ? $deals[0] : [];
+    }
+
+    public function postPayment($plan, array $transaction)
+    {
+        $this->_issueCouponCode($transaction['item_id'], $transaction['id']);
+    }
+
+    protected function _issueCouponCode($couponId, $transactionId)
+    {
+        $couponEntry = [
+            'coupon_id' => $couponId,
+            'transaction_id' => $transactionId,
+            'code' => $this->_generateCode(),
+            'status' => iaCore::STATUS_ACTIVE
+        ];
+
+        $this->iaDb->insert($couponEntry, null, self::$_tableCodes);
+    }
+
+    protected function _generateCode()
+    {
+        return strtoupper(iaUtil::generateToken(7));
+    }
+
+    public function getCode($transactionId)
+    {
+        return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, iaDb::convertIds($transactionId, 'transaction_id'), self::$_tableCodes);
     }
 }

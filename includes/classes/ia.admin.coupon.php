@@ -69,7 +69,7 @@ class iaCoupon extends abstractCouponsModuleAdmin
     public function getById($id, $process = true)
     {
         $sql = <<<SQL
-SELECT t1.*, IF(acc.`fullname` != '', acc.`fullname`, acc.`username`) `account`, t3.`title` `shop` 
+SELECT t1.*, IF(acc.`fullname` != '', acc.`fullname`, acc.`username`) `account`, t3.`title_:lang` `shop` 
   FROM `:table_coupons` t1 
 LEFT JOIN `:prefixmembers` acc ON t1.`member_id` = acc.`id` 
 LEFT JOIN `:prefixcoupons_shops` t3 ON t1.`shop_id` = t3.`id` 
@@ -78,7 +78,8 @@ SQL;
         $sql = iaDb::printf($sql, [
             'prefix' => $this->iaDb->prefix,
             'table_coupons' => self::getTable(true),
-            'id' => intval($id),
+            'lang' => $this->iaCore->language['iso'],
+            'id' => (int)$id
         ]);
 
         return $this->iaDb->getRow($sql);

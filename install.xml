@@ -46,6 +46,7 @@
         <page group="coupons" name="coupons_coupons" filename="coupons" url="coupons/coupons/" menus="menu">Coupons</page>
         <page group="coupons" menus="menu">Deals</page>
         <page group="coupons" name="coupons_codes" filename="codes" url="coupons/codes/" menus="menu">Codes</page>
+		<page group="coupons" name="coupon_buy" url="coupons/buy/">Buy Coupon</page>
     </adminpages>
 
     <pages>
@@ -232,6 +233,7 @@
         <phrase category="common" key="coupon_description">Description</phrase>
         <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
 
+		<phrase category="frontend" key="buy_coupon_code">Buy coupon code</phrase>
         <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
         <phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
         <phrase category="frontend" key="coupon_add_no_auth">Guests are not allowed to add coupons. Only registered members can do that. Please &lt;a href=":base_urllogin/"&gt;sign in&lt;/a&gt; or &lt;a href=":base_urlregistration/"&gt;register&lt;/a&gt; in order to continue.</phrase>
@@ -492,7 +494,8 @@ $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
     <uninstall>
         <sql>
             <![CDATA[
-DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`, `{prefix}coupons_codes`;
+DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,
+`{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`, `{prefix}coupons_codes`;
             ]]>
         </sql>
     </uninstall>

@@ -6,6 +6,8 @@ Ext.onReady(function () {
                     'selection',
                     {name: 'title', title: _t('title'), width: 2, editor: 'text'},
                     {name: 'title_alias', title: _t('title_alias'), width: 220},
+                    {name: 'num_coupons', title: _t('listings'), width: 50},
+                    {name: 'num_all_coupons', title: _t('total'), width: 50},
                     {
                         name: 'order',
                         title: _t('order'),
@@ -60,19 +62,19 @@ Ext.onReady(function () {
 
 intelli.titleCache = '';
 intelli.fillUrlBox = function () {
-    var alias = $('#field_title_alias').val();
-    var title = ('' == alias ? $('#field_ccats_title').val() : alias);
+    var slug = $('#field_title_alias').val();
+    var title = ('' == slug ? $('#field_ccats_title').val() : slug);
     var category = $('#input-tree').val();
     var cache = title + '%%' + category;
 
     if ('' != title && intelli.titleCache != cache) {
         var params = {title: title, category: category};
-        if ('' != alias) {
+        if ('' != slug) {
             params.alias = 1;
         }
 
-        $.getJSON(intelli.config.admin_url + '/coupons/categories/alias.json', params, function (response) {
-            if ('' != response.data) {
+        $.getJSON(intelli.config.admin_url + '/coupons/categories/slug.json', params, function (response) {
+            if ('' !== response.data) {
                 $('#title_url').html(response.data + (response.exists ? ' <b style="color:red">' + response.exists + '</b>' : ''));
                 $('#title_box').fadeIn();
             }
