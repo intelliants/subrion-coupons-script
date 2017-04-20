@@ -39,6 +39,11 @@ class iaCoupon extends abstractCouponsModuleFront
     private $_foundRows = 0;
 
 
+    public static function getTableCodes()
+    {
+        return self::$_tableCodes;
+    }
+
     public function url($action, array $listingData)
     {
         $patterns = [
@@ -234,7 +239,7 @@ class iaCoupon extends abstractCouponsModuleFront
                 ['member' => iaUsers::getIdentity()->id, 'item' => 'coupons', 'id' => $row['id'], 'price' => $row['cost']], iaTransaction::getTable());
 
             if (isset($transaction['status']) && iaTransaction::PASSED == $transaction['status']) {
-                $row['coupon_code'] = ($couponCode = $this->getCode($transaction['id']))
+                $row['coupon_code'] = ($couponCode = $this->getCode($transaction['id'], 'transaction_id'))
                     ? $couponCode['code']
                     : iaLanguage::get('error');
 
@@ -423,6 +428,11 @@ SQL;
         return $result;
     }
 
+    public function getCode($value, $key = 'id')
+    {
+        return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, iaDb::convertIds($value, $key), self::$_tableCodes);
+    }
+
     /**
      * Returns list of purchased coupons codes
      *
@@ -430,14 +440,16 @@ SQL;
      *
      * return array
      */
-    public function getCodes($id, $limit = 5, $start = 0)
+    public function getCodes($couponId)
     {
         $sql = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS `code`, `reference_id`, `date_paid`, `currency`, `operation`, `gateway`, cc.`status`
+SELECT SQL_CALC_FOUND_ROWS cc.`id`, cc.`code`, cc.`status`,
+    t.`reference_id`, t.`date_paid`, t.`currency`, t.`amount`,
+    m.`fullname` `owner`
   FROM `{$this->iaDb->prefix}coupons_codes` cc
-LEFT JOIN `{$this->iaDb->prefix}payment_transactions` pt ON (pt.`id` = cc.`transaction_id`)
-WHERE `coupon_id` = {$id}
-LIMIT {$start}, {$limit}
+LEFT JOIN `{$this->iaDb->prefix}payment_transactions` t ON (t.`id` = cc.`transaction_id`)
+LEFT JOIN `{$this->iaDb->prefix}members` m ON (m.`id` = t.`member_id`)
+WHERE `coupon_id` = {$couponId}
 SQL;
 
         return $this->iaDb->getAll($sql);
@@ -476,10 +488,5 @@ SQL;
     protected function _generateCode()
     {
         return strtoupper(iaUtil::generateToken(7));
-    }
-
-    public function getCode($transactionId)
-    {
-        return $this->iaDb->row(iaDb::ALL_COLUMNS_SELECTION, iaDb::convertIds($transactionId, 'transaction_id'), self::$_tableCodes);
     }
 }

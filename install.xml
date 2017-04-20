@@ -261,6 +261,7 @@
         <phrase category="frontend" key="no_shops">No shops added.</phrase>
         <phrase category="frontend" key="popularity">popularity</phrase>
         <phrase category="frontend" key="purchase_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
+		<phrase category="frontend" key="sales_statistics">Sales Statistics</phrase>
         <phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
         <phrase category="frontend" key="select_category">Select category</phrase>
         <phrase category="frontend" key="select_type"> - select coupon type - </phrase>

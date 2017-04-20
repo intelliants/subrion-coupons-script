@@ -27,4 +27,26 @@ $(function () {
         couponId = $(this).data('id');
         modalStatistics.modal();
     });
+
+    // Picking tags
+    $('.couponItem .tag').on('click', function(e)
+    {
+        e.preventDefault();
+
+        var tag = $.trim($(this).attr('href'));
+        $('input[name="q"]').val(tag).closest('form').submit();
+    });
+
+    $('.js-delete-coupon').on('click', function(e) {
+        e.preventDefault();
+        intelli.confirm(_t('delete_coupon_confirmation'), {url: $(this).attr('href')});
+    });
+
+    $('.js-code-status').on('change', function(e) {
+        var $this = $(this).prop('disabled', true);
+        $.post(intelli.config.packages.coupons.url + 'coupon/read.json', {action: 'status', id: $this.data('id'), status: $this.val()}, function(response) {
+            $this.prop('disabled', false);
+            intelli.notifFloatBox({ msg: response.message, type: response.result ? 'success' : 'error', autohide: true});
+        });
+    });
 });

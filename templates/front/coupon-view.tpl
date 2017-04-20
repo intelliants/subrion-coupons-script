@@ -102,6 +102,36 @@
 {ia_hooker name='smartyViewCouponBeforeFooter'}
 {ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
 
+{if $codes}
+<div class="well">
+    <h4>{lang key='sales_statistics'}</h4>
+    <table class="table">
+        <tbody>
+        {$total = 0}
+        {foreach $codes as $codeEntry}
+            {$total = $total + $codeEntry.amount}
+        <tr>
+            <td><strong>{$codeEntry.code}</strong></td>
+            <td>{$codeEntry.reference_id}</td>
+            <td>{$codeEntry.date_paid}</td>
+            <td>
+                <select class="js-code-status" data-id="{$codeEntry.id}">
+                    {foreach $codeStatuses as $status}
+                        <option value="{$status}"{if $codeEntry.status == $status} selected{/if}>{lang key=$status}</option>
+                    {/foreach}
+                </select>
+            </td>
+            <td>{$codeEntry.currency} {$codeEntry.amount}</td>
+            <td>{$codeEntry.owner|escape}</td>
+        </tr>
+        {/foreach}
+        <tr>
+            <td colspan="5" class="text-right"><strong>{lang key='total'}: {$total}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+{/if}
 {ia_add_js}
 $(function()
 {
@@ -120,21 +150,6 @@ $(function()
         if('undefined' != typeof affiliateLink && '' != affiliateLink) {
             window.open(affiliateLink);
         }
-    });
-
-    // Picking tags
-    $('.couponItem .tag').on('click', function(e)
-    {
-        e.preventDefault();
-
-        var tag = $.trim($(this).attr('href'));
-        $('input[name="q"]').val(tag).closest('form').submit();
-    });
-
-    $('.js-delete-coupon').on('click', function(e) {
-        e.preventDefault();
-
-        intelli.confirm(_t('delete_coupon_confirmation'), { url: $(this).attr('href') });
     });
 });
 {/ia_add_js}

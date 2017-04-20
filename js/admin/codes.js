@@ -10,10 +10,9 @@ Ext.onReady(function () {
                     {name: 'reference_id', title: _t('transaction'), width: 150},
                     {name: 'date_paid', title: _t('field_transactions_date_paid'), width: 170, editor: 'date'},
                     'status',
-                    'update',
                     'delete'
                 ],
-                expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
+                //expanderTemplate: '<pre style="font-size: 0.9em">{short_description}</pre>',
                 sorters: [{property: 'date_paid', direction: 'DESC'}],
                 statuses: ['active', 'inactive', 'used']
             }, false);

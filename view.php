@@ -20,53 +20,80 @@
 $iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
 $iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
 
-if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
-    if ('report' == $_POST['action']) {
-        $id = (int)$_POST['id'];
-        $comment = '';
-        if ((isset($_POST['comments']) && $_POST['comments'])) {
-            $time = date('Y-m-d H:i:s');
-            $iaCore->factory('util');
-            $ip = iaUtil::getIp(false);
-            $comment = <<<COMMENT
+if (iaView::REQUEST_JSON == $iaView->getRequestType() && isset($_POST['action'])) {
+    switch ($_POST['action']) {
+        case 'report':
+            $id = (int)$_POST['id'];
+            $comment = '';
+
+            if ((isset($_POST['comments']) && $_POST['comments'])) {
+                $time = date('Y-m-d H:i:s');
+                $iaCore->factory('util');
+                $ip = iaUtil::getIp(false);
+                $comment = <<<COMMENT
 Date: {$time}
 IP: {$ip}
 Comment: {$_POST['comments']}
 
 
 COMMENT;
-        }
+            }
 
-        $listing = $iaCoupon ->getById($id);
+            $listing = $iaCoupon ->getById($id);
 
-        $iaMailer = $iaCore->factory('mailer');
-        $iaMailer->loadTemplate('reported_as_problem');
-        $iaMailer->setReplacements([
-            'title' => $listing['title'],
-            'comments' => $comment,
-        ]);
-        $iaMailer->sendToAdministrators();
-
-        $email = (isset($listing['email']) && $listing['email']) ? $listing['email'] : $iaDb->one('email', iaDb::convertIds($listing['member_id']), iaUsers::getTable());
-
-        if ($email) {
+            $iaMailer = $iaCore->factory('mailer');
             $iaMailer->loadTemplate('reported_as_problem');
             $iaMailer->setReplacements([
                 'title' => $listing['title'],
                 'comments' => $comment,
             ]);
-            $iaMailer->addAddress($email);
+            $iaMailer->sendToAdministrators();
 
-            $iaMailer->send();
-        }
-        $fields = ['reported_as_problem' => 1];
-        if ($comment) {
-            if (isset($listing['reported_as_problem_comments']) && $listing['reported_as_problem_comments']) {
-                $comment = $listing['reported_as_problem_comments'] . $comment;
+            $email = (isset($listing['email']) && $listing['email']) ? $listing['email'] : $iaDb->one('email', iaDb::convertIds($listing['member_id']), iaUsers::getTable());
+
+            if ($email) {
+                $iaMailer->loadTemplate('reported_as_problem');
+                $iaMailer->setReplacements([
+                    'title' => $listing['title'],
+                    'comments' => $comment
+                ]);
+                $iaMailer->addAddress($email);
+
+                $iaMailer->send();
             }
-            $fields['reported_as_problem_comments'] = $comment;
-        }
-        $iaDb->update($fields, iaDb::convertIds($id), null, iaCoupon::getTable());
+            $fields = ['reported_as_problem' => 1];
+            if ($comment) {
+                if (isset($listing['reported_as_problem_comments']) && $listing['reported_as_problem_comments']) {
+                    $comment = $listing['reported_as_problem_comments'] . $comment;
+                }
+                $fields['reported_as_problem_comments'] = $comment;
+            }
+            $iaDb->update($fields, iaDb::convertIds($id), null, iaCoupon::getTable());
+
+            break;
+
+        case 'status':
+            $output = ['result' => false, 'message' => iaLanguage::get('invalid_parameters')];
+
+            if (iaUsers::hasIdentity() && isset($_POST['id'])) {
+                $id = (int)$_POST['id'];
+
+                $couponCode = $iaCoupon->getCode($id);
+                $coupon = $iaCoupon->getById($couponCode['coupon_id']);
+
+                if ($coupon && $coupon['member_id'] == iaUsers::getIdentity()->id) {
+                    $iaDb->update(['status' => $_POST['status']], iaDb::convertIds($id), null, iaCoupon::getTableCodes());
+
+                    if (0 === $iaDb->getErrorNumber()) {
+                        $output['result'] = true;
+                        $output['message'] = iaLanguage::get('saved');
+                    } else {
+                        $output['message'] = iaLanguage::get('db_error');
+                    }
+                }
+            }
+
+            $iaView->assign($output);
     }
 }
 
@@ -169,7 +196,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     iaBreadcrumb::add($shop['title'], $iaShop->url('view', $shop));
 
     // get purchased codes
-
+    $iaView->assign('codes', $iaCoupon->getCodes($couponId));
+    $iaView->assign('codeStatuses', $iaCoupon->getCodeStatuses());
 
     // set coupon meta values
     $iaView->set('title', $coupon['title']);
