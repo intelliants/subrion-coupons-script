@@ -4,7 +4,7 @@ Ext.onReady(function () {
             {
                 columns: [
                     'selection',
-                    {name: 'title', title: _t('coupon'), width: 1, editor: 'text'},
+                    {name: 'coupon', title: _t('coupon'), width: 1},
                     {name: 'member', title: _t('member'), width: 160},
                     {name: 'code', title: _t('code'), width: 120},
                     {name: 'reference_id', title: _t('transaction'), width: 150},
@@ -23,8 +23,8 @@ Ext.onReady(function () {
                 {
                     emptyText: _t('code'),
                     xtype: 'textfield',
-                    id: 'fltTitle',
-                    name: 'title',
+                    id: 'fltCode',
+                    name: 'code',
                     listeners: intelli.gridHelper.listener.specialKey
                 }, new Ext.form.ComboBox({
                     displayField: 'title',

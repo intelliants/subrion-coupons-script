@@ -147,7 +147,7 @@ class iaCoupon extends abstractCouponsModuleFront
             . ', IF(t3.`fullname` != "", t3.`fullname`, t3.`username`) `account`, t3.`username` `account_username`'
             . ', t4.`title_alias` `shop_alias`, t4.`title_:lang` `shop_title`, t4.`shop_image` `shop_image`, t4.`website` `shop_website`, t4.`domain` `shop_domain`, t4.`affiliate_link` `shop_affiliate_link` '
             // count codes for each coupon
-            . ', (SELECT COUNT(*) FROM `:table_codes` `cc` LEFT JOIN `:table_transactions` pt ON `pt`.`id` = `cc`.`transaction_id` WHERE `cc`.`coupon_id` = `t1`.`id` && `pt`.`status` = \':passed\') `activations_sold` '
+            . ', (SELECT COUNT(*) FROM `:table_codes` cc LEFT JOIN `:table_transactions` pt ON (pt.`id` = cc.`transaction_id`) WHERE cc.`coupon_id` = t1.`id` && pt.`status` = \':passed\') `activations_sold` '
             . 'FROM `:table_coupons` t1 '
             . ($ignoreIndex ? 'IGNORE INDEX (`' . $ignoreIndex . '`) ' : '')
             . 'LEFT JOIN `:table_categs` t2 ON(t2.`id` = t1.`category_id` AND t2.`status` = \'active\')'
@@ -234,16 +234,17 @@ class iaCoupon extends abstractCouponsModuleFront
                 ['member' => iaUsers::getIdentity()->id, 'item' => 'coupons', 'id' => $row['id'], 'price' => $row['cost']], iaTransaction::getTable());
 
             if (isset($transaction['status']) && iaTransaction::PASSED == $transaction['status']) {
-                $couponCode = $this->getCode($transaction['id']);
-                $row['coupon_code'] = $couponCode
+                $row['coupon_code'] = ($couponCode = $this->getCode($transaction['id']))
                     ? $couponCode['code']
                     : iaLanguage::get('error');
+
+                return;
             }
         }
 
         $row['buy_code_link'] = isset($transaction) && $transaction
             ? IA_URL . 'pay/' . $transaction['sec_key'] . IA_URL_DELIMITER
-            : $this->getInfo('url') . 'coupon/buy/' . $row['id'] . IA_URL_DELIMITER;_d($row);
+            : $this->getInfo('url') . 'coupon/buy/' . $row['id'] . IA_URL_DELIMITER;
     }
 
     /**
