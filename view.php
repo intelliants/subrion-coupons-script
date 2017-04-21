@@ -206,5 +206,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     $iaView->set('description', $coupon['meta_description']);
     $iaView->set('keywords', $coupon['meta_keywords']);
 
+    if (isset($_GET['print']) && '' == $_GET['print']) {
+        $iaView->disableLayout();
+        $iaView->display('coupon-view-printing');
+    }
+
     $iaView->display('coupon-view');
 }

@@ -35,7 +35,6 @@
             <div class="text-center">
                 {ia_image file=$item.image class='img-responsive' title=$item.title}
             </div>
-            <button class="btn btn-default js-cmd-print-coupon"><span class="fa fa-print"></span> {lang key='print_coupon'}</button>
         {elseif $item.shop_image}
             <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
                 {ia_image file=$item.shop_image type='thumbnail' title=$item.shop_title class='img-responsive'}
@@ -93,17 +92,6 @@
         {/if}
     {/if}
 
-    <div class="code-share">
-        <!-- AddThis Button BEGIN -->
-        <div class="addthis_toolbox addthis_default_style ">
-            <a class="addthis_button_facebook_like" fb:like:layout="button_count"></a>
-            <a class="addthis_button_tweet"></a>
-            <a class="addthis_counter addthis_pill_style"></a>
-        </div>
-        <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#username=xa-4c6e050a3d706b83"></script>
-        <!-- AddThis Button END -->
-    </div>
-
     <p class="text-box lead text-info">
         {$item.short_description|strip_tags}
     </p>
@@ -152,61 +140,3 @@
 
 {ia_hooker name='smartyViewCouponBeforeFooter'}
 {ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
-
-{if isset($codes)}
-    <h4>{lang key='sales_statistics'}</h4>
-
-    {if $codes}
-        <table class="table">
-            <tbody>
-                {$total = 0}
-                {foreach $codes as $codeEntry}
-                    {$total = $total + $codeEntry.amount}
-                    <tr>
-                        <td>
-                            <p>{lang key='simple_coupon'} <strong>{$codeEntry.code}</strong></p>
-                            <p>{$codeEntry.owner|escape}</p>
-                            <p><small>{lang key='transaction'} #{$codeEntry.reference_id}</small></p>
-                        </td>
-                        <td>{$codeEntry.date_paid|date_format}</td>
-                        <td>
-                            <select class="form-control js-code-status" data-id="{$codeEntry.id}">
-                                {foreach $codeStatuses as $status}
-                                    <option value="{$status}"{if $codeEntry.status == $status} selected{/if}>{lang key=$status}</option>
-                                {/foreach}
-                            </select>
-                        </td>
-                        <td>{$codeEntry.currency} {$codeEntry.amount}</td>
-                    </tr>
-                {/foreach}
-                <tr>
-                    <td colspan="4" class="text-right"><strong>{lang key='total'}: {$total}</td>
-                </tr>
-            </tbody>
-        </table>
-    {else}
-        <div class="alert alert-info">{lang key='no_codes_bought'}</div>
-    {/if}
-{/if}
-
-{ia_add_js}
-$(function()
-{
-    // Copy code
-    var clip_{$item.id} = new ZeroClipboard($('.clip_{$item.id}'),
-    {
-        moviePath: '{$smarty.const.IA_CLEAR_URL}js/utils/zeroclipboard/ZeroClipboard.swf',
-        hoverClass: 'hover',
-        activeClass: 'active'
-    });
-
-    clip_{$item.id}.on('complete', function(client, args)
-    {
-        var affiliateLink = $(this).data('affiliate-link');
-
-        if('undefined' != typeof affiliateLink && '' != affiliateLink) {
-            window.open(affiliateLink);
-        }
-    });
-});
-{/ia_add_js}

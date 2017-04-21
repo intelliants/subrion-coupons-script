@@ -49,4 +49,8 @@ $(function () {
             intelli.notifFloatBox({ msg: response.message, type: response.result ? 'success' : 'error', autohide: true});
         });
     });
+
+    $('.js-cmd-print-coupon').on('click', function() {
+        window.location.href = window.location.href + '?print';
+    })
 });
