@@ -196,8 +196,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     iaBreadcrumb::add($shop['title'], $iaShop->url('view', $shop));
 
     // get purchased codes
-    $iaView->assign('codes', $iaCoupon->getCodes($couponId));
-    $iaView->assign('codeStatuses', $iaCoupon->getCodeStatuses());
+    if ('deal' == $coupon['type'] && iaUsers::hasIdentity() && $coupon['member_id'] == iaUsers::getIdentity()->id) {
+        $iaView->assign('codes', $iaCoupon->getCodes($couponId));
+        $iaView->assign('codeStatuses', $iaCoupon->getCodeStatuses());
+    }
 
     // set coupon meta values
     $iaView->set('title', $coupon['title']);

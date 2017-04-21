@@ -450,6 +450,7 @@ SELECT SQL_CALC_FOUND_ROWS cc.`id`, cc.`code`, cc.`status`,
 LEFT JOIN `{$this->iaDb->prefix}payment_transactions` t ON (t.`id` = cc.`transaction_id`)
 LEFT JOIN `{$this->iaDb->prefix}members` m ON (m.`id` = t.`member_id`)
 WHERE `coupon_id` = {$couponId}
+GROUP BY cc.`id`
 SQL;
 
         return $this->iaDb->getAll($sql);

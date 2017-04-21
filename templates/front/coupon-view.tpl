@@ -150,9 +150,10 @@
 {ia_hooker name='smartyViewCouponBeforeFooter'}
 {ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
 
-{if $codes}
+{if isset($codes)}
 <div class="well">
     <h4>{lang key='sales_statistics'}</h4>
+    {if $codes}
     <table class="table">
         <tbody>
         {$total = 0}
@@ -178,6 +179,9 @@
         </tr>
         </tbody>
     </table>
+    {else}
+    <p>{lang key='no_codes_bought'}</p>
+    {/if}
 </div>
 {/if}
 {ia_add_js}

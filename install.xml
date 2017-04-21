@@ -252,6 +252,7 @@
         <phrase category="frontend" key="likes">likes</phrase>
         <phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
         <phrase category="frontend" key="more_info">More info</phrase>
+		<phrase category="frontend" key="no_codes_bought">No codes bought yet.</phrase>
         <phrase category="frontend" key="no_coupons">No coupons added.</phrase>
         <phrase category="frontend" key="no_coupons_for_shop">No coupons added for this shop.</phrase>
         <phrase category="frontend" key="no_coupons_for_category">No coupons added for this category.</phrase>
