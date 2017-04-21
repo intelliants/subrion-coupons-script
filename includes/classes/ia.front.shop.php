@@ -26,7 +26,8 @@ class iaShop extends abstractCouponsModuleFront
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
         'tableAlias' => 't1',
-        'regularSearchFields' => ['title', 'title_alias', 'domain']
+        'regularSearchFields' => ['title', 'title_alias', 'domain'],
+        'customColumns' => ['keywords']
     ];
 
     private $_foundRows = 0;
@@ -96,6 +97,27 @@ class iaShop extends abstractCouponsModuleFront
         $rows = $this->_getQuery($stmt, $order, $limit, $start, true);
 
         return [$this->foundRows(), $rows];
+    }
+
+    public function coreSearchTranslateColumn($column, $value)
+    {
+        if ('keywords' == $column) {
+            $fieldsList = ['title', 'description', 'website'];
+
+            $multilingualFields = $this->iaCore->factory('field')->getMultilingualFields($this->getItemName());
+            $value = "'%" . iaSanitize::sql($value) . "%'";
+
+            $cond = [];
+            foreach ($fieldsList as $fieldName) {
+                $fieldName = in_array($fieldName, $multilingualFields)
+                    ? $fieldName . '_' . $this->iaView->language
+                    : $fieldName;
+
+                $cond[] = ['col' => ':column', 'cond' => 'LIKE', 'val' => $value, 'field' => $fieldName];
+            }
+
+            return $cond;
+        }
     }
 
     public function foundRows()

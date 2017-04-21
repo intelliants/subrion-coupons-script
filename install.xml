@@ -167,14 +167,13 @@
         <field item="coupons" name="item_discount" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
         <field item="coupons" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
-        <field name="title" group="shops" item="shops" type="text" length="70" required="1" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0" multilingual="1">Title</field>
-        <field name="website" group="shops" item="shops" type="text" length="255" default="http://" required="0" searchable="1" page="coupons_home,shop_add,shop_edit" editable="0">Website</field>
-        <field name="description" group="shops" item="shops" type="textarea" editor="1" searchable="1" page="coupons_home,shop_add,shop_edit" multilingual="1">Description</field>
-        <field name="shop_image" group="shops" item="shops" type="image"
-            page="coupons_home,shop_add,shop_edit" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
-        <field name="affiliate_link" group="shops" item="shops" type="text" length="255" default="http://" page="shop_add,shop_edit" editable="0">Affiliate Link</field>
-        <field name="meta_description" group="shops" item="shops" type="textarea" length="255" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Description</field>
-        <field name="meta_keywords" group="shops" item="shops" type="text" length="150" page="shop_add,shop_edit,shop_view" multilingual="1">Meta-Keywords</field>
+        <field item="shops" name="title" group="shops" type="text" length="70" required="1" page="coupons_home,shops,shop_view" editable="0" multilingual="1">Title</field>
+        <field item="shops" name="website" group="shops" type="text" length="255" default="http://" required="0" page="coupons_home,shops,shop_view" editable="0">Website</field>
+        <field item="shops" name="description" group="shops" type="textarea" editor="1" page="coupons_home,shops,shop_view" multilingual="1">Description</field>
+        <field item="shops" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
+        <field item="shops" name="affiliate_link" group="shops" type="text" length="255" default="http://" page="shops,shop_view" editable="0">Affiliate Link</field>
+        <field item="shops" name="meta_description" group="shops" type="textarea" length="255" page="shops,shop_view" multilingual="1">Meta-Description</field>
+        <field item="shops" name="meta_keywords" group="shops" type="text" length="150" page="shops,shop_view" multilingual="1">Meta-Keywords</field>
     </fields>
 
     <phrases>
@@ -300,6 +299,7 @@
     <hooks>
         <hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
         <hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
+		<hook name="smartyFrontFiltersBeforeFields" type="smarty" page_type="front" filename="search.filters"><![CDATA[]]></hook>
         <hook name="populateCommonStatisticsBlock" page_type="front">
             <![CDATA[
 $stmt = "`status` = ':status'";

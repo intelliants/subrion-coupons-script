@@ -82,40 +82,16 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             break;
 
-        case 'shop_add':
         case 'shops':
-            $letters['all'] = iaUtil::getLetters();
-            $letters['active'] = (isset($iaCore->requestPath[0]) && in_array($iaCore->requestPath[0], $letters['all'])) ? $iaCore->requestPath[0] : false;
-
-            $cause = '';
-            if ($letters['active']) {
-                $cause = ('0-9' == $letters['active']) ?  "(`title_{$iaView->language}` REGEXP '^[0-9]') " : "(`title_{$iaView->language}` LIKE '{$letters['active']}%') ";
-
-                // breadcrumb formation
-                iaBreadcrumb::add(iaLanguage::get('shops'), IA_MODULE_URL . 'shops/');
-                iaBreadcrumb::replaceEnd($letters['active']);
-            }
-
-            // check for letters that have shops
-            $letters['existing'] = [];
-            $array = $iaDb->all('DISTINCT UPPER(SUBSTR(`title_' . $iaView->language . '`, 1, 1)) `letter`',
-                "`status` = 'active'", null, null, iaShop::getTable());
-            if ($array) {
-                foreach ($array as $item) {
-                    $letters['existing'][] = $item['letter'];
-                }
-            }
-            $iaView->assign('letters', $letters);
-
-            // get shops
-            $shops = $iaShop->get($cause);
-            $iaView->assign('shops', $shops);
-
             $iaView->display('shops');
+
+            $iaView->assign('shops', $iaShop->get());
 
             break;
 
         default:
             return iaView::errorPage(iaView::ERROR_NOT_FOUND);
     }
+
+    $iaView->set('filtersItemName', $iaShop->getItemName());
 }
