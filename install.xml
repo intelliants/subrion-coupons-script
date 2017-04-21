@@ -232,7 +232,7 @@
         <phrase category="common" key="coupon_description">Description</phrase>
         <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
 
-		<phrase category="frontend" key="buy_coupon_code">Buy coupon code</phrase>
+		<phrase category="frontend" key="buy">Buy</phrase>
         <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
         <phrase category="frontend" key="coupon_added_active">Thanks. Your coupon has been added to our website.</phrase>
         <phrase category="frontend" key="coupon_add_no_auth">Guests are not allowed to add coupons. Only registered members can do that. Please &lt;a href=":base_urllogin/"&gt;sign in&lt;/a&gt; or &lt;a href=":base_urlregistration/"&gt;register&lt;/a&gt; in order to continue.</phrase>
@@ -286,6 +286,7 @@
         <phrase category="frontend" key="comment">Comment</phrase>
         <phrase category="frontend" key="reported_problem">Problems reported</phrase>
         <phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
+        <phrase category="frontend" key="activations_left_alert">Hurry up. Only :activations_left activations left. :activations_sold sold.</phrase>
     </phrases>
 
     <tooltips>

@@ -14,12 +14,6 @@
             </a>
         {/if}
 
-        {if isset($listing.coupon_code)}
-            <span class="label label-success">{$listing.coupon_code|escape}</span>
-        {elseif isset($listing.buy_code_link)}
-            <a class="btn btn-info btn-sm" href="{$listing.buy_code_link}" rel="nofollow">{lang key='buy_coupon_code'}</a>
-        {/if}
-
         <div class="coupon-rate text-center">
             <a href="#" class="thumbs-up" data-id="{$listing.id}" data-trigger="up"><i class="fa fa-thumbs-up"></i></a>
             <span class="rate good" id="thumb_result_{$listing.id}">{$listing.thumbs_num|default:0}</span>
@@ -45,7 +39,7 @@
         {if $listing.item_price && '0.00' != $listing.item_price}
             <div class="coupon-price clearfix">
                 {if $listing.activations_left < 10}
-                    <p>Hurry up. Only {$listing.activations_left} activations left. {$listing.activations_sold} sold.</p>
+                    <p>{lang key='activations_left_alert' activations_left=$listing.activations_left activations_sold=$listing.activations_sold}</p>
                 {/if}
 
                 {if $listing.item_discount}
@@ -56,6 +50,28 @@
                     <span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
                 {/if}
             </div>
+        {else}
+            <div class="coupon-price clearfix">
+                {if $listing.activations_left < 10}
+                    <p>{lang key='activations_left_alert' activations_left=$listing.activations_left activations_sold=$listing.activations_sold}</p>
+                {/if}
+
+                <span class="label label-success">{$core.config.coupon_item_price_currency}{$listing.cost}</span>
+                {if $listing.item_discount}
+                    <span class="label-saving">
+                        {lang key='you_save'} 
+                        {if 'percent' == $listing.item_discount_type}
+                            {$listing.item_discount}%
+                        {else}
+                            {$core.config.coupon_item_price_currency}{$listing.item_discount|string_format:"%.2f"}
+                        {/if}
+                    </span>
+                {/if}
+            </div>
+        {/if}
+
+        {if isset($listing.buy_code_link)}
+            <a class="btn btn-info btn-sm" href="{$listing.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
         {/if}
 
         {if $listing.expire_date != 0}

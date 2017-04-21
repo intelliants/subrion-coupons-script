@@ -108,6 +108,10 @@
 	color: #01b169;
 }
 
+.coupon-price .btn {
+	margin-top: 15px;
+}
+
 /* badge type */
 
 .c-badge {

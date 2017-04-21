@@ -37,7 +37,7 @@ $(function () {
         var $this = $(this)
         $parent = $this.parent();
 
-        var affiliateLink = $parent.data('affiliate-link');
+        var affiliateLink = $parent.data('affiliate-link').trim();
 
         if ('undefined' != typeof affiliateLink && '' != affiliateLink) {
             window.open(affiliateLink, '_blank');
@@ -48,6 +48,12 @@ $(function () {
 
     // Copy codes
     var client = new ZeroClipboard($(".js-copy"));
+
+    client.on('ready', function(event) {
+        client.on('aftercopy', function(event) {
+            console.log('Copied text to clipboard: ' + event.data['text/plain']);
+        });
+    });
 
     // thumbs actions
     $('a[class^="thumbs-"]').on('click', function (e) {
