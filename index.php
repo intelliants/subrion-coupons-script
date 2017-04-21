@@ -128,14 +128,20 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $neighbours = $iaCcat->getCategories("`parent_id` = '" . $category[iaCcat::COL_PARENT_ID] . "'AND `id` != '" . $category['id'] . "' AND `status` = 'active' ");
             $iaView->assign('neighbours', $neighbours);
 
-            $iaView->title($category['title'] . ' ' . iaLanguage::get('coupons'));
+            if ($category['id'] != $iaCcat->getRootId()) {
+                $iaView->title($category['title'] . ' ' . iaLanguage::get('coupons'));
 
-            // generate breadcrumb
-            $parents = $iaCcat->getParents($category['id']);
-            foreach ($parents as $i => $p) {
-                isset($parents[++$i])
-                    ? iaBreadcrumb::add($p['title'], $iaCcat->url('view', $p))
-                    : iaBreadcrumb::replaceEnd($p['title'], $iaCcat->url('view', $p));
+                // set shop meta values
+                $iaView->set('description', $category['meta_description']);
+                $iaView->set('keywords', $category['meta_keywords']);
+
+                // generate breadcrumb
+                $parents = $iaCcat->getParents($category['id']);
+                foreach ($parents as $i => $p) {
+                    isset($parents[++$i])
+                        ? iaBreadcrumb::add($p['title'], $iaCcat->url('view', $p))
+                        : iaBreadcrumb::replaceEnd($p['title'], $iaCcat->url('view', $p));
+                }
             }
 
             $sorting = $iaCoupon->getSorting($_SESSION, $_GET);
@@ -148,10 +154,6 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $pagination['total'] = $iaCoupon->foundRows();
 
             $iaView->assign('sorting', $sorting);
-
-            // set shop meta values
-            $iaView->set('description', $category['meta_description']);
-            $iaView->set('keywords', $category['meta_keywords']);
 
             break;
 
