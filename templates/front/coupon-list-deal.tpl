@@ -70,9 +70,7 @@
             </div>
         {/if}
 
-        {if isset($listing.buy_code_link)}
-            <a class="btn btn-info btn-sm" href="{$listing.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
-        {/if}
+        <a class="btn btn-info btn-sm" href="{$listing.link}" rel="nofollow">{lang key='buy'}</a>
 
         {if $listing.expire_date != 0}
             <div class="coupon-expire text-danger">

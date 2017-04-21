@@ -42,52 +42,54 @@
         {/if}
     {/if}
 
-    {if $item.item_price && '0.00' != $item.item_price}
-        <hr>
-        <div class="coupon-price">
-            <div class="row">
-                <div class="col-sm-6">
-                    {if $item.item_discount}
-                        <span class="label label-disabled">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
-                        <span class="label label-success">{$core.config.coupon_item_price_currency}{$item.discounted_price}</span>
-                        <span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$item.discount_saving}</span>
-                    {else}
-                        <span class="label label-warning">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
-                    {/if}
-                </div>
-                <div class="col-sm-6">
-                    {if isset($item.buy_code_link)}
-                        <a class="btn btn-info" href="{$item.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
-                    {/if}
-                </div>
-            </div>
-        </div>
-        <hr>
-    {else}
-        <hr>
-        <div class="coupon-price">
-            <div class="row">
-                <div class="col-sm-6">
-                    <span class="label label-success">{$core.config.coupon_item_price_currency}{$item.cost}</span>
-                    {if $item.item_discount}
-                        <span class="label-saving">
-                            {lang key='you_save'} 
-                            {if 'percent' == $item.item_discount_type}
-                                {$item.item_discount}%
-                            {else}
-                                {$core.config.coupon_item_price_currency}{$item.item_discount|string_format:"%.2f"}
-                            {/if}
-                        </span>
-                    {/if}
-                </div>
-                <div class="col-sm-6">
-                    {if isset($item.buy_code_link)}
-                        <a class="btn btn-info btn-block m-t-0" href="{$item.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
-                    {/if}
+    {if 'deal' == $item.type}
+        {if $item.item_price && '0.00' != $item.item_price}
+            <hr>
+            <div class="coupon-price">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {if $item.item_discount}
+                            <span class="label label-disabled">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
+                            <span class="label label-success">{$core.config.coupon_item_price_currency}{$item.discounted_price}</span>
+                            <span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$item.discount_saving}</span>
+                        {else}
+                            <span class="label label-warning">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
+                        {/if}
+                    </div>
+                    <div class="col-sm-6">
+                        {if isset($item.buy_code_link)}
+                            <a class="btn btn-info" href="{$item.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
+                        {/if}
+                    </div>
                 </div>
             </div>
-        </div>
-        <hr>
+            <hr>
+        {else}
+            <hr>
+            <div class="coupon-price">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <span class="label label-success">{$core.config.coupon_item_price_currency}{$item.cost}</span>
+                        {if $item.item_discount}
+                            <span class="label-saving">
+                                {lang key='you_save'} 
+                                {if 'percent' == $item.item_discount_type}
+                                    {$item.item_discount}%
+                                {else}
+                                    {$core.config.coupon_item_price_currency}{$item.item_discount|string_format:"%.2f"}
+                                {/if}
+                            </span>
+                        {/if}
+                    </div>
+                    <div class="col-sm-6">
+                        {if isset($item.buy_code_link)}
+                            <a class="btn btn-info btn-block m-t-0" href="{$item.buy_code_link}" rel="nofollow">{lang key='buy'}</a>
+                        {/if}
+                    </div>
+                </div>
+            </div>
+            <hr>
+        {/if}
     {/if}
 
     <div class="code-share">
@@ -151,39 +153,41 @@
 {ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
 
 {if isset($codes)}
-<div class="well">
     <h4>{lang key='sales_statistics'}</h4>
+
     {if $codes}
-    <table class="table">
-        <tbody>
-        {$total = 0}
-        {foreach $codes as $codeEntry}
-            {$total = $total + $codeEntry.amount}
-        <tr>
-            <td><strong>{$codeEntry.code}</strong></td>
-            <td>{$codeEntry.reference_id}</td>
-            <td>{$codeEntry.date_paid}</td>
-            <td>
-                <select class="js-code-status" data-id="{$codeEntry.id}">
-                    {foreach $codeStatuses as $status}
-                        <option value="{$status}"{if $codeEntry.status == $status} selected{/if}>{lang key=$status}</option>
-                    {/foreach}
-                </select>
-            </td>
-            <td>{$codeEntry.currency} {$codeEntry.amount}</td>
-            <td>{$codeEntry.owner|escape}</td>
-        </tr>
-        {/foreach}
-        <tr>
-            <td colspan="5" class="text-right"><strong>{lang key='total'}: {$total}</td>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                {$total = 0}
+                {foreach $codes as $codeEntry}
+                    {$total = $total + $codeEntry.amount}
+                    <tr>
+                        <td>
+                            <p>{lang key='simple_coupon'} <strong>{$codeEntry.code}</strong></p>
+                            <p>{$codeEntry.owner|escape}</p>
+                            <p><small>{lang key='transaction'} #{$codeEntry.reference_id}</small></p>
+                        </td>
+                        <td>{$codeEntry.date_paid|date_format}</td>
+                        <td>
+                            <select class="form-control js-code-status" data-id="{$codeEntry.id}">
+                                {foreach $codeStatuses as $status}
+                                    <option value="{$status}"{if $codeEntry.status == $status} selected{/if}>{lang key=$status}</option>
+                                {/foreach}
+                            </select>
+                        </td>
+                        <td>{$codeEntry.currency} {$codeEntry.amount}</td>
+                    </tr>
+                {/foreach}
+                <tr>
+                    <td colspan="4" class="text-right"><strong>{lang key='total'}: {$total}</td>
+                </tr>
+            </tbody>
+        </table>
     {else}
-    <p>{lang key='no_codes_bought'}</p>
+        <div class="alert alert-info">{lang key='no_codes_bought'}</div>
     {/if}
-</div>
 {/if}
+
 {ia_add_js}
 $(function()
 {
