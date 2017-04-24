@@ -51,6 +51,8 @@ $(function () {
     });
 
     $('.js-cmd-print-coupon').on('click', function() {
-        window.location.href = window.location.href + '?print';
+        var win = window.open(window.location.href + '?print', '_blank');
+        win.focus();
+        // window.location.href = window.location.href + '?print';
     })
 });

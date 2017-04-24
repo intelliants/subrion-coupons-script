@@ -35,7 +35,7 @@
             <div class="text-center">
                 {ia_image file=$item.image class='img-responsive' title=$item.title}
             </div>
-            <button class="btn btn-default js-cmd-print-coupon"><span class="fa fa-print"></span> {lang key='print_coupon'}</button>
+            <button class="btn btn-default js-cmd-print-coupon m-t"><span class="fa fa-print"></span> {lang key='print_coupon'}</button>
         {elseif $item.shop_image}
             <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
                 {ia_image file=$item.shop_image type='thumbnail' title=$item.shop_title class='img-responsive'}
