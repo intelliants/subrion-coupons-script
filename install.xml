@@ -361,7 +361,7 @@ switch ($_GET['type']) {
         <block type="smarty" name="deal_of_the_day" title="Deal of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.deal-of-the-day"><![CDATA[]]></block>
         <block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons" classname=""><![CDATA[]]></block>
         <block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons" classname=""><![CDATA[]]></block>
-        <block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.categories"><![CDATA[]]></block>
+        <block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index" order="4" filename="block.categories"><![CDATA[]]></block>
         <block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.top-categories"><![CDATA[]]></block>
         <block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops"><![CDATA[]]></block>
         <block type="smarty" name="neighbour_categories" title="Browse Neighbour Categories" position="bottom" sticky="0" collapsible="1" pages="index,coupons_home">

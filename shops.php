@@ -62,7 +62,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                         break;
 
                     case ('expired' == $_GET['sorting']):
-                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date IS NOT NULL AND `expire_date` < NOW())", '`expire_date` ASC', 100) : [];
+                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = {$shop['id']} AND (`expire_date` IS NOT NULL AND `expire_date` < NOW()) ", '`expire_date` ASC', 100) : [];
                         $couponsNum = count($couponsExpired);
                 }
 
