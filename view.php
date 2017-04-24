@@ -209,7 +209,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     if (isset($_GET['print']) && '' == $_GET['print']) {
         $iaView->disableLayout();
         $iaView->display('coupon-view-printing');
+    } else {
+        $iaView->display('coupon-view');
     }
-
-    $iaView->display('coupon-view');
 }
