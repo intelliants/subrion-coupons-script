@@ -33,7 +33,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
     $couponBlocks['top_categories'] = $iaCcat->getCategories("`level` = 1 && `status` = 'active' ");
 
-    if ($iaView->blockExists('browse_coupons')) {
+    if ($iaView->blockExists('browse_coupons') || $iaView->blockExists('top_categories')) {
         if ('coupons_home' == $iaView->name()) {
             // get category by alias
             $categoryAlias = $iaCore->requestPath ? (string)implode(IA_URL_DELIMITER, $iaCore->requestPath) : '';
