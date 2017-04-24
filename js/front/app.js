@@ -51,7 +51,13 @@ $(function () {
 
     client.on('ready', function(event) {
         client.on('aftercopy', function(event) {
-            console.log('Copied text to clipboard: ' + event.data['text/plain']);
+            $('.js-btn-coupon').tooltip({
+                title: 'Copied!'
+            }).tooltip('show');
+
+            setTimeout(function() {
+                $('.js-btn-coupon').tooltip('destroy');
+            }, 1200)
         });
     });
 
