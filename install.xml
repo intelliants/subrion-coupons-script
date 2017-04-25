@@ -177,7 +177,7 @@
     </fields>
 
     <phrases>
-        <phrase category="admin" key="add_category">Add Category</phrase>
+        <phrase category="admin" key="add_coupon_category">Add Category</phrase>
         <phrase category="admin" key="add_shop">Add Shop</phrase>
         <phrase category="admin" key="are_you_sure_to_delete_selected_coupon_category">Are you sure you wish to delete selected category?</phrase>
         <phrase category="admin" key="are_you_sure_to_delete_selected_coupon_categories">Are you sure you wish to delete selected categories?</phrase>
