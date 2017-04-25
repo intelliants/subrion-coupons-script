@@ -170,7 +170,7 @@
         <field item="shops" name="title" group="shops" type="text" length="70" required="1" page="coupons_home,shops,shop_view" editable="0" multilingual="1">Title</field>
         <field item="shops" name="website" group="shops" type="text" length="255" default="http://" required="0" page="coupons_home,shops,shop_view" editable="0">Website</field>
         <field item="shops" name="description" group="shops" type="textarea" editor="1" page="coupons_home,shops,shop_view" multilingual="1">Description</field>
-        <field item="shops" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="300" height="300" thumb_width="150" thumb_height="150" editable="0">Logo</field>
+        <field item="shops" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="400" height="300" thumb_width="400" thumb_height="300" editable="0">Logo</field>
         <field item="shops" name="affiliate_link" group="shops" type="text" length="255" default="http://" page="shops,shop_view" editable="0">Affiliate Link</field>
         <field item="shops" name="meta_description" group="shops" type="textarea" length="255" page="shops,shop_view" multilingual="1">Meta-Description</field>
         <field item="shops" name="meta_keywords" group="shops" type="text" length="150" page="shops,shop_view" multilingual="1">Meta-Keywords</field>
