@@ -94,7 +94,7 @@ SQL;
             '`num_all_coupons` = (' .
                 'SELECT COUNT(*) FROM `:table_coupons` l ' .
                 'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
-                'ON fs.`category_id` = l.`category_id` ' .
+                'ON fs.`child_id` = l.`category_id` ' .
                 'WHERE fs.`parent_id` = c.`id` ' .
                 ($this->iaCore->get('show_expired_coupons') ? '': 'AND l.`expire_date` >= NOW() ') .
                 "AND l.`status` = ':status'" .

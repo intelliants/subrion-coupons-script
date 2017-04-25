@@ -98,19 +98,18 @@ COMMENT;
 }
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
-    if (!isset($iaCore->requestPath[2]) || empty($iaCore->requestPath[2])) {
+    if (3 != count($iaCore->requestPath)) {
         return iaView::errorPage(iaView::ERROR_NOT_FOUND);
     }
 
     // get coupon info
     $couponId = (int)$iaCore->requestPath[2];
-    $coupon = $iaCoupon->get("t1.`id` = '{$couponId}'", '', 1, 0, false, true);
+    $coupon = $iaCoupon->getById($couponId);
 
     if (empty($coupon)) {
         return iaView::errorPage(iaView::ERROR_NOT_FOUND);
     }
 
-    $coupon = array_shift($coupon);
     $coupon['item'] = $iaCoupon->getItemName();
 
     if ($coupon['status'] != iaCore::STATUS_ACTIVE

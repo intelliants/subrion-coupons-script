@@ -132,7 +132,7 @@ class iaCoupon extends abstractCouponsModuleFront
             case 'category':
                 $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
 
-                $sqlSubquery = sprintf('(SELECT `category_id` FROM `%s` WHERE `parent_id` = %d)',
+                $sqlSubquery = sprintf('(SELECT `child_id` FROM `%s` WHERE `parent_id` = %d)',
                     $iaCcat->getTableFlat(true), $value);
 
                 return ['col' => ':column', 'cond' => 'IN', 'val' => $sqlSubquery, 'field' => 'category_id'];
@@ -144,7 +144,7 @@ class iaCoupon extends abstractCouponsModuleFront
         return $this->_foundRows;
     }
 
-    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false ) {
+    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false) {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT :found_rows t1.*'
@@ -242,12 +242,10 @@ class iaCoupon extends abstractCouponsModuleFront
                 $row['coupon_code'] = ($couponCode = $this->getCode($transaction['id'], 'transaction_id'))
                     ? $couponCode['code']
                     : iaLanguage::get('error');
-
-                return;
             }
         }
 
-        $row['buy_code_link'] = isset($transaction) && $transaction
+        $row['buy_code_link'] = isset($transaction['status']) && iaTransaction::PENDING == $transaction['status']
             ? IA_URL . 'pay/' . $transaction['sec_key'] . IA_URL_DELIMITER
             : $this->getInfo('url') . 'coupon/buy/' . $row['id'] . IA_URL_DELIMITER;
     }
@@ -316,7 +314,7 @@ class iaCoupon extends abstractCouponsModuleFront
         if ($this->iaCore->get('coupons_show_children')) {
             $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
 
-            $where .= sprintf('t1.`category_id` IN (SELECT `category_id` FROM `%s` WHERE `parent_id` = %d)',
+            $where .= sprintf('t1.`category_id` IN (SELECT `child_id` FROM `%s` WHERE `parent_id` = %d)',
                 $iaCcat->getTableFlat(true), $categoryId);
         } else {
             $where .= 't1.`category_id` = ' . (int)$categoryId;
@@ -341,7 +339,7 @@ class iaCoupon extends abstractCouponsModuleFront
         $sql = <<<SQL
 UPDATE `:prefixcoupons_categories` c SET `num_all_coupons` = (
   SELECT COUNT(*) FROM `:table_coupons` l 
-    LEFT JOIN `:prefixcoupons_categories_flat` fs ON (fs.`category_id` = l.`category_id`) 
+    LEFT JOIN `:prefixcoupons_categories_flat` fs ON (fs.`child_id` = l.`category_id`) 
   WHERE fs.`parent_id` = c.`id` AND l.`status` = ':status'), `num_coupons` = (
   SELECT COUNT(*) FROM `:table_coupons` WHERE `category_id` = c.`id` AND `status` = ':status') 
 WHERE c.`status` = ':status'
@@ -472,6 +470,7 @@ SQL;
     public function postPayment($plan, array $transaction)
     {
         $this->_issueCouponCode($transaction['item_id'], $transaction['id']);
+        iaDebug::log('POST PAYMENT', $transaction);
     }
 
     protected function _issueCouponCode($couponId, $transactionId)

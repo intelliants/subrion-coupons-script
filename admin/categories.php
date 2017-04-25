@@ -35,25 +35,24 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected function _setPageTitle(&$iaView, array $entryData, $action)
     {
-        parent::_setPageTitle($iaView, $entryData, $action);
+        $itemTitle = isset($entryData['title_' . $iaView->language])
+            ? $entryData['title_' . $iaView->language]
+            : null;
 
-        if (iaCore::ACTION_EDIT == $action) {
-            $iaView->title(iaLanguage::getf('edit_coupon_category',
-                ['name' => $entryData['title_' . $iaView->language]]));
-        }
+        $iaView->title(iaLanguage::getf($action . '_coupon_category', ['name' => $itemTitle], $iaView->title()));
     }
 
-    protected function _entryAdd(array $entryData)
+    protected function _insert(array $entryData)
     {
         return $this->getHelper()->insert($entryData);
     }
 
-    protected function _entryUpdate(array $entryData, $entryId)
+    protected function _update(array $entryData, $entryId)
     {
         return $this->getHelper()->update($entryData, $entryId);
     }
 
-    protected function _entryDelete($entryId)
+    protected function _delete($entryId)
     {
         return $this->getHelper()->delete($entryId);
     }
