@@ -16,10 +16,12 @@ Ext.onReady(function () {
                         align: intelli.gridHelper.constants.ALIGN_CENTER
                     },
                     {name: 'locked', title: _t('locked'), width: 65, renderer: intelli.gridHelper.renderer.check},
+                    {name: 'level', title: _t('level'), width: 50, hidden: true},
                     'status',
                     'update',
                     'delete'
                 ],
+                sorters: [{property: 'level', direction: 'ASC'}, {property: 'title', direction: 'ASC'}],
                 texts: {
                     delete_single: _t('are_you_sure_to_delete_selected_coupon_category'),
                     delete_multiple: _t('are_you_sure_to_delete_selected_coupon_categories')

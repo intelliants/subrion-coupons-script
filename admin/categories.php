@@ -24,7 +24,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected $_helperName = 'ccat';
 
-    protected $_gridColumns = ['title', 'title_alias', 'num_coupons', 'num_all_coupons', 'order', 'locked', 'status'];
+    protected $_gridColumns = ['title', 'title_alias', 'num_coupons', 'num_all_coupons', 'order', 'locked', 'level', 'status'];
     protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];
 
     protected $_activityLog = ['item' => 'category'];
