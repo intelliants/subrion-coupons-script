@@ -49,13 +49,13 @@ $(function () {
     // Copy codes
     var client = new ZeroClipboard($(".js-copy"));
 
-    client.on('ready', function(event) {
-        client.on('aftercopy', function(event) {
+    client.on('ready', function (event) {
+        client.on('aftercopy', function (event) {
             $('.js-btn-coupon').tooltip({
                 title: 'Copied!'
             }).tooltip('show');
 
-            setTimeout(function() {
+            setTimeout(function () {
                 $('.js-btn-coupon').tooltip('destroy');
             }, 1200)
         });
