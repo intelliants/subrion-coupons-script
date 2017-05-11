@@ -150,43 +150,45 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 }
 
                 // assign shop value
-                if (!empty($_POST['shop']) && !$error) {
-                    $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
+                if (!$error) {
+                    if (!empty($_POST['shop'])) {
+                        $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
 
-                    if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
-                        $data['shop_id'] = $shopData['id'];
-                    } else {
-                        if ($iaCore->get('shop_submission')) {
-                            // add shop here
-                            $newShop = [
-                                'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
-                                'website' => iaUtil::checkPostParam('website')
-                            ];
-
-                            foreach ($iaCore->languages as $iso => $language) {
-                                $newShop['title_' . $iso] = $_POST['shop'];
-                            }
-
-                            $newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
-
-                            if (empty($newShop['website']) || 'http://' == $newShop['website']) {
-                                $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title_' . $iaView->language] ? $newShop['title_' . $iaView->language] : $shopTitle);
-                                unset($newShop['website']);
-                            } else {
-                                $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['domain'] ? $newShop['domain'] : $shopTitle);
-                            }
-
-                            $data['shop_id'] = $iaShop->insert($newShop);
-
-                            $messages[] = iaLanguage::get('shop_added');
+                        if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
+                            $data['shop_id'] = $shopData['id'];
                         } else {
-                            $error = true;
-                            $messages[] = iaLanguage::get('error_shop_incorrect');
+                            if ($iaCore->get('shop_submission')) {
+                                // add shop here
+                                $newShop = [
+                                    'member_id' => iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0,
+                                    'website' => iaUtil::checkPostParam('website')
+                                ];
+
+                                foreach ($iaCore->languages as $iso => $language) {
+                                    $newShop['title_' . $iso] = $_POST['shop'];
+                                }
+
+                                $newShop['domain'] = $newShop['website'] ? str_ireplace('www.', '', parse_url($newShop['website'], PHP_URL_HOST)) : '';
+
+                                if (empty($newShop['website']) || 'http://' == $newShop['website']) {
+                                    $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['title_' . $iaView->language] ? $newShop['title_' . $iaView->language] : $shopTitle);
+                                    unset($newShop['website']);
+                                } else {
+                                    $newShop['title_alias'] = $shopData['title_alias'] = iaSanitize::alias($newShop['domain'] ? $newShop['domain'] : $shopTitle);
+                                }
+
+                                $data['shop_id'] = $iaShop->insert($newShop);
+
+                                $messages[] = iaLanguage::get('shop_added');
+                            } else {
+                                $error = true;
+                                $messages[] = iaLanguage::get('error_shop_incorrect');
+                            }
                         }
+                    } else {
+                        $error = true;
+                        $messages[] = iaLanguage::get('error_shop_incorrect');
                     }
-                } else {
-                    $error = true;
-                    $messages[] = iaLanguage::get('error_shop_incorrect');
                 }
 
                 if (!$iaCoupon->isSubmissionAllowed($item['member_id'])) {
