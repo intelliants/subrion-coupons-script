@@ -51,7 +51,7 @@ class iaShop extends abstractCouponsModuleFront
     {
         $entryData['date_added'] = date(iaDb::DATETIME_FORMAT);
         $entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
-        $entryData['member_id'] = iaUsers::getIdentity()->id;
+        $entryData['member_id'] = iaUsers::hasIdentity() ? iaUsers::getIdentity()->id : 0;
 
         return parent::insert($entryData);
     }

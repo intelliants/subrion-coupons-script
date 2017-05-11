@@ -416,7 +416,7 @@ SQL;
     public function isSubmissionAllowed($memberId)
     {
         $result = true;
-        if (iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id) {
+        if (iaUsers::hasIdentity() && iaUsers::MEMBERSHIP_ADMINISTRATOR != iaUsers::getIdentity()->usergroup_id) {
             $couponCount = $this->iaDb->one_bind(iaDb::STMT_COUNT_ROWS, '`member_id` = :member',
                 ['member' => $memberId], self::getTable());
 
