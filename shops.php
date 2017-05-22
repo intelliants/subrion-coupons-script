@@ -26,9 +26,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             // get shop by id
             if (isset($iaCore->requestPath[0]) && !empty($iaCore->requestPath[0])) {
-                $shop = $iaShop->getByAlias($iaCore->requestPath[0]);
-                $iaView->assign('shop', $shop);
 
+                $shop = $iaShop->getByAlias($iaCore->requestPath[0]);
                 if (empty($shop)) {
                     return iaView::errorPage(iaView::ERROR_NOT_FOUND);
                 }
@@ -50,19 +49,19 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $coupons = $couponsExpired = [];
                 switch (true) {
                     case !isset($_GET['sorting']) || 'all' == $_GET['sorting']:
-                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` IS NULL OR `expire_date` >= NOW())", '`expire_date` ASC', 100);
-                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' AND `expire_date` IS NOT NULL AND `expire_date` < NOW()", '`expire_date` ASC', 100) : [];
+                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' && (`expire_date` IS NULL || `expire_date` >= NOW())", '`expire_date` ASC', 100);
+                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = '{$shop['id']}' && `expire_date` IS NOT NULL && `expire_date` < NOW()", '`expire_date` ASC', 100) : [];
 
                         $couponsNum = count($coupons) + count($couponsExpired);
                         break;
 
                     case ('active' == $_GET['sorting']):
-                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' AND (`expire_date` IS NULL OR `expire_date` >= NOW())", '`expire_date` ASC', 100);
+                        $coupons = $iaCoupon->get("`shop_id` = '{$shop['id']}' && (`expire_date` IS NULL || `expire_date` >= NOW())", '`expire_date` ASC', 100);
                         $couponsNum = count($coupons);
                         break;
 
                     case ('expired' == $_GET['sorting']):
-                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = {$shop['id']} AND (`expire_date` IS NOT NULL AND `expire_date` < NOW()) ", '`expire_date` ASC', 100) : [];
+                        $couponsExpired = $iaCore->get('show_expired_coupons') ? $iaCoupon->get("`shop_id` = {$shop['id']} && (`expire_date` IS NOT NULL && `expire_date` < NOW()) ", '`expire_date` ASC', 100) : [];
                         $couponsNum = count($couponsExpired);
                 }
 
@@ -70,11 +69,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $iaView->assign('coupons_expired', $couponsExpired);
                 $iaView->assign('couponsNum', $couponsNum);
 
+                $sections = $iaCore->factory('field')->getTabs($iaShop->getItemName(), $shop);
+                $iaView->assign('sections', $sections);
+
                 // set shop meta values
                 $iaView->set('description', $shop['meta_description']);
                 $iaView->set('keywords', $shop['meta_keywords']);
 
                 $iaView->set('title', $shop['title']);
+
+                $iaView->assign('item', $shop);
+
                 $iaView->display('shop-view');
             } else {
                 return iaView::errorPage(iaView::ERROR_NOT_FOUND);

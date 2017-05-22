@@ -23,9 +23,14 @@
     {if !empty($shop.description)}
         <div class="slogan">{$shop.description}</div>
     {/if}
+
+    {ia_hooker name='smartyItemViewBeforeTabs'}
+
+    {include 'item-view-tabs.tpl' isView=true exceptions=['title', 'affiliate_link', 'website', 'description'] class='ia-item-view-tabs'}
 </div>
 
 {ia_hooker name='smartyViewListingBeforeFooter'}
+
 <form>
     <select id="js-sort-options" name='sorting' class='form-control'>
         <option value="all"{if isset($smarty.get.sorting) && 'all' == $smarty.get.sorting} selected{/if}>{lang key='show_all_coupons'}</option>
@@ -34,10 +39,8 @@
     </select>
 </form>
 {ia_add_js}
-$(function()
-{
-    $('#js-sort-options').on('change', function()
-    {
+$(function() {
+    $('#js-sort-options').on('change', function() {
         $(this).parent().submit();
     });
 });

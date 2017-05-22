@@ -25,7 +25,7 @@
 
     <actions>
         <action name="ccats" url="coupons/categories/" icon="list" pages="coupons_categories:add,coupons_categories:edit"><![CDATA[]]></action>
-        <action name="add_category" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit"><![CDATA[]]></action>
+        <action name="add_coupon_category" url="coupons/categories/add/" icon="folder-plus" pages="coupons_categories,coupons_categories:edit"><![CDATA[]]></action>
 
         <action name="shops" url="coupons/shops/" icon="list" pages="coupons_shops:add,coupons_shops:edit"><![CDATA[]]></action>
         <action name="add_shop" url="coupons/shops/add/" icon="plus-alt" pages="coupons_shops,coupons_shops:edit"><![CDATA[]]></action>
@@ -172,8 +172,8 @@
         <field item="shops" name="description" group="shops" type="textarea" editor="1" page="coupons_home,shops,shop_view" multilingual="1">Description</field>
         <field item="shops" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="400" height="300" thumb_width="400" thumb_height="300" editable="0">Logo</field>
         <field item="shops" name="affiliate_link" group="shops" type="text" length="255" default="http://" page="shops,shop_view" editable="0">Affiliate Link</field>
-        <field item="shops" name="meta_description" group="shops" type="textarea" length="255" page="shops,shop_view" multilingual="1">Meta-Description</field>
-        <field item="shops" name="meta_keywords" group="shops" type="text" length="150" page="shops,shop_view" multilingual="1">Meta-Keywords</field>
+        <field item="shops" name="meta_description" group="shops" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="shops" name="meta_keywords" group="shops" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
     </fields>
 
     <phrases>
@@ -498,7 +498,7 @@ $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
     <uninstall>
         <sql>
             <![CDATA[
-DROP TABLE IF EXISTS `{prefix}coupons_categories`,`{prefix}coupons_categories_flat`,
+DROP TABLE IF EXISTS `{prefix}coupons_categories`, `{prefix}coupons_categories_flat`,
 `{prefix}coupons_coupons`,`{prefix}coupons_shops`, `{prefix}thumbs_log`, `{prefix}coupons_codes`;
             ]]>
         </sql>
