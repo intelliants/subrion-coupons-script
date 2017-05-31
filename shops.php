@@ -88,9 +88,22 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             break;
 
         case 'shops':
-            $iaView->display('shops');
 
-            $iaView->assign('shops', $iaShop->get());
+            // gets current page and defines start position
+            $pagination = [
+                'limit' => $iaCore->get('coupons_shops_per_page', 20),
+                'url' => $iaCore->factory('page', iaCore::FRONT)->getUrlByName('shops') . '?page={page}'
+            ];
+            $page = !empty($_GET['page']) ? (int)$_GET['page'] : 1;
+            $start = (max($page, 1) - 1) * $pagination['limit'];
+
+            $shopsList = $iaShop->get('', null, $pagination['limit'], $start, true);
+            $pagination['total'] = $iaShop->foundRows();
+
+            $iaView->assign('pagination', $pagination);
+            $iaView->assign('shops', $shopsList);
+
+            $iaView->display('shops');
 
             break;
 

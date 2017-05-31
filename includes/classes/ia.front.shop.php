@@ -128,7 +128,7 @@ class iaShop extends abstractCouponsModuleFront
     private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreIndex = false) {
         $iaDb = &$this->iaDb;
 
-        $sql = 'SELECT t1.*, '
+        $sql = 'SELECT :found_rows t1.*, '
             . 't2.`fullname` `account`, t2.`username` `account_username`, '
             . '(SELECT COUNT(*) FROM `:table_coupons` coupons WHERE `coupons`.`shop_id` = t1.`id`) `num_coupons` '
             . 'FROM :table_shops as `t1` '

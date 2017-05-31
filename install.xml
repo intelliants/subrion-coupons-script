@@ -106,6 +106,7 @@
     <config group="coupons" name="coupons_show_children" type="radio" values="1,0" description="Show subcategories coupons in the parents">1</config>
     <config group="coupons" name="badge_type" type="select" values="featured,hot" description="Featured badge type">featured</config>
     <config group="coupons" name="coupons_per_page" type="text" description="Number of coupons per page">10</config>
+    <config group="coupons" name="coupons_shops_per_page" type="text" description="Number of shops per page">10</config>
 
     <config group="coupons" type="divider" name="coupons_div2">Coupon Codes</config>
     <config group="coupons" name="coupon_item_price_currency" type="text" description="Currency symbol">$</config>
