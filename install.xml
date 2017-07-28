@@ -290,6 +290,7 @@
         <phrase category="frontend" key="coupon_statistics">Coupon statistics</phrase>
         <phrase category="frontend" key="activations_left_alert">Hurry up. Only :activations_left activations left. :activations_sold sold.</phrase>
         <phrase category="frontend" key="keywords">Keywords</phrase>
+        <phrase category="frontend" key="code_was_copied">Code was copied!</phrase>
     </phrases>
 
     <tooltips>
