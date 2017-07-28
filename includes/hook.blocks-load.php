@@ -27,7 +27,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
 
     // include coupons css
     $iaView->add_css('_IA_URL_modules/coupons/templates/front/css/coupons');
-    $iaView->add_js('_IA_URL_js/utils/zeroclipboard/ZeroClipboard.min, _IA_URL_modules/coupons/js/front/jquery.countdown.min, _IA_URL_modules/coupons/js/front/app');
+    $iaView->add_js('_IA_URL_modules/coupons/js/front/clipboard.min, _IA_URL_modules/coupons/js/front/jquery.countdown.min, _IA_URL_modules/coupons/js/front/app');
 
     $stmt = $iaCore->get('show_expired_coupons') ? iaDb::EMPTY_CONDITION : 't1.`expire_date` >= NOW()';
 

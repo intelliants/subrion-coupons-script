@@ -1,8 +1,8 @@
-ZeroClipboard.config({
-    swfPath: intelli.config.ia_url + "js/utils/zeroclipboard/ZeroClipboard.swf",
-    hoverClass: 'hover',
-    activeClass: 'active'
-});
+// ZeroClipboard.config({
+//     swfPath: intelli.config.ia_url + "js/utils/zeroclipboard/ZeroClipboard.swf",
+//     hoverClass: 'hover',
+//     activeClass: 'active'
+// });
 
 $(function () {
     $('.js-countdown').each(function () {
@@ -47,18 +47,14 @@ $(function () {
     });
 
     // Copy codes
-    var client = new ZeroClipboard($(".js-copy"));
+    var clipboard = new Clipboard('.js-copy');
 
-    client.on('ready', function (event) {
-        client.on('aftercopy', function (event) {
-            $('.js-btn-coupon').tooltip({
-                title: 'Copied!'
-            }).tooltip('show');
-
-            setTimeout(function () {
-                $('.js-btn-coupon').tooltip('destroy');
-            }, 1200)
-        });
+    clipboard.on('success', function(e) {
+        intelli.notifFloatBox({
+            msg: _t('code_was_copied'),
+            type: 'success',
+            autohide: true
+        })
     });
 
     // thumbs actions
@@ -89,4 +85,5 @@ $(function () {
         var $o = $('#fieldgroup_coupons_pricing');
         'deal' == $(this).val() ? $o.show() : $o.hide();
     });
+
 });
