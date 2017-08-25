@@ -1,4 +1,5 @@
 <form method="post" enctype="multipart/form-data" class="ia-form" id="coupon_form">
+    {preventCsrf}
 
     {include 'plans.tpl' item=$item}
 

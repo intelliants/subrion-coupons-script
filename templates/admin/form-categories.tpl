@@ -1,5 +1,6 @@
 <form method="post" enctype="multipart/form-data" class="sap-form form-horizontal">
     {preventCsrf}
+
     {capture name='categories' append='fieldset_before'}
         {include 'tree.tpl'}
     {/capture}
