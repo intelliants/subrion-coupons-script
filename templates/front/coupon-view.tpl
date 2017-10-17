@@ -1,12 +1,12 @@
 <div class="couponItem">
     <div class="meta">
         <p>
-            <span><span class="fa fa-calendar"></span> {$item.date_added|date_format:$core.config.date_format}</span>
+            <span><span class="fa fa-calendar"></span> {$item.date_added|date_format}</span>
             {if $item.expire_date != 0}
-                <span class="text-danger"><span class="fa fa-clock-o"></span> {lang key='coupon_expire'} {$item.expire_date|date_format:$core.config.date_format}</span>
+                <span class="text-danger"><span class="fa fa-clock-o"></span> {lang key='coupon_expire'} {$item.expire_date|date_format}</span>
             {/if}
         </p>
-        <p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format:$core.config.date_format}</span></p>
+        <p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format}</span></p>
     </div>
 
     {if 'simple' == $item.type && $item.code}

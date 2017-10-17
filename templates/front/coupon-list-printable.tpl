@@ -69,7 +69,7 @@
         {/if}
 
         <span class="ia-item__panel__item pull-right">
-            {$listing.views_num} {lang key='views_since'} {$listing.date_added|date_format:$core.config.date_format}
+            {$listing.views_num} {lang key='views_since'} {$listing.date_added|date_format}
         </span>
     </div>
 </div>
