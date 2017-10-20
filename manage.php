@@ -27,7 +27,7 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
 
         $shops = $iaDb->onefield($fieldName, $where . $order, 0, 15, 'coupons_shops');
 
-        $iaView->assign(array('options' => $shops));
+        $iaView->assign(['options' => $shops]);
     }
 
     if (isset($_GET['action']) && 'validate' == $_GET['action'] && !empty($_GET['shop'])) {
