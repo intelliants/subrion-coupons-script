@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-class iaCoupon extends abstractCouponsModuleAdmin
+class iaCoupon extends abstractModuleAdmin implements iaCouponsModule
 {
     protected static $_table = 'coupons_coupons';
 

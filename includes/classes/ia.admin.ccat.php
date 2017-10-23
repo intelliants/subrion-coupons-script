@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-class iaCcat extends iaAbstractHelperCategoryFlat
+class iaCcat extends iaAbstractHelperCategoryFlat implements iaCouponsModule
 {
     protected static $_table = 'coupons_categories';
 

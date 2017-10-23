@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-class iaCoupon extends abstractCouponsModuleFront
+class iaCoupon extends abstractModuleFront implements iaCouponsModule
 {
     const SORTING_SESSION_KEY = 'coupons_sorting';
 

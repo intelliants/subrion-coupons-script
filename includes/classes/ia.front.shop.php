@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-class iaShop extends abstractCouponsModuleFront
+class iaShop extends abstractModuleFront implements iaCouponsModule
 {
     protected static $_table = 'coupons_shops';
 
