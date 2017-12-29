@@ -30,6 +30,10 @@ class iaCcat extends iaAbstractFrontHelperCategoryFlat implements iaCouponsModul
         'columnTotalCounter' => 'num_all_coupons'
     ];
 
+    public function getUrl(array $data)
+    {
+        return $this->url('view', $data);
+    }
 
     public function url($action, array $listingData)
     {

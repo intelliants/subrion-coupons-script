@@ -44,6 +44,11 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         return self::$_tableCodes;
     }
 
+    public function getUrl(array $data)
+    {
+        return $this->url('view', $data);
+    }
+
     public function url($action, array $listingData)
     {
         $patterns = [
