@@ -6,7 +6,7 @@
         </div>
 
         <div class="ia-item__title">
-            {ia_url type='link' item='coupons' data=$item text=$item.title} <small>{lang key='from'} <a href="{$smarty.const.IA_URL}shop/{$item.shop_alias}.html">{$item.shop_title}</a></small>
+            {ia_url type='link' item='coupons' data=$item text=$item.title} <small>{lang key='from'} {ia_url type='link' item='shops' data=$listing text=$listing.shop_title}</small>
         </div>
 
         {if $item.item_price && $item.item_price > 0}

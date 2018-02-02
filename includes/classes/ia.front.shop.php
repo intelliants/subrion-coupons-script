@@ -56,6 +56,12 @@ class iaShop extends abstractModuleFront implements iaCouponsModule
         return parent::insert($entryData);
     }
 
+    public function getUrl(array $data)
+    {
+//        var_dump($data);
+        return $this->url('view', $data);
+    }
+
     /**
      * Method return url for some pages
      *
@@ -67,7 +73,11 @@ class iaShop extends abstractModuleFront implements iaCouponsModule
     public function url($action, array $data)
     {
         $data['action'] = $action;
-        unset($data['title']);
+        if (!empty($data['shop_alias'])) {
+            $data['title_alias'] = $data['shop_alias'];
+        }
+
+        unset($data['title'], $data['shop_alias']);
 
         isset($this->_patterns[$action]) || $action = 'default';
 
