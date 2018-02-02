@@ -26,7 +26,7 @@
 
     {ia_hooker name='smartyItemViewBeforeTabs'}
 
-    {include 'item-view-tabs.tpl' isView=true exceptions=['title_en', 'affiliate_link', 'website', 'description_en'] class='ia-item-view-tabs'}
+    {include 'item-view-tabs.tpl' isView=true exceptions=['title', 'affiliate_link', 'website', 'description'] class='ia-item-view-tabs'}
 </div>
 
 {ia_hooker name='smartyViewListingBeforeFooter'}

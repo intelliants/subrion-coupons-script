@@ -1,7 +1,7 @@
 {if $shops}
     <div class="shops-list">
         {foreach $shops as $listing}
-            {include 'extra:coupons/list-shops'}
+            {include 'module:coupons/list-shops.tpl'}
         {/foreach}
     </div>
 

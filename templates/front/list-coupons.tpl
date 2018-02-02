@@ -1,1 +1,1 @@
-{include "extra:coupons/coupon-list-{$listing.type}"}
+{include "module:coupons/coupon-list-{$listing.type}.tpl"}
