@@ -21,7 +21,7 @@ class iaShop extends abstractModuleFront implements iaCouponsModule
 {
     protected static $_table = 'coupons_shops';
 
-    protected $_itemName = 'shops';
+    protected $_itemName = 'shop';
 
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
@@ -58,7 +58,6 @@ class iaShop extends abstractModuleFront implements iaCouponsModule
 
     public function getUrl(array $data)
     {
-//        var_dump($data);
         return $this->url('view', $data);
     }
 

@@ -18,11 +18,11 @@
  ******************************************************************************/
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
-    $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
+    $iaShop = $iaCore->factoryItem('shop');
 
     switch ($iaView->name()) {
         case 'shop_view':
-            $iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
+            $iaCoupon = $iaCore->factoryItem('coupon');
 
             // get shop by id
             if (isset($iaCore->requestPath[0]) && !empty($iaCore->requestPath[0])) {
@@ -73,10 +73,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 $iaView->assign('sections', $sections);
 
                 // set shop meta values
-                $iaView->set('description', $shop['meta_description']);
-                $iaView->set('keywords', $shop['meta_keywords']);
+                $iaView->set('description', $shop['meta_description_' . $iaView->language]);
+                $iaView->set('keywords', $shop['meta_keywords_' . $iaView->language]);
 
-                $iaView->set('title', $shop['title']);
+                $iaView->set('title', $shop['title_' . $iaView->language]);
 
                 $iaView->assign('item', $shop);
 

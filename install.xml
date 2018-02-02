@@ -341,12 +341,12 @@ $statistics['coupons'] = array(
             <![CDATA[
 switch ($_GET['type']) {
     case 'repair_coupon_categories':
-        $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->rebuild();
+        $iaCore->factoryItem('ccat')->rebuild();
         $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
         break;
 
     case 'recount_coupons':
-        $iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters(null, [], null);
+        $iaCore->factoryItem('coupon')->updateCounters(null, [], null);
         $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
 }
             ]]>
@@ -492,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
         </sql>
         <code>
             <![CDATA[
-$iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
+$iaCore->factoryItem('ccat')->setupDbStructure();
             ]]>
         </code>
     </install>

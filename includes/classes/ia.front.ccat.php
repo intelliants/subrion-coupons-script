@@ -23,7 +23,7 @@ class iaCcat extends iaAbstractFrontHelperCategoryFlat implements iaCouponsModul
 
     protected $_moduleName = 'coupons';
 
-    protected $_itemName = 'ccats';
+    protected $_itemName = 'ccat';
 
     protected $_recountOptions = [
         'columnCounter' => 'num_coupons',

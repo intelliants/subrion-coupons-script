@@ -20,7 +20,6 @@
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
     protected $_name = 'shops';
-    protected $_itemName = 'shops';
 
     protected $_helperName = 'shop';
 
@@ -63,7 +62,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected function _unpackGridColumnsArray()
     {
-        $this->_iaCore->factoryModule('coupon', $this->getModuleName(), iaCore::ADMIN);
+        $this->_iaCore->factoryItem('coupon');
 
         $innerSql = 'SELECT COUNT(*) FROM `:prefix:table_coupons` c WHERE c.`shop_id` = `:prefix:table_shops`.`id`';
         $innerSql = iaDb::printf($innerSql, [

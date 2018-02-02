@@ -20,7 +20,6 @@
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
     protected $_name = 'categories';
-    protected $_itemName = 'ccats';
 
     protected $_helperName = 'ccat';
 

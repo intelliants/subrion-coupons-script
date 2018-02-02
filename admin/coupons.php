@@ -20,7 +20,6 @@
 class iaBackendController extends iaAbstractControllerModuleBackend
 {
     protected $_name = 'coupons';
-    protected $_itemName = 'coupons';
 
     protected $_helperName = 'coupon';
 
@@ -37,7 +36,7 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     public function init()
     {
-        $this->_iaCcat = $this->_iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
+        $this->_iaCcat = $this->_iaCore->factoryItem('ccat');
     }
 
     protected function _entryAdd(array $entryData)
