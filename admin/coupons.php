@@ -24,8 +24,8 @@ class iaBackendController extends iaAbstractControllerModuleBackend
     protected $_helperName = 'coupon';
 
     protected $_gridColumns = ['title', 'title_alias', 'expire_date', 'date_added', 'type', 'short_description', 'status', 'reported_as_problem', 'reported_as_problem_comments'];
-    //protected $_gridColumns = '`id`, `title`, `title_alias`, `expire_date`, `date_added`, (:sql_category) `category`, `type`, (:sql_member) `member`, `short_description`, `status`, `reported_as_problem`, `reported_as_problem_comments`';
     protected $_gridFilters = ['status' => self::EQUAL, 'type' => self::EQUAL, 'title' => self::LIKE];
+    protected $_gridQueryMainTableAlias = 'cc';
 
     protected $_phraseAddSuccess = 'coupon_added';
 
@@ -33,6 +33,36 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     private $_iaCcat;
 
+
+    protected function _gridQuery($columns, $where, $order, $start, $limit)
+    {
+
+        $sql = <<<SQL
+SELECT :columns, c.`title_:lang` `category`, m.`fullname` `member`
+  FROM `:table_coupons` cc
+  LEFT JOIN `:table_categories` c ON (cc.`category_id` = c.`id`)
+  LEFT JOIN `:table_members` m ON (m.`id` = cc.`member_id`)
+WHERE :where
+GROUP BY cc.`id` :order
+LIMIT :start, :limit
+SQL;
+        $sql = iaDb::printf($sql, [
+            'table_categories' => $this->_iaDb->prefix . 'coupons_categories',
+            'table_coupons' => $this->_iaDb->prefix . $this->getTable(),
+            'table_members' => iaUsers::getTable(true),
+            'columns' => str_replace(':lang', $this->_iaCore->language['iso'], $columns),
+            'where' => $where,
+            'order' => $order,
+            'start' => (int)$start,
+            'lang' => $this->_iaCore->language['iso'],
+            'limit' => (int)$limit
+        ]);
+
+
+        $data = $this->_iaDb->getAll($sql);
+        //var_dump($data);
+        return $data;
+    }
 
     public function init()
     {
