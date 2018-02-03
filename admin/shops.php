@@ -23,13 +23,34 @@ class iaBackendController extends iaAbstractControllerModuleBackend
 
     protected $_helperName = 'shop';
 
-    protected $_gridColumns = '`id`, `title_alias`, (:inner_sql) `coupons_num`, `date_added`, `status`';
+    protected $_gridColumns = ['title', 'title_alias', 'date_added', 'status'];
+
     protected $_gridFilters = ['status' => self::EQUAL, 'title' => self::LIKE];
 
     protected $_activityLog = ['icon' => 'cart', 'item' => 'shop'];
 
     private $_fields;
 
+    protected function _gridQuery($columns, $where, $order, $start, $limit)
+    {
+        $sql = <<<SQL
+SELECT  :columns, (SELECT COUNT(*) FROM :table_coupons WHERE s.`id` = :table_coupons.`shop_id`) `coupons_num`
+  FROM `:table_shops` s
+LIMIT :start, :limit
+SQL;
+        $sql = iaDb::printf($sql, [
+            'table_shops' => $this->_iaDb->prefix . $this->getTable(),
+            'table_coupons' => $this->_iaDb->prefix . 'coupons_coupons',
+            'columns' => str_replace(':lang', $this->_iaCore->language['iso'], $columns),
+            'where' => $where,
+            'order' => $order,
+            'start' => (int)$start,
+            'lang' => $this->_iaCore->language['iso'],
+            'limit' => (int)$limit
+        ]);
+
+        return $this->_iaDb->getAll($sql);
+    }
 
     public function __construct()
     {
@@ -58,23 +79,6 @@ class iaBackendController extends iaAbstractControllerModuleBackend
         $entryData['date_modified'] = date(iaDb::DATETIME_FORMAT);
 
         return parent::_entryUpdate($entryData, $entryId);
-    }
-
-    protected function _unpackGridColumnsArray()
-    {
-        $this->_iaCore->factoryItem('coupon');
-
-        $innerSql = 'SELECT COUNT(*) FROM `:prefix:table_coupons` c WHERE c.`shop_id` = `:prefix:table_shops`.`id`';
-        $innerSql = iaDb::printf($innerSql, [
-            'prefix' => $this->_iaDb->prefix,
-            'table_coupons' => iaCoupon::getTable(),
-            'table_shops' => $this->getTable()
-        ]);
-
-        $columns = str_replace(':inner_sql', $innerSql, $this->_gridColumns);
-        $columns.= ', `title_' . $this->_iaCore->language['iso'] . '` `title`';
-
-        return iaDb::STMT_CALC_FOUND_ROWS . $columns . ', 1 `update`, 1 `delete`';
     }
 
     protected function _modifyGridParams(&$conditions, &$values, array $params)

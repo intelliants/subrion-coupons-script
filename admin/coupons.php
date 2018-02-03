@@ -58,10 +58,7 @@ SQL;
             'limit' => (int)$limit
         ]);
 
-
-        $data = $this->_iaDb->getAll($sql);
-        //var_dump($data);
-        return $data;
+        return $this->_iaDb->getAll($sql);
     }
 
     public function init()

@@ -1,4 +1,3 @@
-{var_dump($coupon_blocks.oftheday.link)}
 {if $coupon_blocks.oftheday}
     <div class="ia-item">
         <div class="m-b">
