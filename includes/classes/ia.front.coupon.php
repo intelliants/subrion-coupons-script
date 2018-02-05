@@ -149,7 +149,8 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         return $this->_foundRows;
     }
 
-    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false) {
+    private function _getQuery($where = '', $order = '', $limit = 1, $start = 0, $foundRows = false, $ignoreStatus = false, $ignoreIndex = false)
+    {
         $iaDb = &$this->iaDb;
 
         $sql = 'SELECT :found_rows t1.*'
