@@ -18,9 +18,9 @@
     </screenshots>
 
     <items>
-        <item table_name="coupons_coupons" pages="coupons_home,new_coupons,popular_coupons">coupons</item>
-        <item table_name="coupons_shops" pages="shops,shop_view">shops</item>
-        <item table_name="coupons_categories" payable="0" pages="coupons_home">ccats</item>
+        <item table_name="coupons_coupons" pages="coupons_home,new_coupons,popular_coupons">coupon</item>
+        <item table_name="coupons_shops" pages="shops,shop_view">shop</item>
+        <item table_name="coupons_categories" payable="0" pages="coupons_home">ccat</item>
     </items>
 
     <actions>
@@ -134,47 +134,47 @@
     </config>
 
     <fields_groups>
-        <group item="coupons" name="coupons" title="General">Please provide more information about your coupon.</group>
-        <group item="coupons" name="coupons_pricing" title="Pricing">Configure your coupon pricing details.</group>
-        <group item="shops" name="shops" title="General"><![CDATA[]]></group>
-        <group item="ccats" name="categories" title="General"><![CDATA[]]></group>
+        <group item="coupon" name="coupons" title="General">Please provide more information about your coupon.</group>
+        <group item="coupon" name="coupons_pricing" title="Pricing">Configure your coupon pricing details.</group>
+        <group item="shop" name="shops" title="General"><![CDATA[]]></group>
+        <group item="ccat" name="categories" title="General"><![CDATA[]]></group>
     </fields_groups>
 
     <fields>
-        <field item="ccats" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
-        <field item="ccats" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
-        <field item="ccats" name="icon" type="iconpicker" group="categories" default="fa-folder" adminonly="1" page="coupons_home">Icon</field>
-        <field item="ccats" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
-        <field item="ccats" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
+        <field item="ccat" name="title" group="categories" type="text" length="70" required="1" searchable="1" page="coupons_home" multilingual="1">Title</field>
+        <field item="ccat" name="description" group="categories" type="textarea" editor="1" searchable="1" page="coupons_home" multilingual="1">Description</field>
+        <field item="ccat" name="icon" type="iconpicker" group="categories" default="fa-folder" adminonly="1" page="coupons_home">Icon</field>
+        <field item="ccat" name="meta_description" group="categories" type="textarea" length="160" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="ccat" name="meta_keywords" group="categories" type="text" length="80" adminonly="1" multilingual="1">Meta-Keywords</field>
 
-        <field item="coupons" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Title</field>
-        <field item="coupons" name="type" group="coupons" type="combo" required="1"
+        <field item="coupon" name="title" group="coupons" type="text" length="70" required="1" searchable="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Title</field>
+        <field item="coupon" name="type" group="coupons" type="combo" required="1"
             page="coupons_home,view_member,coupon_add,coupon_edit" values="simple||Coupon Code,printable||Printable Coupon,deal||Deal" searchable="1" relation="parent">Coupon Type</field>
-        <field item="coupons" name="code" group="coupons" type="text" length="70" required="1"
+        <field item="coupon" name="code" group="coupons" type="text" length="70" required="1"
             page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:simple">Coupon Code</field>
-        <field item="coupons" name="image" group="coupons" type="image"
+        <field item="coupon" name="image" group="coupons" type="image"
             page="coupons_home,coupon_add,coupon_edit" width="800" height="600" thumb_width="300" thumb_height="300" relation="dependent" parent="type:printable">Coupon Image</field>
-        <field item="coupons" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="type:deal">Deal images</field>
-        <field item="coupons" name="tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
-        <field item="coupons" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
-        <field item="coupons" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:deal" multilingual="1">Description</field>
-        <field item="coupons" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
-        <field item="coupons" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="type:simple">Affiliate Link</field>
-        <field item="coupons" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
-        <field item="coupons" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
-        <field item="coupons" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
-        <field item="coupons" name="cost" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
-        <field item="coupons" name="item_price" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
-        <field item="coupons" name="item_discount" group="coupons_pricing" type="text" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
-        <field item="coupons" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
+        <field item="coupon" name="gallery" group="coupons" type="pictures" page="coupons_home,coupon_add,coupon_edit" length="6" thumb_width="300" thumb_height="300" width="800" height="450" prefix="deal_" relation="dependent" parent="type:deal">Deal images</field>
+        <field item="coupon" name="tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
+        <field item="coupon" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
+        <field item="coupon" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:deal" multilingual="1">Description</field>
+        <field item="coupon" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
+        <field item="coupon" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="type:simple">Affiliate Link</field>
+        <field item="coupon" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="coupon" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
+        <field item="coupon" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
+        <field item="coupon" name="cost" group="coupons_pricing" type="number" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
+        <field item="coupon" name="item_price" group="coupons_pricing" type="number" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
+        <field item="coupon" name="item_discount" group="coupons_pricing" type="number" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
+        <field item="coupon" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
-        <field item="shops" name="title" group="shops" type="text" length="70" required="1" page="coupons_home,shops,shop_view" editable="0" multilingual="1">Title</field>
-        <field item="shops" name="website" group="shops" type="text" length="255" default="http://" required="0" page="coupons_home,shops,shop_view" editable="0">Website</field>
-        <field item="shops" name="description" group="shops" type="textarea" editor="1" page="coupons_home,shops,shop_view" multilingual="1">Description</field>
-        <field item="shops" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="400" height="300" thumb_width="400" thumb_height="300" editable="0">Logo</field>
-        <field item="shops" name="affiliate_link" group="shops" type="text" length="255" default="http://" page="shops,shop_view" editable="0">Affiliate Link</field>
-        <field item="shops" name="meta_description" group="shops" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
-        <field item="shops" name="meta_keywords" group="shops" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
+        <field item="shop" name="title" group="shops" type="text" length="70" required="1" page="coupons_home,shops,shop_view" editable="0" multilingual="1">Title</field>
+        <field item="shop" name="website" group="shops" type="text" length="255" default="http://" required="0" page="coupons_home,shops,shop_view" editable="0">Website</field>
+        <field item="shop" name="description" group="shops" type="textarea" editor="1" page="coupons_home,shops,shop_view" multilingual="1">Description</field>
+        <field item="shop" name="shop_image" group="shops" type="image" page="coupons_home,shops,shop_view" width="400" height="300" thumb_width="400" thumb_height="300" editable="0">Logo</field>
+        <field item="shop" name="affiliate_link" group="shops" type="text" length="255" default="http://" page="shops,shop_view" editable="0">Affiliate Link</field>
+        <field item="shop" name="meta_description" group="shops" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
+        <field item="shop" name="meta_keywords" group="shops" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
     </fields>
 
     <phrases>
@@ -341,12 +341,12 @@ $statistics['coupons'] = array(
             <![CDATA[
 switch ($_GET['type']) {
     case 'repair_coupon_categories':
-        $iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->rebuild();
+        $iaCore->factoryItem('ccat')->rebuild();
         $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
         break;
 
     case 'recount_coupons':
-        $iaCore->factoryModule('coupon', 'coupons', iaCore::ADMIN)->updateCounters(null, [], null);
+        $iaCore->factoryItem('coupon')->updateCounters(null, [], null);
         $iaView->setMessages(iaLanguage::get('done'), iaView::SUCCESS);
 }
             ]]>
@@ -492,7 +492,7 @@ CREATE TABLE IF NOT EXISTS `{prefix}coupons_codes` (
         </sql>
         <code>
             <![CDATA[
-$iaCore->factoryModule('ccat', 'coupons', iaCore::ADMIN)->setupDbStructure();
+$iaCore->factoryItem('ccat')->setupDbStructure();
             ]]>
         </code>
     </install>

@@ -49,7 +49,7 @@
     {/if}
     <div class="ia-items">
         {foreach $coupons as $listing}
-            {include 'extra:coupons/list-coupons'}
+            {include 'module:coupons/list-coupons.tpl'}
         {/foreach}
 
         {navigation aTotal=$pagination.total aTemplate=$pagination.url aItemsPerPage=$pagination.limit aNumPageItems=5 aTruncateParam=1}

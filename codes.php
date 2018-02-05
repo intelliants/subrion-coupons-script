@@ -20,7 +20,7 @@
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     $iaView->display('codes');
 
-    $iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
+    $iaCoupon = $iaCore->factoryItem('coupon');
 
     $pagination = [
         'total' => 0,

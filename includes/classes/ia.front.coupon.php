@@ -24,7 +24,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     protected static $_table = 'coupons_coupons';
     protected static $_tableCodes = 'coupons_codes';
 
-    protected $_itemName = 'coupons';
+    protected $_itemName = 'coupon';
 
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
@@ -135,7 +135,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
                 return $cond;
 
             case 'category':
-                $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
+                $iaCcat = $this->iaCore->factoryItem('ccat');
 
                 $sqlSubquery = sprintf('(SELECT `child_id` FROM `%s` WHERE `parent_id` = %d)',
                     $iaCcat->getTableFlat(true), $value);
@@ -317,7 +317,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         empty($where) || $where .= ' AND ';
 
         if ($this->iaCore->get('coupons_show_children')) {
-            $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName());
+            $iaCcat = $this->iaCore->factoryItem('ccat');
 
             $where .= sprintf('t1.`category_id` IN (SELECT `child_id` FROM `%s` WHERE `parent_id` = %d)',
                 $iaCcat->getTableFlat(true), $categoryId);
@@ -339,23 +339,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
 
     public function updateCounters($itemId, array $itemData, $action, $previousData = null)
     {
-        $this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
-
-        $sql = <<<SQL
-UPDATE `:prefixcoupons_categories` c SET `num_all_coupons` = (
-  SELECT COUNT(*) FROM `:table_coupons` l 
-    LEFT JOIN `:prefixcoupons_categories_flat` fs ON (fs.`child_id` = l.`category_id`) 
-  WHERE fs.`parent_id` = c.`id` AND l.`status` = ':status'), `num_coupons` = (
-  SELECT COUNT(*) FROM `:table_coupons` WHERE `category_id` = c.`id` AND `status` = ':status') 
-WHERE c.`status` = ':status'
-SQL;
-        $sql = iaDb::printf($sql, [
-            'prefix' => $this->iaDb->prefix,
-            'table_coupons' => self::getTable(true),
-            'status' => iaCore::STATUS_ACTIVE
-        ]);
-
-        return $this->iaDb->query($sql);
+        $this->_checkIfCountersNeedUpdate($action, $itemData, $previousData, $this->iaCore->factoryItem('ccat'));
     }
 
     public function incrementThumbsCounter($itemId, $trigger, $columnName = 'thumbs_num')

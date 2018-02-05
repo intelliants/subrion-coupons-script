@@ -17,7 +17,7 @@
  *
  ******************************************************************************/
 
-$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
+$iaCoupon = $iaCore->factoryItem('coupon');
 
 // process ajax actions
 if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
@@ -39,7 +39,7 @@ if (iaView::REQUEST_JSON == $iaView->getRequestType()) {
 }
 
 if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
-    $iaCcat = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
+    $iaCcat = $iaCore->factoryItem('ccat');
 
     iaLanguage::set('no_my_coupons', str_replace('{%URL%}', IA_MODULE_URL . 'coupons/add/', iaLanguage::get('no_my_coupons')));
 

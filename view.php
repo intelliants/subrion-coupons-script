@@ -17,8 +17,8 @@
  *
  ******************************************************************************/
 
-$iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
-$iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
+$iaCoupon = $iaCore->factoryItem('coupon');
+$iaCateg = $iaCore->factoryItem('ccat');
 
 if (iaView::REQUEST_JSON == $iaView->getRequestType() && isset($_POST['action'])) {
     switch ($_POST['action']) {
@@ -124,7 +124,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
     // get shop info
     $iaItem = $iaCore->factory('item');
-    $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
+    $iaShop = $iaCore->factoryItem('shop');
 
     $shop = $coupon['shop_id'] ? $iaShop->getById($coupon['shop_id']) : [];
     $iaView->assign('shop', $shop);

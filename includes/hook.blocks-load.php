@@ -21,9 +21,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType() && iaCore::ACCESS_FRONT ==
     $limit = 5;
     $couponBlocks = [];
 
-    $iaCoupon = $iaCore->factoryModule('coupon', 'coupons');
-    $iaCcat = $iaCore->factoryModule('ccat', $iaCoupon->getModuleName());
-    $iaShop = $iaCore->factoryModule('shop', $iaCcat->getModuleName());
+    $iaCoupon = $iaCore->factoryItem('coupon');
+    $iaCcat = $iaCore->factoryItem('ccat');
+    $iaShop = $iaCore->factoryItem('shop');
 
     // include coupons css
     $iaView->add_css('_IA_URL_modules/coupons/templates/front/css/coupons');

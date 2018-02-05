@@ -21,7 +21,7 @@ class iaShop extends abstractModuleAdmin implements iaCouponsModule
 {
     protected static $_table = 'coupons_shops';
 
-    protected $_itemName = 'shops';
+    protected $_itemName = 'shop';
 
     protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_INACTIVE, self::STATUS_SUSPENDED];
 

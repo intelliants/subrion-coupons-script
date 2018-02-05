@@ -23,7 +23,7 @@ class iaCcat extends iaAbstractHelperCategoryFlat implements iaCouponsModule
 
     protected $_moduleName = 'coupons';
 
-    protected $_itemName = 'ccats';
+    protected $_itemName = 'ccat';
 
     protected $_moduleUrl = 'coupons/categories/';
 

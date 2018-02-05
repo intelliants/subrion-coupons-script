@@ -45,7 +45,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         return iaView::accessDenied(iaLanguage::getf('coupon_add_no_auth', ['base_url' => IA_URL]));
     }
 
-    $iaCoupon = $iaCore->factoryModule('coupon', IA_CURRENT_MODULE);
+    $iaCoupon = $iaCore->factoryItem('coupon');
 
     switch ($pageAction) {
         case iaCore::ACTION_ADD:
@@ -86,7 +86,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $iaView->assign('sections', $sections);
 
             // get categories
-            $iaCateg = $iaCore->factoryModule('ccat', IA_CURRENT_MODULE);
+            $iaCateg = $iaCore->factoryItem('ccat');
 
             $categories = [];
 
@@ -150,7 +150,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 // assign shop value
                 if (!$error) {
                     if (!empty($_POST['shop'])) {
-                        $iaShop = $iaCore->factoryModule('shop', IA_CURRENT_MODULE);
+                        $iaShop = $iaCore->factoryItem('shop');
 
                         if ($shopData = $iaShop->getByTitle($_POST['shop'])) {
                             $item['shop_id'] = $shopData['id'];

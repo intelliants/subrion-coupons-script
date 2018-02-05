@@ -1,4 +1,4 @@
-{if (isset($item.item) && 'coupons' == $item.item)}
+{if (isset($item.item) && 'coupon' == $item.item)}
     <div class="modal fade" id="report-coupon-modal" tabindex="-1" role="dialog" aria-labelledby="report-coupon">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

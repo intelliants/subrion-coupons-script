@@ -1,5 +1,5 @@
 {if !empty($coupon_blocks.featured)}
     {foreach $coupon_blocks.featured as $listing}
-        {include 'extra:coupons/list-coupons'}
+        {include 'module:coupons/list-coupons.tpl'}
     {/foreach}
 {/if}

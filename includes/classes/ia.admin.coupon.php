@@ -21,7 +21,7 @@ class iaCoupon extends abstractModuleAdmin implements iaCouponsModule
 {
     protected static $_table = 'coupons_coupons';
 
-    protected $_itemName = 'coupons';
+    protected $_itemName = 'coupon';
 
     protected $_activityLog = ['item' => 'coupon', 'icon' => 'tag'];
     protected $_statuses = [iaCore::STATUS_ACTIVE, iaCore::STATUS_APPROVAL, self::STATUS_SUSPENDED];
@@ -87,33 +87,7 @@ SQL;
 
     public function updateCounters($itemId, array $itemData, $action, $previousData = null)
     {
-        $this->iaDb->update(['num_coupons' => 0, 'num_all_coupons' => 0], '', null, 'coupons_categories');
-
-        $sql =
-            'UPDATE `:prefixcoupons_categories` c SET ' .
-            '`num_all_coupons` = (' .
-                'SELECT COUNT(*) FROM `:table_coupons` l ' .
-                'LEFT JOIN `:prefixcoupons_categories_flat` fs ' .
-                'ON fs.`child_id` = l.`category_id` ' .
-                'WHERE fs.`parent_id` = c.`id` ' .
-                ($this->iaCore->get('show_expired_coupons') ? '': 'AND l.`expire_date` >= NOW() ') .
-                "AND l.`status` = ':status'" .
-            '),' .
-            '`num_coupons` = (' .
-                'SELECT COUNT(*) FROM `:table_coupons` ' .
-                'WHERE `category_id` = c.`id` ' .
-                ($this->iaCore->get('show_expired_coupons') ? '': 'AND `expire_date` >= NOW() ') .
-                "AND `status` = ':status'" .
-            ') ' .
-            "WHERE c.`status` = ':status'";
-
-        $sql = iaDb::printf($sql, [
-            'prefix' => $this->iaDb->prefix,
-            'table_coupons' => self::getTable(true),
-            'status' => iaCore::STATUS_ACTIVE
-        ]);
-
-        return $this->iaDb->query($sql);
+        $this->_checkIfCountersNeedUpdate($action, $itemData, $previousData, $this->iaCore->factoryItem('ccat'));
     }
 
     protected function _get()
@@ -149,7 +123,7 @@ SQL;
 
     public function getTreeVars(array $entryData)
     {
-        $iaCcat = $this->iaCore->factoryModule('ccat', $this->getModuleName(), iaCore::ADMIN);
+        $iaCcat = $this->iaCore->factoryItem('ccat');
 
         $category = empty($entryData['category_id'])
             ? $iaCcat->getRoot()
