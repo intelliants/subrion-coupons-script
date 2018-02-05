@@ -81,19 +81,6 @@ SQL;
         return $this->getHelper()->delete($entryId);
     }
 
-    protected function _unpackGridColumnsArray()
-    {
-        $prefix = $this->_iaDb->prefix;
-
-        $sqlCategory = 'SELECT `title_' . $this->_iaCore->language['iso'] . '` FROM `' . $prefix . 'coupons_categories` c WHERE c.`id` = `category_id`';
-        $sqlMember = 'SELECT `username` FROM `' . $prefix . iaUsers::getTable() . '` m WHERE m.`id` = `member_id`';
-
-        $columns = parent::_unpackGridColumnsArray() . ', (:sql_category) `category`, (:sql_member) `member`';
-        $columns = str_replace([':sql_category', ':sql_member'], [$sqlCategory, $sqlMember], $columns);
-
-        return $columns;
-    }
-
     protected function _modifyGridParams(&$conditions, &$values, array $params)
     {
         if (!empty($params['member'])) {
