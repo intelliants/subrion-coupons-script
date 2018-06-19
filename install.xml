@@ -389,7 +389,7 @@ switch ($_GET['type']) {
             ]]>
         </block>
         <block type="smarty" name="share_coupon" title="Share Coupon" position="left" order="0" filename="block.share-coupon.tpl"><![CDATA[]]></block>
-        <block type="smarty" name="shop_info" title="Shop info" position="right" sticky="0" order="0" filename="block.shop-info" pages="coupon_view"><![CDATA[]]></block>
+        <block type="smarty" name="shop_info" title="Shop info" position="right" sticky="0" order="0" filename="block.shop-info.tpl" pages="coupon_view"><![CDATA[]]></block>
     </blocks>
 
     <install>
