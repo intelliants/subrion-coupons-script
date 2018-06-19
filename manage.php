@@ -217,15 +217,17 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                     $couponEntry['id'] = $item['id'];
                     $item['shop_alias'] = $shopData['title_alias'];
 
+                    $url = $iaCoupon->url(('simple' === $item['type'] ? 'view-code' : 'view'), $item);
+
                     if (isset($_POST['plan_id']) && $_POST['plan_id']) {
                         $plan = $iaPlan->getById($_POST['plan_id']);
                         if ($plan['cost'] > 0) {
-                            $url = $iaPlan->prePayment($iaCoupon->getItemName(), $couponEntry, $plan['id'], $iaCoupon->url('view', $item));
+                            $redirectUrl = $iaPlan->prePayment($iaCoupon->getItemName(), $couponEntry, $plan['id'], $url);
 
-                            iaUtil::redirect(iaLanguage::get('redirect'), $messages, $url);
+                            iaUtil::redirect(iaLanguage::get('redirect'), iaLanguage::get('coupon_added_active'), $redirectUrl);
                         }
                     } else {
-                        iaUtil::go_to($iaCoupon->url('view', $item));
+                        iaUtil::go_to($url);
                     }
                 } else {
                     $iaView->setMessages($messages, iaView::ERROR);

@@ -9,38 +9,29 @@
         <p><span class="text-success"><span class="fa fa-eye"></span> {$item.views_num} {lang key='views_since'} {$item.date_added|date_format}</span></p>
     </div>
 
-    {if 'simple' == $item.type && $item.code}
-        <div class="code clearfix">
-            <div class="coupon-code">
-                {$item.code}
-                <div class="code-copy clip_{$item.id}" data-clipboard-text="{$item.code}" title="{lang key='coupon_copy_to_clipboard'}" data-affiliate-link="{if $item.affiliate_link && 'http://' != $item.affiliate_link}{$item.affiliate_link}{elseif $item.shop_affiliate_link && 'http://' != $item.shop_affiliate_link}{$item.shop_affiliate_link}{/if}"></div>
+    {if !empty($item.gallery)}
+        {ia_add_media files='js: jquery/plugins/fotorama/fotorama, css: _IA_URL_js/jquery/plugins/fotorama/fotorama'}
+
+        <div class="couponItem__gallery">
+            <div class="fotorama"
+                 data-nav="thumbs"
+                 data-width="100%"
+                 data-ratio="16/9"
+                 data-allowfullscreen="true">
+                {foreach $item.gallery as $entry}
+                    <a class="couponItem__gallery__item" href="{ia_image file=$entry url=true type='large'}">{ia_image file=$entry type='large'}</a>
+                {/foreach}
             </div>
         </div>
-    {else}
-        {if !empty($item.gallery)}
-            {ia_add_media files='js: jquery/plugins/fotorama/fotorama, css: _IA_URL_js/jquery/plugins/fotorama/fotorama'}
-
-            <div class="couponItem__gallery">
-                <div class="fotorama" 
-                     data-nav="thumbs"
-                     data-width="100%"
-                     data-ratio="16/9"
-                     data-allowfullscreen="true">
-                    {foreach $item.gallery as $entry}
-                        <a class="couponItem__gallery__item" href="{ia_image file=$entry url=true type='large'}">{ia_image file=$entry type='large'}</a>
-                    {/foreach}
-                </div>
-            </div>
-        {elseif $item.image}
-            <div class="text-center">
-                {ia_image file=$item.image class='img-responsive' title=$item.title}
-            </div>
-            <button class="btn btn-default js-cmd-print-coupon m-t"><span class="fa fa-print"></span> {lang key='print_coupon'}</button>
-        {elseif $item.shop_image}
-            <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
-                {ia_image file=$item.shop_image type='thumbnail' title=$item.shop_title class='img-responsive'}
-            </a>
-        {/if}
+    {elseif $item.image}
+        <div class="text-center">
+            {ia_image file=$item.image class='img-responsive' title=$item.title}
+        </div>
+        <button class="btn btn-default js-cmd-print-coupon m-t"><span class="fa fa-print"></span> {lang key='print_coupon'}</button>
+    {elseif $item.shop_image}
+        <a href="{ia_image file=$item.shop_image url=true type='large'}" rel="ia_lightbox">
+            {ia_image file=$item.shop_image type='thumbnail' title=$item.shop_title class='img-responsive'}
+        </a>
     {/if}
 
     {if 'deal' == $item.type}
@@ -188,25 +179,3 @@
         <div class="alert alert-info">{lang key='no_codes_bought'}</div>
     {/if}
 {/if}
-
-{ia_add_js}
-$(function()
-{
-    // Copy code
-    var clip_{$item.id} = new ZeroClipboard($('.clip_{$item.id}'),
-    {
-        moviePath: '{$smarty.const.IA_CLEAR_URL}js/utils/zeroclipboard/ZeroClipboard.swf',
-        hoverClass: 'hover',
-        activeClass: 'active'
-    });
-
-    clip_{$item.id}.on('complete', function(client, args)
-    {
-        var affiliateLink = $(this).data('affiliate-link');
-
-        if('undefined' != typeof affiliateLink && '' != affiliateLink) {
-            window.open(affiliateLink);
-        }
-    });
-});
-{/ia_add_js}

@@ -54,20 +54,18 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         $patterns = [
             'default' => 'coupons/:action/:id/',
             'view' => 'coupon/:shop_alias/:title_alias/:id.html',
+            'view-code' => 'profile/coupons#coupon-list-:id',
             'add' => 'coupons/add/',
             'my' => 'profile/coupons/',
-            'buy' => 'coupons/buy/:id/'
+            'buy' => 'coupons/buy/:id/',
         ];
 
-        $url = iaDb::printf(
-            isset($patterns[$action]) ? $patterns[$action] : $patterns['default'],
-            [
-                'action' => $action,
-                'shop_alias' => isset($listingData['shop_alias']) ? $listingData['shop_alias'] : '',
-                'title_alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
-                'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
-            ]
-        );
+        $url = iaDb::printf(isset($patterns[$action]) ? $patterns[$action] : $patterns['default'], [
+            'action' => $action,
+            'shop_alias' => isset($listingData['shop_alias']) ? $listingData['shop_alias'] : '',
+            'title_alias' => isset($listingData['title_alias']) ? $listingData['title_alias'] : '',
+            'id' => isset($listingData[self::COLUMN_ID]) ? $listingData[self::COLUMN_ID] : ''
+        ]);
 
         return $this->getInfo('url') . $url;
     }
