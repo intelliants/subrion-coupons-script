@@ -1,9 +1,3 @@
-// ZeroClipboard.config({
-//     swfPath: intelli.config.ia_url + "js/utils/zeroclipboard/ZeroClipboard.swf",
-//     hoverClass: 'hover',
-//     activeClass: 'active'
-// });
-
 $(function () {
     $('.js-countdown').each(function () {
         var $this = $(this),
@@ -54,7 +48,7 @@ $(function () {
             msg: _t('code_was_copied'),
             type: 'success',
             autohide: true
-        })
+        });
     });
 
     // thumbs actions
