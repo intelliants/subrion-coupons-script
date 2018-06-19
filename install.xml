@@ -4,9 +4,9 @@
     <summary>This package allows to build a powerful coupons sharing and deals website</summary>
     <author>Intelliants LLC</author>
     <contributor>Intelliants LLC</contributor>
-    <version>4.1.0</version>
-    <date>2017-04-25</date>
-    <compatibility>4.1.3</compatibility>
+    <version>4.2.0</version>
+    <date>2018-06-20</date>
+    <compatibility>4.2</compatibility>
     <url>coupons</url>
 
     <screenshots>
@@ -302,9 +302,9 @@
     </tooltips>
 
     <hooks>
-        <hook name="phpCoreUrlRewrite" filename="hook.url-rewrite" page_type="front"><![CDATA[]]></hook>
-        <hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load" page_type="front"><![CDATA[]]></hook>
-        <hook name="smartyFrontFiltersBeforeFields" type="smarty" page_type="front" filename="search.filters"><![CDATA[]]></hook>
+        <hook name="phpCoreUrlRewrite" filename="hook.url-rewrite.php" page_type="front"><![CDATA[]]></hook>
+        <hook name="phpCoreBeforePageDisplay" filename="hook.blocks-load.php" page_type="front"><![CDATA[]]></hook>
+        <hook name="smartyFrontFiltersBeforeFields" type="smarty" page_type="front" filename="search.filters.tpl"><![CDATA[]]></hook>
         <hook name="populateCommonStatisticsBlock" page_type="front">
             <![CDATA[
 $stmt = "`status` = ':status'";
@@ -351,21 +351,21 @@ switch ($_GET['type']) {
 }
             ]]>
         </hook>
-        <hook name="smartyViewCouponBeforeFooter" type="smarty" page_type="front" filename="hook.report-modal"><![CDATA[]]></hook>
+        <hook name="smartyViewCouponBeforeFooter" type="smarty" page_type="front" filename="hook.report-modal.tpl"><![CDATA[]]></hook>
     </hooks>
 
     <blocks>
         <block name="coupons_search" title="Quick Search" position="verytop" sticky="0" pages="index" collapsible="0" type="smarty"
-            filename="block.quicksearch"><![CDATA[]]></block>
-        <block type="smarty" name="popular_shops" title="Popular Shops" header="0" position="top" sticky="0" pages="index,coupons_home" order="1" filename="block.popular-shops"><![CDATA[]]></block>
-        <block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons"><![CDATA[]]></block>
-        <block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons"><![CDATA[]]></block>
-        <block type="smarty" name="deal_of_the_day" title="Deal of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.deal-of-the-day"><![CDATA[]]></block>
-        <block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons" classname=""><![CDATA[]]></block>
-        <block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons" classname=""><![CDATA[]]></block>
-        <block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index" order="4" filename="block.categories"><![CDATA[]]></block>
-        <block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.top-categories"><![CDATA[]]></block>
-        <block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops"><![CDATA[]]></block>
+            filename="block.quicksearch.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="popular_shops" title="Popular Shops" header="0" position="top" sticky="0" pages="index,coupons_home" order="1" filename="block.popular-shops.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="top_coupons" title="Today's Top Coupons" position="bottom" classname="box-clear" sticky="0" pages="index,coupons_home" filename="block.top-coupons.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="new_coupons" title="New Coupons" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.new-coupons.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="deal_of_the_day" title="Deal of the day" position="bottom" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.deal-of-the-day.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="featured_coupons" title="Featured Coupons" position="top" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.featured-coupons.tpl" classname=""><![CDATA[]]></block>
+        <block type="smarty" name="sponsored_coupons" title="Sponsored Coupons" position="left" collapsible="1" filename="block.sponsored-coupons.tpl" classname=""><![CDATA[]]></block>
+        <block type="smarty" name="browse_coupons" title="Browse Coupons By Category" position="bottom" sticky="0" pages="index" order="4" filename="block.categories.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="coupon_categories" title="Coupon Categories" position="right" sticky="0" pages="index,coupons_home" collapsible="1" filename="block.top-categories.tpl"><![CDATA[]]></block>
+        <block type="smarty" name="featured_shops" title="Featured Shops" position="bottom" sticky="0" pages="index,coupons_home" order="4" filename="block.featured-shops.tpl"><![CDATA[]]></block>
         <block type="smarty" name="neighbour_categories" title="Browse Neighbour Categories" position="bottom" sticky="0" collapsible="1" pages="index,coupons_home">
         <![CDATA[
 {if !empty($neighbours)}
@@ -388,7 +388,7 @@ switch ($_GET['type']) {
 <p>Thanks very much.</p>
             ]]>
         </block>
-        <block type="smarty" name="share_coupon" title="Share Coupon" position="left" order="0" filename="block.share-coupon"><![CDATA[]]></block>
+        <block type="smarty" name="share_coupon" title="Share Coupon" position="left" order="0" filename="block.share-coupon.tpl"><![CDATA[]]></block>
         <block type="smarty" name="shop_info" title="Shop info" position="right" sticky="0" order="0" filename="block.shop-info" pages="coupon_view"><![CDATA[]]></block>
     </blocks>
 
