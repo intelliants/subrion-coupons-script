@@ -304,7 +304,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
      * Get listings by Category ID
      *
      * @param string $where
-     * @param int $catId
+     * @param int $categoryId
      * @param int $start
      * @param int $limit
      * @param bool $order
@@ -422,9 +422,9 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     /**
      * Returns list of purchased coupons codes
      *
-     * @param int $id coupon id
+     * @param int $couponId
      *
-     * return array
+     * @return array
      */
     public function getCodes($couponId)
     {
