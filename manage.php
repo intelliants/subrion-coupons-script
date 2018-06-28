@@ -218,6 +218,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                     $item['shop_alias'] = $shopData['title_alias'];
 
                     $url = $iaCoupon->url(('simple' === $item['type'] ? 'view-code' : 'view'), $item);
+                    if (!iaUsers::hasIdentity() && 'simple' === $item['type']) {
+                        $url = IA_URL;
+                    }
 
                     if (isset($_POST['plan_id']) && $_POST['plan_id']) {
                         $plan = $iaPlan->getById($_POST['plan_id']);
