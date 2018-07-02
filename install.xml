@@ -120,18 +120,17 @@
     <config group="coupons" name="featured_shops_block_num" type="text" description="Number of Shops in Featured Shops block">3</config>
     <config group="coupons" name="coupons_listing_limit" type="text" description="Coupons limit for each member" show="0">10</config>
 
-    <config group="email_templates" type="divider" name="coupon_divider" description="Coupons"><![CDATA[]]></config>
-    <!-- E-mail template for reported as problem coupon notification -->
-    <config group="email_templates" type="radio" name="reported_as_problem" values="1,0" description="Coupon marked as problem">1</config>
-    <config group="email_templates" type="text" name="reported_as_problem_subject">Coupon is marked as problem</config>
-    <config group="email_templates" type="textarea" name="reported_as_problem_body">
-        <![CDATA[
-<p>Greetings,</p>
-<p>Coupon "{%TITLE%}" marked as problem.</p>
-<p>Comments:</p>
-<p>{%COMMENTS%}</p>
+    <emails>
+        <email description="Coupons" divider="1"><![CDATA[]]></email>
+        <email name="reported_as_problem"
+               description="Coupon Reported as Incorrect"
+               variables="title|Coupon title,comments|Report text"
+               subject="Coupon reported as incorrect">
+            <![CDATA[
+<p>Greetings,</p><p>Coupon "{$title}" marked as incorrect.</p><p>Comments:</p><p>{$comments}</p>
         ]]>
-    </config>
+        </email>
+    </emails>
 
     <fields_groups>
         <group item="coupon" name="coupons" title="General">Please provide more information about your coupon.</group>
