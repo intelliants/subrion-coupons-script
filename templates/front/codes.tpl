@@ -16,7 +16,7 @@
                 {/if}
 
                 {if $item.item_discount}
-                    <span class="label label-disabled">{$core.config.coupon_item_price_currency}{$item.item_price}</span>
+                    <span class="label label-disabled">{$core.config.coupon_item_price_currency}{$item.item_price}</span> {* FIXME use item_price_formatted instead *}
                     <span class="label label-success">{$core.config.coupon_item_price_currency}{$item.discounted_price|string_format:"%.2f"}</span>
                     <span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$item.discount_saving|string_format:"%.2f"}</span>
                 {else}
@@ -24,7 +24,7 @@
                 {/if}
 
                 {if $core.config.purchase_codes}
-                    {code coupon=$item}
+                    {code coupon=$item} {* FIXME where is the definition of this mysterious tag `code` ? *}
                 {/if}
             </div>
         {/if}
