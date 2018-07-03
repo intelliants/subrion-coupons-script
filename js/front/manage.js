@@ -1,4 +1,5 @@
 $(function () {
+    // TODO check if this code is still used:
     $('#couponType').on('change', function () {
         var couponType = $(this).val();
 
@@ -8,9 +9,10 @@ $(function () {
             $('.coupon-type-' + couponType).show();
         }
     });
+    //
 
     // tags implementation
-    $('#field_coupons_tags').tagsInput({width: '100%', height: 'auto'});
+    $('#field_coupon_tags').tagsInput({width: '100%', height: 'auto'});
 
     // validate shop
     $('#shop')
@@ -21,31 +23,31 @@ $(function () {
 
                 if (false == data.data) {
                     element.prop('disabled', false);
-                }
-                else {
+                } else {
                     element.prop('disabled', true);
                     element.val(data.data);
                 }
-
             });
         })
         .typeahead({
             source: function (query, process) {
-                return $.ajax(
-                    {
-                        url: intelli.config.packages.coupons.url + 'coupons/add.json',
-                        type: 'get',
-                        dataType: 'json',
-                        data: {q: query},
-                        success: function (data) {
-                            return 'undefined' === typeof data.options ? false : process(data.options);
-                        }
-                    });
+                return $.ajax({
+                    url: intelli.config.packages.coupons.url + 'coupons/add.json',
+                    type: 'get',
+                    dataType: 'json',
+                    data: {q: query},
+                    success: function (data) {
+                        return 'undefined' === typeof data.options ? false : process(data.options);
+                    }
+                });
             }
         });
 
-    $('#field_coupons_type').on('change', function () {
-        var $o = $('#fieldgroup_coupons_pricing');
-        'deal' == $(this).val() ? $o.show() : $o.hide();
+    $('#field_coupon_type').on('change', function () {
+        var $pricingFieldGroup = $('#fieldgroup_coupons_pricing');
+        $pricingFieldGroup.hide();
+        if ($(this).val() === 'deal') {
+            $pricingFieldGroup.show();
+        }
     });
 });
