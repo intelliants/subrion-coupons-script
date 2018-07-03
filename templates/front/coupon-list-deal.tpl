@@ -36,18 +36,18 @@
             {ia_url type='link' item='coupons' data=$listing text=$listing.title} <small>{lang key='from'} {ia_url type='link' item='shops' data=$listing text=$listing.shop_title}</small>
         </div>
 
-        {if $listing.item_price && '0.00' != $listing.item_price}
+        {if floatval($listing.item_price)}
             <div class="coupon-price clearfix">
                 {if $listing.activations_left < 10}
                     <p>{lang key='activations_left_alert' activations_left=$listing.activations_left activations_sold=$listing.activations_sold}</p>
                 {/if}
 
-                {if $listing.item_discount}
-                    <span class="label label-disabled">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
-                    <span class="label label-success">{$core.config.coupon_item_price_currency}{$listing.discounted_price|string_format:"%.2f"}</span>
-                    <span class="label-saving">{lang key='you_save'} {$core.config.coupon_item_price_currency}{$listing.discount_saving|string_format:"%.2f"}</span>
+                {if floatval($listing.item_discount)}
+                    <span class="label label-disabled">{$listing.item_price_formatted}</span>
+                    <span class="label label-success">{$listing.discounted_price_formatted}</span>
+                    <span class="label-saving">{lang key='you_save'} {$listing.discount_saving_formatted}</span>
                 {else}
-                    <span class="label label-warning">{$core.config.coupon_item_price_currency}{$listing.item_price}</span>
+                    <span class="label label-warning">{$listing.item_price_formatted}</span>
                 {/if}
             </div>
         {else}
@@ -56,15 +56,11 @@
                     <p>{lang key='activations_left_alert' activations_left=$listing.activations_left activations_sold=$listing.activations_sold}</p>
                 {/if}
 
-                <span class="label label-success">{$core.config.coupon_item_price_currency}{$listing.cost}</span>
+                <span class="label label-success">{$listing.cost_formatted}</span>
                 {if $listing.item_discount}
                     <span class="label-saving">
-                        {lang key='you_save'} 
-                        {if 'percent' == $listing.item_discount_type}
-                            {$listing.item_discount}%
-                        {else}
-                            {$core.config.coupon_item_price_currency}{$listing.item_discount|string_format:"%.2f"}
-                        {/if}
+                        {lang key='you_save'}
+                            {$listing.item_discount_formatted}
                     </span>
                 {/if}
             </div>

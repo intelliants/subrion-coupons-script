@@ -215,6 +215,8 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     {
         parent::_processValues($rows, $singleRow, ['shop_image']);
 
+        $iaCurrency = $this->iaCore->factory('currency');
+
         foreach ($rows as &$row) {
             $row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
@@ -229,7 +231,10 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
             } else {
                 $row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
                 $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
+                $row['item_discount_formatted'] = $row['item_discount'] . '%';
             }
+            $row['discounted_price_formatted'] = $iaCurrency->format($row['discounted_price']);
+            $row['discount_saving_formatted'] = $iaCurrency->format($row['discount_saving']);
         }
     }
 
