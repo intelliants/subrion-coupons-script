@@ -67,7 +67,7 @@
         <page group="coupons" name="coupon_buy" url="|PACKAGE|coupon/buy/">Buy Coupon</page>
 
         <page group="coupons" name="codes" url="|PACKAGE|coupon/codes/" filename="codes">Codes</page>
-        <page group="coupons" name="search_coupons" url="search/coupons/" filename="search" fields_item="coupon">Search</page>
+        <page group="coupons" name="search_coupon" url="search/coupons/" filename="search" fields_item="coupon">Search</page>
     </pages>
 
     <permissions>
