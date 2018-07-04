@@ -26,6 +26,8 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
 
     protected $_itemName = 'coupon';
 
+    protected $_iaCurrency;
+
     public $coreSearchEnabled = true;
     public $coreSearchOptions = [
         'tableAlias' => 't1',
@@ -38,6 +40,12 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
 
     private $_foundRows = 0;
 
+
+    public function init()
+    {
+        parent::init();
+        $this->_iaCurrency = $this->iaCore->factory('currency');
+    }
 
     public static function getTableCodes()
     {
@@ -215,8 +223,6 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     {
         parent::_processValues($rows, $singleRow, ['shop_image']);
 
-        $iaCurrency = $this->iaCore->factory('currency');
-
         foreach ($rows as &$row) {
             $row['activations_left'] = $row['activations'] - (int)$row['activations_sold'];
 
@@ -228,14 +234,14 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
             if ('fixed' == $row['item_discount_type']) {
                 $row['discounted_price'] = $row['item_price'] - $row['item_discount'];
                 $row['discount_saving'] = $row['item_discount'];
-                $row['item_discount_formatted'] = $iaCurrency->format($row['item_discount']);
+                $row['item_discount_formatted'] = $this->_iaCurrency->format($row['item_discount']);
             } else {
                 $row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
                 $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
                 $row['item_discount_formatted'] = $row['item_discount'] . '%';
             }
-            $row['discounted_price_formatted'] = $iaCurrency->format($row['discounted_price']);
-            $row['discount_saving_formatted'] = $iaCurrency->format($row['discount_saving']);
+            $row['discounted_price_formatted'] = $this->_iaCurrency->format($row['discounted_price']);
+            $row['discount_saving_formatted'] = $this->_iaCurrency->format($row['discount_saving']);
         }
     }
 
@@ -445,7 +451,12 @@ WHERE `coupon_id` = {$couponId}
 GROUP BY cc.`id`
 SQL;
 
-        return $this->iaDb->getAll($sql);
+        $rows = $this->iaDb->getAll($sql);
+        foreach ($rows as &$row) {
+            $row['amount'] = $this->_iaCurrency->format($row['amount']);
+        }
+
+        return $rows;
     }
 
     public function getCodeStatuses()
