@@ -228,7 +228,6 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
             if ('fixed' == $row['item_discount_type']) {
                 $row['discounted_price'] = $row['item_price'] - $row['item_discount'];
                 $row['discount_saving'] = $row['item_discount'];
-                $row['item_discount_formatted'] = $iaCurrency->format($row['item_discount']);
             } else {
                 $row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
                 $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];
@@ -236,12 +235,6 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
             }
             $row['discounted_price_formatted'] = $iaCurrency->format($row['discounted_price']);
             $row['discount_saving_formatted'] = $iaCurrency->format($row['discount_saving']);
-
-            if ($row['item_price']) {
-                $row['item_price_formatted'] = $iaCurrency->format($row['item_price']);
-            }
-            $row['item_price_formatted'] = $iaCurrency->format($row['item_price']);
-            $row['cost_formatted'] = $iaCurrency->format($row['cost']);
         }
     }
 
