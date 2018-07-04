@@ -228,6 +228,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
             if ('fixed' == $row['item_discount_type']) {
                 $row['discounted_price'] = $row['item_price'] - $row['item_discount'];
                 $row['discount_saving'] = $row['item_discount'];
+                $row['item_discount_formatted'] = $iaCurrency->format($row['item_discount']);
             } else {
                 $row['discounted_price'] = $row['item_price'] * (100 - $row['item_discount']) / 100;
                 $row['discount_saving'] = $row['item_price'] - $row['discounted_price'];

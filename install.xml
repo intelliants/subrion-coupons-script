@@ -163,7 +163,7 @@
         <field item="coupon" name="activations" group="coupons_pricing" type="text" length="7" default="0" page="coupon_add,coupon_edit">Activations</field>
         <field item="coupon" name="cost" group="coupons_pricing" type="currency" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Coupon cost</field>
         <field item="coupon" name="item_price" group="coupons_pricing" type="currency" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item price</field>
-        <field item="coupon" name="item_discount" group="coupons_pricing" type="currency" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
+        <field item="coupon" name="item_discount" group="coupons_pricing" type="number" length="12" page="coupons_home,view_member,coupon_add,coupon_edit">Item discount</field>
         <field item="coupon" name="item_discount_type" group="coupons_pricing" type="combo" page="coupons_home,view_member,coupon_add,coupon_edit" values="fixed||Fixed discount,percent||Percentage">Item discount type</field>
 
         <field item="shop" name="title" group="shops" type="text" length="70" required="1" page="coupons_home,shops,shop_view" editable="0" multilingual="1">Title</field>
