@@ -435,11 +435,13 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
      * Returns list of purchased coupons codes
      *
      * @param int $couponId
+     * @param $where string optional where clause
      *
      * @return array
      */
-    public function getCodes($couponId)
+    public function getCodes($couponId, $where)
     {
+        $where = ($where ? ' AND ' . $where : '');
         $sql = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS cc.`id`, cc.`code`, cc.`status`,
     t.`reference_id`, t.`date_paid`, t.`currency`, t.`amount`,
@@ -447,7 +449,7 @@ SELECT SQL_CALC_FOUND_ROWS cc.`id`, cc.`code`, cc.`status`,
   FROM `{$this->iaDb->prefix}coupons_codes` cc
 LEFT JOIN `{$this->iaDb->prefix}payment_transactions` t ON (t.`id` = cc.`transaction_id`)
 LEFT JOIN `{$this->iaDb->prefix}members` m ON (m.`id` = t.`member_id`)
-WHERE `coupon_id` = {$couponId}
+WHERE `coupon_id` = {$couponId} {$where}
 GROUP BY cc.`id`
 SQL;
 

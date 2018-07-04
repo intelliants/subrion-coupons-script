@@ -140,37 +140,5 @@
 {ia_add_media files='js:_IA_URL_modules/coupons/js/front/view'}
 
 {if isset($codes)}
-    <h4>{lang key='sales_statistics'}</h4>
-
-    {if $codes}
-        <table class="table">
-            <tbody>
-                {$total = 0}
-                {foreach $codes as $codeEntry}
-                    {$total = $total + $codeEntry.amount}
-                    <tr>
-                        <td>
-                            <p>{lang key='simple_coupon'} <strong>{$codeEntry.code}</strong></p>
-                            <p>{$codeEntry.owner|escape}</p>
-                            <p><small>{lang key='transaction'} #{$codeEntry.reference_id}</small></p>
-                        </td>
-                        <td>{$codeEntry.date_paid|date_format}</td>
-                        <td>
-                            <select class="form-control js-code-status" data-id="{$codeEntry.id}">
-                                {foreach $codeStatuses as $status}
-                                    <option value="{$status}"{if $codeEntry.status == $status} selected{/if}>{lang key=$status}</option>
-                                {/foreach}
-                            </select>
-                        </td>
-                        <td>{$codeEntry.currency} {$codeEntry.amount}</td>
-                    </tr>
-                {/foreach}
-                <tr>
-                    <td colspan="4" class="text-right"><strong>{lang key='total'}: {$total}</td>
-                </tr>
-            </tbody>
-        </table>
-    {else}
-        <div class="alert alert-info">{lang key='no_codes_bought'}</div>
-    {/if}
+    {include 'module:coupons/block.codes.tpl'}
 {/if}

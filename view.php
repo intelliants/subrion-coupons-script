@@ -197,7 +197,13 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
     // get purchased codes
     if ('deal' == $coupon['type'] && iaUsers::hasIdentity() && $coupon['member_id'] == iaUsers::getIdentity()->id) {
-        $iaView->assign('codes', $iaCoupon->getCodes($couponId));
+        $where = '';
+        if (!empty($_GET['code'])) {
+            $where = "`code` LIKE '%:code%'";
+            $where = iaDb::printf($where, ['code' => iaSanitize::sql($_GET['code'])]);
+        }
+        $codes = $iaCoupon->getCodes($couponId, $where);
+        $iaView->assign('codes', $codes);
         $iaView->assign('codeStatuses', $iaCoupon->getCodeStatuses());
     }
 
