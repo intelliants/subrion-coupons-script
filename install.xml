@@ -250,7 +250,7 @@
         <phrase category="frontend" key="expired_offer">This offer has expired!</phrase>
         <phrase category="frontend" key="hot">Hot</phrase>
         <phrase category="frontend" key="inactive">Inactive</phrase>
-        <phrase category="frontend" key="likes">likes</phrase>
+        <phrase category="frontend" key="likes">Likes</phrase>
         <phrase category="frontend" key="limit_is_exceeded">You may post a limited number of coupons.</phrase>
         <phrase category="frontend" key="more_info">More info</phrase>
         <phrase category="frontend" key="no_codes_bought">No codes bought yet.</phrase>
@@ -260,7 +260,7 @@
         <phrase category="frontend" key="no_tags">No tags added.</phrase>
         <phrase category="frontend" key="no_my_coupons"><![CDATA[You have not added any coupon on this website. <a href="{%URL%}">Click here</a> to add it right now.]]></phrase>
         <phrase category="frontend" key="no_shops">No shops added.</phrase>
-        <phrase category="frontend" key="popularity">popularity</phrase>
+        <phrase category="frontend" key="popularity">Popularity</phrase>
         <phrase category="frontend" key="purchase_code"><![CDATA[Purchase &mdash; :cost :currency]]></phrase>
         <phrase category="frontend" key="sales_statistics">Sales Statistics</phrase>
         <phrase category="frontend" key="search_keywords">Search deals, coupons, promocodes...</phrase>
