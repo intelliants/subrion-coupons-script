@@ -56,9 +56,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             if (iaCore::ACTION_ADD == $pageAction) {
                 // set default coupon values
-                $couponEntry = [
-                    'expire_date' => false
-                ];
+                $couponEntry = [];
             } elseif (iaCore::ACTION_EDIT == $pageAction) {
                 $couponId = (int)end($iaCore->requestPath);
 
@@ -134,6 +132,11 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
                 } else {
                     $error = true;
                     $messages[] = iaLanguage::get('coupon_category_empty');
+                }
+
+                if ($_POST['expire_date'] && time() >= strtotime($_POST['expire_date'])) {
+                    $error = true;
+                    $messages[] = iaLanguage::get('error_expire_date_in_past');
                 }
 
                 // assign title alias
