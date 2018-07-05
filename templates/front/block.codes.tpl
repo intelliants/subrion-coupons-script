@@ -11,9 +11,7 @@
     </form>
     <table class="table m-t">
         <tbody>
-        {$total = 0}
         {foreach $codes as $codeEntry}
-            {$total = $total + $codeEntry.amount}
             <tr>
                 <td>
                     <p>{lang key='simple_coupon'} <strong>{$codeEntry.code}</strong></p>
@@ -28,7 +26,7 @@
                         {/foreach}
                     </select>
                 </td>
-                <td>{$codeEntry.amount}</td>
+                <td>{$codeEntry.amount_formatted}</td>
             </tr>
         {/foreach}
         <tr>

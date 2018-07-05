@@ -203,6 +203,10 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
             $where = iaDb::printf($where, ['code' => iaSanitize::sql($_GET['code'])]);
         }
         $codes = $iaCoupon->getCodes($couponId, $where);
+        if ($codes) {
+            $total = array_sum(array_column($codes, 'amount'));
+            $iaView->assign('total', $iaCore->factory('currency')->format($total));
+        }
         $iaView->assign('codes', $codes);
         $iaView->assign('codeStatuses', $iaCoupon->getCodeStatuses());
     }

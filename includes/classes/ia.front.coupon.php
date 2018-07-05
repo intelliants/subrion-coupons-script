@@ -466,7 +466,7 @@ SQL;
 
         $rows = $this->iaDb->getAll($sql);
         foreach ($rows as &$row) {
-            $row['amount'] = $this->_iaCurrency->format($row['amount']);
+            $row['amount_formatted'] = $this->_iaCurrency->format($row['amount']);
             $row['gallery'] = ($row['gallery'] ? unserialize($row['gallery']) : $row['gallery']);
         }
 
