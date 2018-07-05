@@ -79,9 +79,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         case 'deals':
         case 'codes':
             $typesMap = ['printable_coupons' => 'printable', 'deals' => 'deal', 'codes' => 'simple'];
-
+            $where = ($stmt ? $stmt . ' AND ' : '') . iaDb::convertIds($typesMap[$iaView->name()], 'type');
             // get coupons
-            $coupons = $iaCoupon->get(iaDb::convertIds($typesMap[$iaView->name()], 'type'), 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
+            $coupons = $iaCoupon->get($where, 't1.`date_added` DESC', $pagination['limit'], $pagination['start'], true);
             $iaView->assign('coupons', $coupons);
 
             $pagination['total'] = $iaCoupon->foundRows();

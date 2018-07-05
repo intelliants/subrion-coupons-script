@@ -466,9 +466,9 @@ SQL;
         return $this->_codeStatuses;
     }
 
-    public function getDealOfTheDay()
+    public function getDealOfTheDay($where)
     {
-        $where = "`type` = 'deal' && `t1`.`status` = 'active' ";
+        $where = $where . " AND `type` = 'deal' && `t1`.`status` = 'active' ";
         $deals = $this->get($where, '`views_num` DESC', 1);
 
         return $deals ? $deals[0] : [];
