@@ -50,7 +50,7 @@ $(function() {
 
 {if $coupons}
     {foreach $coupons as $listing}
-        {include 'extra:coupons/list-coupons'}
+        {include 'module:coupons/list-coupons.tpl'}
     {/foreach}
 {else}
     <div class="alert alert-info">{lang key='no_coupons_for_shop'}</div>
@@ -59,6 +59,6 @@ $(function() {
 {if $coupons_expired}
     <h3>{lang key='expired_coupons'}: {$coupons_expired|count}</h3>
     {foreach $coupons_expired as $listing}
-        {include 'extra:coupons/list-coupons'}
+        {include 'module:coupons/list-coupons.tpl'}
     {/foreach}
 {/if}
