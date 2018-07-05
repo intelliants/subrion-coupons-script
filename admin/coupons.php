@@ -121,6 +121,9 @@ SQL;
         } else {
             $this->addMessage('coupon_shop_empty');
         }
+        if (time() >= strtotime($data['expire_date'])) {
+            $this->addMessage('error_expire_date_in_past');
+        }
 
         return !$this->getMessages();
     }

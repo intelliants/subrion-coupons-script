@@ -230,6 +230,7 @@
         <phrase category="common" key="coupon_description">Description</phrase>
         <phrase category="common" key="coupon_deleted">Coupon deleted.</phrase>
         <phrase category="common" key="used">Used</phrase>
+        <phrase category="common" key="error_expire_date_in_past">Expire date in past</phrase>
 
         <phrase category="frontend" key="buy">Buy</phrase>
         <phrase category="frontend" key="click_to_copy_to_clipboard">Click to copy code to clipboard</phrase>
