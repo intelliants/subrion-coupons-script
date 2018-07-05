@@ -156,7 +156,7 @@
         <field item="coupon" name="tags" group="coupons" type="text" length="70" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Coupon Tags</field>
         <field item="coupon" name="short_description" group="coupons" type="textarea" length="250" required="1" page="coupons_home,coupon_add,coupon_edit" multilingual="1">Short Description</field>
         <field item="coupon" name="description" group="coupons" type="textarea" editor="1" page="coupons_home,coupon_add,coupon_edit" relation="dependent" parent="type:deal" multilingual="1">Description</field>
-        <field item="coupon" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1">Expires on</field>
+        <field item="coupon" name="expire_date" group="coupons" type="date" page="coupons_home,view_member,coupon_add,coupon_edit" allow_null="1" timepicker="1" required="1">Expires on</field>
         <field item="coupon" name="affiliate_link" group="coupons" type="text" length="255" default="http://" page="coupon_add,coupon_edit" relation="dependent" parent="type:simple">Affiliate Link</field>
         <field item="coupon" name="meta_description" group="coupons" type="textarea" length="255" adminonly="1" multilingual="1">Meta-Description</field>
         <field item="coupon" name="meta_keywords" group="coupons" type="text" length="150" adminonly="1" multilingual="1">Meta-Keywords</field>
