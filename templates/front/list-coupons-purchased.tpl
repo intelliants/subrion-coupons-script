@@ -12,6 +12,7 @@
                 <td>{$code.title}</td>
                 <td>{lang key='coupon_expire'} {$code.expire_date|date_format}</td>
                 <td>{lang key='code'}: {$code.code}</td>
+                <td>{lang key='status'}: {lang key=$code.status}</td>
             </tr>
         {/foreach}
     </table>
