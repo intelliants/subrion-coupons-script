@@ -489,23 +489,27 @@ SQL;
     public function postPayment($plan, array $transaction)
     {
         $this->_issueCouponCode($transaction['item_id'], $transaction['id']);
-        iaDebug::log('POST PAYMENT', $transaction);
     }
 
     protected function _issueCouponCode($couponId, $transactionId)
     {
-        $couponEntry = [
+        $code = [
             'coupon_id' => $couponId,
             'transaction_id' => $transactionId,
             'code' => $this->_generateCode(),
             'status' => iaCore::STATUS_ACTIVE
         ];
 
-        $this->iaDb->insert($couponEntry, null, self::$_tableCodes);
+        $this->iaDb->insert($code, null, self::$_tableCodes);
     }
 
     protected function _generateCode()
     {
-        return strtoupper(iaUtil::generateToken(7));
+        $code = strtoupper(iaUtil::generateToken(7));
+        if ($this->getCode($code, 'code')) {
+            return $this->_generateCode();
+        }
+
+        return $code;
     }
 }
