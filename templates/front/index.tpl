@@ -47,6 +47,8 @@
             </div>
         </div>
     {/if}
+    <h3>{lang key='coupons'}: {$coupons|count}</h3>
+
     <div class="ia-items">
         {foreach $coupons as $listing}
             {include 'module:coupons/list-coupons.tpl'}
