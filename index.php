@@ -101,6 +101,26 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             break;
 
+        case 'purchased_coupons':
+            if (!iaUsers::hasIdentity()) {
+                return iaView::accessDenied();
+            }
+
+            $template = 'list-coupons-purchased';
+            /**
+             * @var iaCoupon $iaCoupon
+             */
+            $where = iaDb::printf("`member_id` = :member_id AND `type` LIKE 'deal'", [
+                'member_id' => iaUsers::getIdentity()->id,
+            ]);
+            $purchasedCouponsIds = $iaDb->onefield('id', $where, 0, null, iaCoupon::getTable());
+            $codes = $iaCoupon->getCodes($purchasedCouponsIds);
+
+            $iaView->assign('codes', $codes);
+            $pagination['total'] = $iaCoupon->foundRows();
+
+            break;
+
         case 'coupons_home':
             // get category by alias
             $categoryAlias = '';

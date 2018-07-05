@@ -199,7 +199,7 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
     if ('deal' == $coupon['type'] && iaUsers::hasIdentity() && $coupon['member_id'] == iaUsers::getIdentity()->id) {
         $where = '';
         if (!empty($_GET['code'])) {
-            $where = "`code` LIKE '%:code%'";
+            $where = "`cc.code` LIKE '%:code%'";
             $where = iaDb::printf($where, ['code' => iaSanitize::sql($_GET['code'])]);
         }
         $codes = $iaCoupon->getCodes($couponId, $where);

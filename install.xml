@@ -60,6 +60,7 @@
         <page group="coupons" name="codes" url="search/coupons/type:simple/" menus="main,coupons">Coupon Codes</page>
         <page group="coupons" name="printable_coupons" url="search/coupons/type:printable/" menus="main,coupons">Printable coupons</page>
         <page group="coupons" name="my_coupons" url="profile/coupons/" menus="account,coupons" nofollow="1" parent="profile">My Coupons</page>
+        <page group="coupons" name="purchased_coupons" url="profile/coupons/purchased/" menus="account,coupons" nofollow="1" parent="profile">Purchased Coupons</page>
         <page group="coupons" name="coupon_add" url="|PACKAGE|coupons/add/" action="add" parent="coupon_view" filename="manage" fields_item="coupon">Add Coupon</page>
         <page group="coupons" name="coupon_edit" url="|PACKAGE|coupons/edit/" action="edit" parent="coupon_view" filename="manage" service="1" fields_item="coupon">Edit Coupon</page>
         <page group="coupons" name="coupon_delete" url="|PACKAGE|coupons/delete/" action="delete" parent="coupon_view" filename="manage" service="1">Delete Coupon</page>

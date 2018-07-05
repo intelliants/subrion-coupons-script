@@ -44,6 +44,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     public function init()
     {
         parent::init();
+        $this->iaCore->factory('transaction');
         $this->_iaCurrency = $this->iaCore->factory('currency');
     }
 
@@ -248,8 +249,6 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     protected function _assignCouponCodeVars(&$row)
     {
         if (iaUsers::hasIdentity()) {
-            $this->iaCore->factory('transaction');
-
             $transaction = $this->iaDb->row_bind(iaDb::ALL_COLUMNS_SELECTION,
                 'member_id = :member && `item` = :item && `item_id` = :id AND `amount` >= :price',
                 ['member' => iaUsers::getIdentity()->id, 'item' => 'coupons', 'id' => $row['id'], 'price' => $row['cost']], iaTransaction::getTable());
@@ -434,28 +433,41 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
     /**
      * Returns list of purchased coupons codes
      *
-     * @param int $couponId
+     * @param int|array $couponId
      * @param $where string optional where clause
      *
      * @return array
      */
-    public function getCodes($couponId, $where)
+    public function getCodes($couponId, $where = null)
     {
-        $where = ($where ? ' AND ' . $where : '');
         $sql = <<<SQL
-SELECT SQL_CALC_FOUND_ROWS cc.`id`, cc.`code`, cc.`status`,
-    t.`reference_id`, t.`date_paid`, t.`currency`, t.`amount`,
-    m.`fullname` `owner`
-  FROM `{$this->iaDb->prefix}coupons_codes` cc
-LEFT JOIN `{$this->iaDb->prefix}payment_transactions` t ON (t.`id` = cc.`transaction_id`)
-LEFT JOIN `{$this->iaDb->prefix}members` m ON (m.`id` = t.`member_id`)
-WHERE `coupon_id` = {$couponId} {$where}
+SELECT SQL_CALC_FOUND_ROWS 
+c.id, c.title_alias, c.title_:lang title, c.gallery, c.expire_date, 
+cc.`id`, cc.`code`, cc.`status`,
+t.`reference_id`, t.`date_paid`, t.`currency`, t.`amount`,
+m.`fullname` `owner`
+FROM `:prefix:table_codes` cc
+LEFT JOIN `:prefix:table_transactions` t ON (t.`id` = cc.`transaction_id`)
+LEFT JOIN `:prefix:table_members` m ON (m.`id` = t.`member_id`)
+LEFT JOIN `:prefix:table_coupons` c ON (c.id = cc.coupon_id)
+WHERE :where
 GROUP BY cc.`id`
 SQL;
+
+        $sql = iaDb::printf($sql, [
+            'prefix' => $this->iaDb->prefix,
+            'table_codes' => self::getTableCodes(),
+            'table_transactions' => iaTransaction::getTable(),
+            'table_members' => iaUsers::getTable(),
+            'table_coupons' => self::getTable(),
+            'lang' => $this->iaView->language,
+            'where' => iaDb::convertIds($couponId, 'coupon_id') . ($where ? ' AND ' . $where : '')
+        ]);
 
         $rows = $this->iaDb->getAll($sql);
         foreach ($rows as &$row) {
             $row['amount'] = $this->_iaCurrency->format($row['amount']);
+            $row['gallery'] = ($row['gallery'] ? unserialize($row['gallery']) : $row['gallery']);
         }
 
         return $rows;
