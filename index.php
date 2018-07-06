@@ -211,6 +211,8 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
         $iaView->set('actions', $pageActions);
     }
 
+    $iaView->set('filtersItemName', $iaCoupon->getItemName());
+
     $iaView->assign('pagination', $pagination);
 
     $iaView->display($template);

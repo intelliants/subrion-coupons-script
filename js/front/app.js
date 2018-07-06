@@ -73,11 +73,4 @@ $(function () {
                 }
             });
     });
-
-    // hide pricing options for non deals
-    $('#field_coupons_type').on('change', function () {
-        var $o = $('#fieldgroup_coupons_pricing');
-        'deal' == $(this).val() ? $o.show() : $o.hide();
-    });
-
 });
