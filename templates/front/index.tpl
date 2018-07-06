@@ -61,3 +61,40 @@
 {elseif !isset($category)}
     <div class="alert alert-info">{lang key='no_my_coupons'}</div>
 {/if}
+
+{if 'my_coupons' == $core.page.name}
+    {ia_add_js}
+$(function() {
+    var couponItemId = getQueryParamByName('coupon-id');
+    if (couponItemId) {
+        smoothScrollTo($('#coupon-list-' + couponItemId));
+    }
+
+    function smoothScrollTo(selector) {
+        var $target = $(selector);
+
+        if ($target.length) {
+            $('html,body').animate({
+                scrollTop: $target.offset().top
+            }, 1000);
+        }
+    }
+
+    function getQueryParamByName(name) {
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var url = window.location.href,
+            regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+
+        if (!results) {
+            return null;
+        }
+        if (!results[2]) {
+            return '';
+        }
+
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
+    }
+});
+    {/ia_add_js}
+{/if}

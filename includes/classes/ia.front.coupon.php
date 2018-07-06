@@ -63,7 +63,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         $patterns = [
             'default' => 'coupons/:action/:id/',
             'view' => 'coupon/:shop_alias/:title_alias/:id.html',
-            'view-code' => 'profile/coupons#coupon-list-:id',
+            'view-code' => 'profile/coupons?coupon-id=:id',
             'add' => 'coupons/add/',
             'my' => 'profile/coupons/',
             'buy' => 'coupons/buy/:id/',
