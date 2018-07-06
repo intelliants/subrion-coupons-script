@@ -10,7 +10,7 @@ Ext.onReady(function () {
                     {name: 'category', title: _t('category'), width: 120},
                     {
                         name: 'type', title: _t('type'), width: 120, renderer: function (value) {
-                        return _t('field_coupons_type+' + value, value);
+                        return _t('field_coupon_type+' + value, value);
                     }
                     },
                     {name: 'member', title: _t('member'), width: 120},
@@ -63,7 +63,7 @@ Ext.onReady(function () {
                     store: new Ext.data.SimpleStore(
                         {
                             fields: ['value', 'title'],
-                            data: [['simple', _t('field_coupons_type+simple')], ['printable', _t('field_coupons_type+printable')], ['deal', _t('field_coupons_type+deal')]]
+                            data: [['simple', _t('field_coupon_type+simple')], ['printable', _t('field_coupon_type+printable')], ['deal', _t('field_coupon_type+deal')]]
                         }),
                     displayField: 'title',
                     valueField: 'value'
@@ -108,7 +108,7 @@ Ext.onReady(function () {
 intelli.titleCache = '';
 intelli.fillUrlBox = function () {
     var alias = $('#input-alias').val();
-    var title = ('' == alias ? $('#field_coupons_title').val() : alias);
+    var title = ('' == alias ? $('#field_coupon_title').val() : alias);
     var shop = $('#input-shop').val();
     var category = $('#input-tree').val();
     var cache = category + '%%' + shop + '%%' + title;
@@ -131,10 +131,10 @@ $(function () {
         return;
     }
 
-    $('#field_coupons_title').keyup(function () {
+    $('#field_coupon_title').keyup(function () {
         $('#title_alias_fieldzone').show();
     });
-    $('#field_coupons_title, #input-alias').blur(intelli.fillUrlBox).blur();
+    $('#field_coupon_title, #input-alias').blur(intelli.fillUrlBox).blur();
 
     // get shops autocomplete
     $('#input-shop').typeahead({
