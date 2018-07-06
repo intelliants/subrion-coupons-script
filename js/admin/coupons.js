@@ -151,10 +151,10 @@ $(function () {
         }
     });
 
-    $('#field_coupons_tags').tagsInput({width: '100%', height: 'auto'});
+    $('#field_coupon_tags').tagsInput({width: '100%', height: 'auto'});
 
     // hide pricing options for non deals
-    $('#field_coupons_type').on('change', function () {
+    $('#field_coupon_type').on('change', function () {
         var $o = $('#coupons_pricing');
         'deal' == $(this).val() ? $o.show() : $o.hide();
     });
