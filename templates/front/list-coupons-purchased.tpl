@@ -9,7 +9,7 @@
                         </div>
                     {/if}
                 </td>
-                <td>{$code.title}</td>
+                <td><a href="{$code.coupon_url}">{$code.title}</a></td>
                 <td>{lang key='coupon_expire'} {$code.expire_date|date_format}</td>
                 <td>{lang key='code'}: {$code.code}</td>
                 <td>{lang key='status'}: {lang key=$code.status}</td>

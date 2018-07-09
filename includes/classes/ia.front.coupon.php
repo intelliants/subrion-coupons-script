@@ -443,6 +443,7 @@ class iaCoupon extends abstractModuleFront implements iaCouponsModule
         $sql = <<<SQL
 SELECT SQL_CALC_FOUND_ROWS 
 c.id, c.title_alias, c.title_:lang title, c.gallery, c.expire_date, 
+s.title_alias shop_alias,
 cc.`id`, cc.`code`, cc.`status`,
 t.`reference_id`, t.`date_paid`, t.`currency`, t.`amount`,
 m.`fullname` `owner`
@@ -450,6 +451,7 @@ FROM `:prefix:table_codes` cc
 LEFT JOIN `:prefix:table_transactions` t ON (t.`id` = cc.`transaction_id`)
 LEFT JOIN `:prefix:table_members` m ON (m.`id` = t.`member_id`)
 LEFT JOIN `:prefix:table_coupons` c ON (c.id = cc.coupon_id)
+LEFT JOIN `:prefix:table_shops` s ON (s.id = c.shop_id)
 WHERE :where
 GROUP BY cc.`id`
 SQL;
@@ -460,6 +462,7 @@ SQL;
             'table_transactions' => iaTransaction::getTable(),
             'table_members' => iaUsers::getTable(),
             'table_coupons' => self::getTable(),
+            'table_shops' => 'coupons_shops',
             'lang' => $this->iaView->language,
             'where' => iaDb::convertIds($couponId, 'coupon_id') . ($where ? ' AND ' . $where : '')
         ]);
@@ -468,6 +471,7 @@ SQL;
         foreach ($rows as &$row) {
             $row['amount_formatted'] = $this->_iaCurrency->format($row['amount']);
             $row['gallery'] = ($row['gallery'] ? unserialize($row['gallery']) : $row['gallery']);
+            $row['coupon_url'] = $this->url('view', $row);
         }
 
         return $rows;
