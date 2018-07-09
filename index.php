@@ -193,8 +193,9 @@ if (iaView::REQUEST_HTML == $iaView->getRequestType()) {
 
             $title = iaDb::printf('Coupon ":title"', $coupon);
             $coupon['member_id'] = iaUsers::getIdentity()->id;
+            $url = $iaCore->factory('page', iaCore::FRONT)->getUrlByName('purchased_coupons');
 
-            $iaCore->factory('transaction')->create($title, $coupon['cost'], $iaCoupon->getItemName(), $coupon, $iaCoupon->url('view', $coupon));
+            $iaCore->factory('transaction')->create($title, $coupon['cost'], $iaCoupon->getItemName(), $coupon, $url);
 
             break;
 
