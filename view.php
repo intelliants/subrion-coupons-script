@@ -39,7 +39,7 @@ Comment: {$_POST['comments']}
 COMMENT;
             }
 
-            $listing = $iaCoupon ->getById($id);
+            $listing = $iaCoupon->getById($id);
 
             $iaMailer = $iaCore->factory('mailer');
             $iaMailer->loadTemplate('reported_as_problem');
@@ -82,9 +82,10 @@ COMMENT;
                 $coupon = $iaCoupon->getById($couponCode['coupon_id']);
 
                 if ($coupon && $coupon['member_id'] == iaUsers::getIdentity()->id) {
-                    $iaDb->update(['status' => $_POST['status']], iaDb::convertIds($id), null, iaCoupon::getTableCodes());
+                    $result = $iaDb->update(['status' => $_POST['status']],
+                        iaDb::convertIds($id), null, iaCoupon::getTableCodes());
 
-                    if (0 === $iaDb->getErrorNumber()) {
+                    if ($result) {
                         $output['result'] = true;
                         $output['message'] = iaLanguage::get('saved');
                     } else {
